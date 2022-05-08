@@ -3,8 +3,18 @@ import { createRouter, createWebHistory } from "vue-router";
 const routes = [
   {
     path: "/",
-    name: "home",
-    component: () => import("../views/HomeView.vue"),
+    redirect: { name: "authorization" },
+  },
+  {
+    path: "/auth",
+    name: "authorization",
+    component: () => import("../views/auth/AuthView.vue"),
+  },
+  {
+    path: "/dashboard",
+    name: "main",
+    meta: { title: "Панель администратора" },
+    component: () => import("../views/main/MainView.vue"),
   },
 ];
 

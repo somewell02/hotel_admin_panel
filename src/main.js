@@ -4,11 +4,21 @@ import App from "./App.vue";
 import router from "@/router/router";
 import store from "@/data/store/vuex";
 
-import directives from "@/services/directives/directives";
+import DefaultComponents from "@/components/default/default";
+import Images from "@/assets/img/img";
+import Directives from "@/services/directives/directives";
 
 const app = createApp(App);
 
-directives.forEach((directive) => {
+DefaultComponents.forEach((component) => {
+  app.component(component.name, component);
+});
+
+Images.forEach((img) => {
+  app.component(img.name, img);
+});
+
+Directives.forEach((directive) => {
   app.directive(directive.name, directive);
 });
 

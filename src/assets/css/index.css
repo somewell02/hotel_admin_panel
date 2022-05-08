@@ -1,0 +1,19 @@
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:after,
+*:before {
+  box-sizing: inherit;
+}
+
+.container {
+  margin: 0 40px;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    margin: 0 30px;
+  }
+}
