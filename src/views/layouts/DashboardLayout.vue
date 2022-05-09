@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import DashboardNavbar from "@/components/layout/DashboardNavbar.vue";
-import DashboardHeader from "../../components/layout/DashboardHeader.vue";
+import DashboardNavbar from "@/components/layouts/dashboard/DashboardNavbar.vue";
+import DashboardHeader from "../../components/layouts/dashboard/DashboardHeader.vue";
 export default {
   components: {
     DashboardNavbar,

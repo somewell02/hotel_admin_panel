@@ -1,11 +1,11 @@
 import BorderedDiv from "./BorderedDiv";
 
-import BorderedInput from "./BorderedInput";
-import TextInput from "./TextInput";
-import PasswordInput from "./PasswordInput";
+import BorderedInput from "./inputs/BorderedInput";
+import TextInput from "./inputs/TextInput";
+import PasswordInput from "./inputs/PasswordInput";
 
-import FilledButton from "./FilledButton";
-import RouterLinkIcon from "./RouterLinkIcon";
+import FilledButton from "./buttons/FilledButton";
+import RouterLinkIcon from "./buttons/RouterLinkIcon";
 
 export default [
   BorderedDiv,
