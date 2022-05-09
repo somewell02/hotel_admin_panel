@@ -26,3 +26,9 @@
     </svg>
   </div>
 </template>
+
+<script>
+export default {
+  name: "services-icon",
+};
+</script>

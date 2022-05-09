@@ -1,5 +1,13 @@
-import { firebaseApp } from "./firebase.js";
+import { firebaseApp, auth } from "./firebase.js";
 import "firebase/compat/auth";
+
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    user.getIdTokenResult().then((idTokenResult) => {
+      console.log(idTokenResult.claims);
+    });
+  }
+});
 
 export const getAuth = async (email, password) => {
   const user = await firebaseApp
@@ -7,6 +15,7 @@ export const getAuth = async (email, password) => {
     .signInWithEmailAndPassword(email, password)
     .then(function (user) {
       console.log(user);
+      console.log(user.claims);
       return true;
     })
     .catch(function (error) {

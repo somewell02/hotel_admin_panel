@@ -14,3 +14,9 @@
     </svg>
   </div>
 </template>
+
+<script>
+export default {
+  name: "users-icon",
+};
+</script>

@@ -1,36 +1,5 @@
 <template>
   <div class="icon fill">
-    <!-- <svg
-      width="20"
-      height="20"
-      viewBox="0 0 20 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M0.75 10.8698C0.75 6.20763 3.69558 2.75 6.97674 2.75H19.25V9.68717C19.25 13.6962 16.7209 16.6243 13.9535 16.6243H0.75V10.8698Z"
-        stroke="#C7C7C7"
-        stroke-width="1.5"
-      />
-      <line
-        x1="6.04297"
-        y1="7.26611"
-        x2="13.9547"
-        y2="7.26611"
-        stroke="#C7C7C7"
-        stroke-width="1.5"
-        stroke-linecap="round"
-      />
-      <line
-        x1="6.04297"
-        y1="10.6084"
-        x2="13.9547"
-        y2="10.6084"
-        stroke="#C7C7C7"
-        stroke-width="1.5"
-        stroke-linecap="round"
-      />
-    </svg> -->
     <svg
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
@@ -57,3 +26,9 @@
     </svg>
   </div>
 </template>
+
+<script>
+export default {
+  name: "rooms-icon",
+};
+</script>

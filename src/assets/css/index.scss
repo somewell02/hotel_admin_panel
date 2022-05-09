@@ -1,3 +1,5 @@
+@import "@/assets/css/variables";
+
 html {
   box-sizing: border-box;
 }
@@ -10,10 +12,11 @@ html {
 
 .container {
   margin: 0 40px;
-}
-
-@media (max-width: 1024px) {
-  .container {
+  @media (max-width: $media-lg) {
     margin: 0 30px;
   }
+  @media (max-width: $media-xs) {
+    margin: 0 20px;
+  }
 }
+

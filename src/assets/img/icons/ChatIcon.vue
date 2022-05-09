@@ -33,3 +33,9 @@
     </svg>
   </div>
 </template>
+
+<script>
+export default {
+  name: "chat-icon",
+};
+</script>

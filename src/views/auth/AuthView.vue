@@ -1,6 +1,7 @@
 <template>
   <center-layout class="auth_page_wrap">
     <bordered-div class="auth_container container">
+      <main-logo class="main_logo" />
       <h1>Авторизация</h1>
       <div class="auth_form">
         <text-input
@@ -55,19 +56,31 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/css/variables";
+
 .auth_container {
   padding: 60px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   width: 100%;
   max-width: 520px;
+  @media (max-width: $media-sm) {
+    padding: 60px 30px;
+  }
+  @media (max-width: $media-xs) {
+    padding: 60px 20px;
+  }
+  .main_logo {
+    margin-bottom: 40px;
+  }
   h1 {
     font-size: 28px;
     font-weight: 400;
   }
   .auth_form {
-    margin-top: 40px;
+    margin-top: 30px;
     display: flex;
     flex-direction: column;
     width: 100%;

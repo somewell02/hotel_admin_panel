@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from "vue-router";
 const routes = [
   {
     path: "/",
-    redirect: { name: "authorization" },
+    redirect: { name: "main" },
   },
   {
     path: "/auth",
@@ -15,6 +15,12 @@ const routes = [
     name: "main",
     meta: { title: "Панель администратора" },
     component: () => import("../views/main/MainView.vue"),
+  },
+  {
+    path: "/users",
+    name: "users",
+    meta: { title: "Пользователи" },
+    component: () => import("../views/users/UsersListView.vue"),
   },
 ];
 
