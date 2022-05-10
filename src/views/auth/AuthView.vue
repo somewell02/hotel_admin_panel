@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import CenterLayout from "@/views/layouts/CenterLayout.vue";
+import CenterLayout from "@/components/layouts/CenterLayout.vue";
 import { getAuth } from "@/data/firebase/auth";
 
 export default {
@@ -56,7 +56,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/css/variables";
+@import "@/assets/css/scss/breakpoints";
 
 .auth_container {
   padding: 60px;
@@ -66,10 +66,10 @@ export default {
   justify-content: center;
   width: 100%;
   max-width: 520px;
-  @media (max-width: $media-sm) {
+  @include media-sm {
     padding: 60px 30px;
   }
-  @media (max-width: $media-xs) {
+  @include media-xs {
     padding: 60px 20px;
   }
   .main_logo {

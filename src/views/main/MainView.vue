@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import DashboardLayout from "@/views/layouts/DashboardLayout.vue";
+import DashboardLayout from "@/components/layouts/dashboard/DashboardLayout.vue";
 export default {
   components: {
     DashboardLayout,

@@ -6,6 +6,9 @@ import BookingsIcon from "./icons/BookingsIcon";
 import ChatIcon from "./icons/ChatIcon";
 import RoomsIcon from "./icons/RoomsIcon";
 import ServicesIcon from "./icons/ServicesIcon";
+import EditIcon from "./icons/EditIcon";
+import DeleteIcon from "./icons/DeleteIcon";
+import EyeIcon from "./icons/EyeIcon";
 
 export default [
   MainLogo,
@@ -15,4 +18,7 @@ export default [
   ChatIcon,
   RoomsIcon,
   ServicesIcon,
+  EditIcon,
+  DeleteIcon,
+  EyeIcon,
 ];

@@ -10,7 +10,7 @@
 
 <script>
 import DashboardNavbar from "@/components/layouts/dashboard/DashboardNavbar.vue";
-import DashboardHeader from "../../components/layouts/dashboard/DashboardHeader.vue";
+import DashboardHeader from "@/components/layouts/dashboard/DashboardHeader.vue";
 export default {
   components: {
     DashboardNavbar,

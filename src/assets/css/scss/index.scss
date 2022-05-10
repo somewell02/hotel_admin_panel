@@ -1,4 +1,4 @@
-@import "@/assets/css/variables";
+@import "./breakpoints";
 
 html {
   box-sizing: border-box;
@@ -12,10 +12,10 @@ html {
 
 .container {
   margin: 0 40px;
-  @media (max-width: $media-lg) {
+  @include media-lg {
     margin: 0 30px;
   }
-  @media (max-width: $media-xs) {
+  @include media-xs {
     margin: 0 20px;
   }
 }
