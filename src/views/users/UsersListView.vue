@@ -6,6 +6,7 @@
       :titles="tableTitles"
       :rows="modifiedUsersList"
       :actions="tableActions"
+      @delete="(id) => deleteUser(id)"
     />
     <filled-button @click="add">Add</filled-button>
   </dashboard-layout>
@@ -15,7 +16,7 @@
 import DashboardLayout from "@/components/layouts/dashboard/DashboardLayout.vue";
 import SpacingBorderedTable from "@/components/layouts/tables/SpacingBorderedTable.vue";
 
-import { getUsers, addUser } from "@/data/firebase/users-api";
+import { getUsers, addUser, deleteUser } from "@/data/firebase/users-api";
 
 export default {
   components: {
@@ -67,6 +68,9 @@ export default {
   methods: {
     add() {
       addUser("firstName", "lastName", "patronumic", "role", "phone", "email");
+    },
+    deleteUser(id) {
+      deleteUser(id);
     },
   },
 };

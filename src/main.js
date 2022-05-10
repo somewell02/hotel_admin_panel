@@ -1,12 +1,14 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 
-import router from "@/router/router";
-import store from "@/data/store/vuex";
+import router from "./router/router";
+import store from "./data/store/vuex";
 
-import DefaultComponents from "@/components/default/default";
-import Images from "@/assets/img/img";
-import Directives from "@/services/directives/directives";
+import DefaultComponents from "./components/default/default";
+import Images from "./assets/img/img";
+import Directives from "./services/directives/directives";
+
+import "./assets/scss/index.scss";
 
 const app = createApp(App);
 

@@ -56,8 +56,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/css/scss/breakpoints";
-
 .auth_container {
   padding: 60px;
   display: flex;

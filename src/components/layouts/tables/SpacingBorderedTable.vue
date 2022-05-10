@@ -37,17 +37,17 @@
           <eye-icon
             v-if="actions.includes('view')"
             class="action_btn"
-            @click="this.$emit('view')"
+            @click="this.$emit('view', row.id)"
           />
           <edit-icon
             v-if="actions.includes('edit')"
             class="action_btn"
-            @click="this.$emit('edit')"
+            @click="this.$emit('edit', row.id)"
           />
           <delete-icon
             v-if="actions.includes('delete')"
             class="action_btn"
-            @click="this.$emit('delete')"
+            @click="this.$emit('delete', row.id)"
           />
         </div>
       </div>
