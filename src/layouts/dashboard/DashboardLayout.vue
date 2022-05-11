@@ -3,14 +3,14 @@
     <dashboard-navbar class="dashboard_navbar" />
     <div class="dashboard_wrapper">
       <dashboard-header class="dashboard_layout_header" />
-      <slot></slot>
+      <router-view />
     </div>
   </div>
 </template>
 
 <script>
-import DashboardNavbar from "@/components/layouts/dashboard/DashboardNavbar.vue";
-import DashboardHeader from "@/components/layouts/dashboard/DashboardHeader.vue";
+import DashboardNavbar from "./DashboardNavbar.vue";
+import DashboardHeader from "./DashboardHeader.vue";
 export default {
   components: {
     DashboardNavbar,

@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import DashboardLayout from "../layouts/dashboard/DashboardLayout";
 
 const routes = [
   {
@@ -12,15 +13,21 @@ const routes = [
   },
   {
     path: "/dashboard",
-    name: "main",
-    meta: { title: "Панель администратора" },
-    component: () => import("../views/main/MainView.vue"),
-  },
-  {
-    path: "/users",
-    name: "users",
-    meta: { title: "Пользователи" },
-    component: () => import("../views/users/UsersListView.vue"),
+    component: DashboardLayout,
+    children: [
+      {
+        path: "",
+        name: "main",
+        meta: { title: "Панель администратора" },
+        component: () => import("../views/main/MainView.vue"),
+      },
+      {
+        path: "users",
+        name: "users",
+        meta: { title: "Пользователи" },
+        component: () => import("../views/users/UsersListView.vue"),
+      },
+    ],
   },
 ];
 

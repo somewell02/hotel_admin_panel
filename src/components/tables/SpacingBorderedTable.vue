@@ -47,7 +47,7 @@
           <delete-icon
             v-if="actions.includes('delete')"
             class="action_btn"
-            @click="this.$emit('delete', row.id)"
+            @click="this.$emit('delete', row)"
           />
         </div>
       </div>

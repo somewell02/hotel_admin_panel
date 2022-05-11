@@ -1,33 +1,34 @@
 <template>
-  <dashboard-layout>
-    <preloader-spinner v-if="isLoading" ref="preloader" />
+  <main>
+    <preloader-spinner ref="preloader" />
     <spacing-bordered-table
-      v-else
       :titles="tableTitles"
       :rows="modifiedUsersList"
       :actions="tableActions"
-      @delete="(id) => deleteUser(id)"
+      @delete="(user) => deleteUser(user)"
     />
     <filled-button @click="add">Add</filled-button>
-  </dashboard-layout>
+    <confirmation-popup ref="deleteConfirmation" :popupSubtitle="popupText" />
+  </main>
 </template>
 
 <script>
-import DashboardLayout from "@/components/layouts/dashboard/DashboardLayout.vue";
-import SpacingBorderedTable from "@/components/layouts/tables/SpacingBorderedTable.vue";
+import SpacingBorderedTable from "@/components/tables/SpacingBorderedTable";
 
 import { getUsers, addUser, deleteUser } from "@/data/firebase/users-api";
+import ConfirmationPopup from "@/components/popups/ConfirmationPopup";
 
 export default {
   components: {
-    DashboardLayout,
     SpacingBorderedTable,
+    ConfirmationPopup,
   },
 
   data() {
     return {
       usersList: null,
       isLoading: true,
+      popupText: "",
     };
   },
 
@@ -69,8 +70,12 @@ export default {
     add() {
       addUser("firstName", "lastName", "patronumic", "role", "phone", "email");
     },
-    deleteUser(id) {
-      deleteUser(id);
+    async deleteUser(user) {
+      this.popupText = "Удалить пользователя: " + user.fullName + "?";
+      const popupResult = await this.$refs.deleteConfirmation.open();
+      if (popupResult) {
+        deleteUser(user.id);
+      }
     },
   },
 };

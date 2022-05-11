@@ -1,5 +1,5 @@
 <template>
-  <router-link class="link_item_icon"> <slot></slot> </router-link>
+  <router-link class="link_item_icon"> <slot /> </router-link>
 </template>
 
 <script>
@@ -35,7 +35,7 @@ export default {
       height: 20px;
     }
   }
-  &.router-link-active {
+  &.router-link-exact-active {
     background: rgba(80, 109, 170, 0.1);
     color: var(--primary-color);
     .icon.stroke * {

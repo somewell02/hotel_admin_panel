@@ -4,10 +4,10 @@
       <main-logo />
     </header>
     <nav class="main_menu">
-      <router-link-icon to="/dashboard">
+      <router-link-icon :to="{ name: 'main' }">
         <graph-icon /> Главная
       </router-link-icon>
-      <router-link-icon to="/users">
+      <router-link-icon :to="{ name: 'users' }">
         <users-icon /> Пользователи
       </router-link-icon>
     </nav>

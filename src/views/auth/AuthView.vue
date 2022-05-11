@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import CenterLayout from "@/components/layouts/CenterLayout.vue";
+import CenterLayout from "@/layouts/CenterLayout.vue";
 import { getAuth } from "@/data/firebase/auth";
 
 export default {
