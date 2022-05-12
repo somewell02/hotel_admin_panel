@@ -1,6 +1,6 @@
 <template>
   <router-link class="link_item_icon">
-    <component :is="icon" /> {{ name }}
+    <component :is="icon" /> <slot />
   </router-link>
 </template>
 
@@ -11,10 +11,6 @@ export default {
     icon: {
       type: String,
       required: false,
-    },
-    name: {
-      type: String,
-      required: true,
     },
   },
 };

@@ -33,6 +33,8 @@ export default {
   .dashboard_navbar,
   .dashboard_wrapper {
     padding: 40px 40px 0 40px;
+    height: 100vh;
+    overflow-y: auto;
   }
   .dashboard_navbar {
     width: 100%;

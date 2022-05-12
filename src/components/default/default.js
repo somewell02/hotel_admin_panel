@@ -6,7 +6,6 @@ import TextInput from "./inputs/TextInput";
 import SearchInput from "./inputs/SearchInput";
 
 import FilledButton from "./buttons/FilledButton";
-import RouterLinkIcon from "./buttons/RouterLinkIcon";
 
 export default [
   BorderedDiv,
@@ -15,5 +14,4 @@ export default [
   TextInput,
   SearchInput,
   FilledButton,
-  RouterLinkIcon,
 ];

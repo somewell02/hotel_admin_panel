@@ -4,22 +4,24 @@
       <main-logo />
     </header>
     <nav class="main_menu">
-      <router-link-icon
-        :to="{ name: 'main' }"
-        icon="graph-icon"
-        name="Главная"
-      />
-      <router-link-icon
-        :to="{ name: 'users' }"
-        icon="users-icon"
-        name="Пользователи"
-      />
+      <router-link-icon :to="{ name: 'main' }" icon="graph-icon">
+        Главная
+      </router-link-icon>
+      <router-link-icon :to="{ name: 'users' }" icon="users-icon">
+        Пользователи
+      </router-link-icon>
     </nav>
   </div>
 </template>
 
 <script>
-export default {};
+import RouterLinkIcon from "@/components/default/buttons/RouterLinkIcon";
+
+export default {
+  components: {
+    RouterLinkIcon,
+  },
+};
 </script>
 
 <style lang="scss" scoped>

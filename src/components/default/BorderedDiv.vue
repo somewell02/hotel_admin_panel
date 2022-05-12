@@ -12,7 +12,7 @@ export default {
 
 <style lang="scss" scoped>
 .bordered {
-  border: 1px solid var(--border-color);
+  outline: 1px solid var(--border-color);
   border-radius: 5px;
 }
 </style>

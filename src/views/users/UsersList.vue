@@ -5,6 +5,16 @@
     <filled-button @click="add">Добавить</filled-button>
   </div>
   <div class="tabs_content_wrap">
+    <div class="list_modifications">
+      <div class="filters_wrap"></div>
+      <div class="sorts_wrap">
+        <bordered-select
+          v-model="sortId"
+          :options="sortOptions"
+          prefix="Сортировка:"
+        />
+      </div>
+    </div>
     <spacing-bordered-table
       class="users_table"
       :titles="tableTitles"
@@ -17,8 +27,9 @@
 </template>
 
 <script>
-import SpacingBorderedTable from "@/components/tables/SpacingBorderedTable";
+import SpacingBorderedTable from "@/components/lists/SpacingBorderedTable";
 import ConfirmationPopup from "@/components/popups/ConfirmationPopup";
+import BorderedSelect from "@/components/default/dropdowns/BorderedSelect";
 
 import { getUsers, addUser, deleteUser } from "@/data/firebase/users-api";
 
@@ -26,6 +37,7 @@ export default {
   components: {
     SpacingBorderedTable,
     ConfirmationPopup,
+    BorderedSelect,
   },
 
   data() {
@@ -34,6 +46,12 @@ export default {
       isLoading: true,
       popupText: "",
       search: "",
+      sortId: "",
+      sortOptions: [
+        { id: "default", title: "По умолчанию" },
+        { id: "visits", title: "Посещения (по возрастанию)" },
+        { id: "visits-desc", title: "Посещения (по убыванию)" },
+      ],
     };
   },
 
@@ -48,13 +66,6 @@ export default {
   },
 
   computed: {
-    tabs() {
-      return [
-        { id: "users", title: "Пользователи" },
-        { id: "roles", title: "Должности" },
-      ];
-    },
-
     tableTitles() {
       return [
         { id: "fullName", name: "ФИО", width: 28 },
@@ -95,4 +106,11 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.list_modifications {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+</style>

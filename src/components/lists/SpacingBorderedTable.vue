@@ -56,7 +56,16 @@
 </template>
 
 <script>
+import EditIcon from "@/assets/img/icons/EditIcon";
+import DeleteIcon from "@/assets/img/icons/DeleteIcon";
+import EyeIcon from "@/assets/img/icons/EyeIcon";
+
 export default {
+  components: {
+    EditIcon,
+    DeleteIcon,
+    EyeIcon,
+  },
   props: {
     titles: {
       type: Array,
