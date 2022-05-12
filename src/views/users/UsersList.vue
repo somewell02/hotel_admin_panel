@@ -22,6 +22,10 @@
       :actions="tableActions"
       @delete="(user) => deleteUser(user)"
     />
+    <div class="pagination_wrap">
+      <div class="count_title"></div>
+      <filled-pagination :length="5" v-model="page" />
+    </div>
   </div>
   <confirmation-popup ref="deleteConfirmation" :popupSubtitle="popupText" />
 </template>
@@ -29,7 +33,8 @@
 <script>
 import SpacingBorderedTable from "@/components/lists/SpacingBorderedTable";
 import ConfirmationPopup from "@/components/popups/ConfirmationPopup";
-import BorderedSelect from "@/components/default/dropdowns/BorderedSelect";
+import BorderedSelect from "@/components/dropdowns/BorderedSelect";
+import FilledPagination from "@/components/paginations/FilledPagination";
 
 import { getUsers, addUser, deleteUser } from "@/data/firebase/users-api";
 
@@ -38,6 +43,7 @@ export default {
     SpacingBorderedTable,
     ConfirmationPopup,
     BorderedSelect,
+    FilledPagination,
   },
 
   data() {
@@ -46,11 +52,12 @@ export default {
       isLoading: true,
       popupText: "",
       search: "",
-      sortId: "",
+      sortId: "default",
+      page: 1,
       sortOptions: [
         { id: "default", title: "По умолчанию" },
-        { id: "visits", title: "Посещения (по возрастанию)" },
-        { id: "visits-desc", title: "Посещения (по убыванию)" },
+        { id: "visits", title: "Посещения (↑)" },
+        { id: "visits-desc", title: "Посещения (↓)" },
       ],
     };
   },
@@ -109,8 +116,10 @@ export default {
 <style lang="scss" scoped>
 .list_modifications {
   margin-bottom: 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  @include flex-between;
+}
+.pagination_wrap {
+  margin-top: 30px;
+  @include flex-between;
 }
 </style>

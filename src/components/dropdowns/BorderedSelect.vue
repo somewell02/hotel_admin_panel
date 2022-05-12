@@ -3,31 +3,26 @@
     <bordered-button
       class="selected_item"
       @click="isActive = !isActive"
-      :class="{
-        active: isActive,
-      }"
+      :class="{ active: isActive }"
     >
       {{ prefix ? prefix + " " + selectedTitle.toLowerCase() : selectedTitle }}
       <arrow-icon />
     </bordered-button>
     <bordered-div class="options" v-if="isActive">
-      <bordered-button
+      <button
         class="option_item"
         v-for="option in options"
         :key="option.id"
         @click="selectOption(option)"
-        :class="{
-          active: option.id === modelValue,
-        }"
+        :class="{ active: option.id === modelValue }"
       >
         {{ option.title }}
-      </bordered-button>
+      </button>
     </bordered-div>
   </div>
 </template>
 
 <script>
-import ArrowIcon from "@/assets/img/icons/ArrowIcon";
 import BorderedButton from "@/components/default/buttons/BorderedButton.vue";
 
 export default {
@@ -38,7 +33,6 @@ export default {
   },
 
   components: {
-    ArrowIcon,
     BorderedButton,
   },
 
@@ -68,10 +62,24 @@ export default {
     },
   },
 
+  mounted() {
+    document.addEventListener("click", this.handleMouseClick);
+  },
+
+  beforeUnmount() {
+    document.removeEventListener("click", this.handleMouseClick);
+  },
+
   methods: {
     selectOption(option) {
       this.$emit("update:modelValue", option.id);
       this.isActive = false;
+    },
+
+    handleMouseClick(e) {
+      if (this.isActive && !e.target.classList.contains("selected_item")) {
+        this.isActive = false;
+      }
     },
   },
 };
@@ -91,6 +99,7 @@ export default {
       width: 12px;
       height: 12px;
       margin-left: 15px;
+      pointer-events: none;
     }
     &:hover {
       background: none;
@@ -104,14 +113,20 @@ export default {
   .options {
     position: absolute;
     top: 130%;
-    top: calc(100% + 10px);
+    top: calc(100% + 7px);
     left: 0;
     background: white;
     .option_item {
+      cursor: pointer;
       width: 100%;
-      border-radius: 0;
-      border-width: 0;
+      padding: 10px 20px;
+      font-size: 15px;
+      margin: 0;
       text-align: left;
+      color: var(--text-color);
+      border: solid var(--border-color);
+      border-width: 0;
+      background: none;
       &:not(:first-child) {
         border-width: 1px 0 0 0;
       }
@@ -121,6 +136,7 @@ export default {
       &:last-child {
         border-radius: 0 0 5px 5px;
       }
+      &:hover,
       &.active {
         background: var(--border-color);
       }

@@ -7,6 +7,8 @@ import ChatIcon from "./icons/ChatIcon";
 import RoomsIcon from "./icons/RoomsIcon";
 import ServicesIcon from "./icons/ServicesIcon";
 
+import ArrowIcon from "./icons/ArrowIcon";
+
 export default [
   MainLogo,
   GraphIcon,
@@ -15,4 +17,5 @@ export default [
   ChatIcon,
   RoomsIcon,
   ServicesIcon,
+  ArrowIcon,
 ];
