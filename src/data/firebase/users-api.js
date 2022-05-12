@@ -13,7 +13,6 @@ export const getUsers = () => {
     }));
   });
   onUnmounted(close);
-
   return new Promise((resolve) => {
     resolve(users);
   });

@@ -16,16 +16,27 @@ const routes = [
     component: DashboardLayout,
     children: [
       {
-        path: "",
+        path: "main",
         name: "main",
         meta: { title: "Панель администратора" },
         component: () => import("../views/main/MainView.vue"),
       },
       {
         path: "users",
-        name: "users",
         meta: { title: "Пользователи" },
-        component: () => import("../views/users/UsersListView.vue"),
+        component: () => import("../views/users/UsersView.vue"),
+        children: [
+          {
+            path: "",
+            name: "users",
+            component: () => import("../views/users/UsersList.vue"),
+          },
+          {
+            path: "roles",
+            name: "roles",
+            component: () => import("../views/users/RolesList.vue"),
+          },
+        ],
       },
     ],
   },

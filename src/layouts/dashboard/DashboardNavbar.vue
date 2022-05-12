@@ -4,12 +4,16 @@
       <main-logo />
     </header>
     <nav class="main_menu">
-      <router-link-icon :to="{ name: 'main' }">
-        <graph-icon /> Главная
-      </router-link-icon>
-      <router-link-icon :to="{ name: 'users' }">
-        <users-icon /> Пользователи
-      </router-link-icon>
+      <router-link-icon
+        :to="{ name: 'main' }"
+        icon="graph-icon"
+        name="Главная"
+      />
+      <router-link-icon
+        :to="{ name: 'users' }"
+        icon="users-icon"
+        name="Пользователи"
+      />
     </nav>
   </div>
 </template>

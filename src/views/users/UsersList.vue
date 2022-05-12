@@ -1,22 +1,26 @@
 <template>
-  <main>
-    <preloader-spinner ref="preloader" />
+  <preloader-spinner v-if="isLoading" ref="preloader" />
+  <div class="actions">
+    <search-input v-model="search" />
+    <filled-button @click="add">Добавить</filled-button>
+  </div>
+  <div class="tabs_content_wrap">
     <spacing-bordered-table
+      class="users_table"
       :titles="tableTitles"
       :rows="modifiedUsersList"
       :actions="tableActions"
       @delete="(user) => deleteUser(user)"
     />
-    <filled-button @click="add">Add</filled-button>
-    <confirmation-popup ref="deleteConfirmation" :popupSubtitle="popupText" />
-  </main>
+  </div>
+  <confirmation-popup ref="deleteConfirmation" :popupSubtitle="popupText" />
 </template>
 
 <script>
 import SpacingBorderedTable from "@/components/tables/SpacingBorderedTable";
+import ConfirmationPopup from "@/components/popups/ConfirmationPopup";
 
 import { getUsers, addUser, deleteUser } from "@/data/firebase/users-api";
-import ConfirmationPopup from "@/components/popups/ConfirmationPopup";
 
 export default {
   components: {
@@ -29,6 +33,7 @@ export default {
       usersList: null,
       isLoading: true,
       popupText: "",
+      search: "",
     };
   },
 
@@ -43,6 +48,13 @@ export default {
   },
 
   computed: {
+    tabs() {
+      return [
+        { id: "users", title: "Пользователи" },
+        { id: "roles", title: "Должности" },
+      ];
+    },
+
     tableTitles() {
       return [
         { id: "fullName", name: "ФИО", width: 28 },
@@ -57,11 +69,13 @@ export default {
     },
 
     modifiedUsersList() {
-      this.usersList.forEach((user) => {
-        user.fullName = user.lastName ? user.lastName + " " : "";
-        user.fullName += user.firstName ? user.firstName + " " : "";
-        user.fullName += user.patronumic ?? "";
-      });
+      if (this.usersList) {
+        this.usersList.forEach((user) => {
+          user.fullName = user.lastName ? user.lastName + " " : "";
+          user.fullName += user.firstName ? user.firstName + " " : "";
+          user.fullName += user.patronumic ?? "";
+        });
+      }
       return this.usersList;
     },
   },
@@ -81,4 +95,4 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped></style>

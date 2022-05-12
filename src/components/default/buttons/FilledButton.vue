@@ -34,6 +34,7 @@ button {
   border: 0;
   margin: 0;
   border-radius: 5px;
+  min-width: 120px;
   &.primary {
     background: var(--primary-color);
     color: white;

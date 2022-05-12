@@ -21,7 +21,7 @@ export default {
 
 <style lang="scss">
 .dashboard_layout_header {
-  height: 84px;
+  height: 80px;
 }
 </style>
 
@@ -32,7 +32,7 @@ export default {
   min-height: 100vh;
   .dashboard_navbar,
   .dashboard_wrapper {
-    padding: 60px 40px 0 40px;
+    padding: 40px 40px 0 40px;
   }
   .dashboard_navbar {
     width: 100%;

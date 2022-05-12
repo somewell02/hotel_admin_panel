@@ -1,10 +1,22 @@
 <template>
-  <router-link class="link_item_icon"> <slot /> </router-link>
+  <router-link class="link_item_icon">
+    <component :is="icon" /> {{ name }}
+  </router-link>
 </template>
 
 <script>
 export default {
   name: "router-link-icon",
+  props: {
+    icon: {
+      type: String,
+      required: false,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+  },
 };
 </script>
 
@@ -35,7 +47,7 @@ export default {
       height: 20px;
     }
   }
-  &.router-link-exact-active {
+  &.router-link-active {
     background: rgba(80, 109, 170, 0.1);
     color: var(--primary-color);
     .icon.stroke * {

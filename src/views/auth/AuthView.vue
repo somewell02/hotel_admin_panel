@@ -25,6 +25,8 @@
 
 <script>
 import CenterLayout from "@/layouts/CenterLayout.vue";
+import PasswordInput from "@/components/default/inputs/PasswordInput.vue";
+
 import { getAuth } from "@/data/firebase/auth";
 
 export default {
@@ -38,6 +40,7 @@ export default {
 
   components: {
     CenterLayout,
+    PasswordInput,
   },
 
   methods: {
