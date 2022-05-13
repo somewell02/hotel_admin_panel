@@ -1,5 +1,5 @@
 <template>
-  <div class="pagination">
+  <div class="pagination" v-if="length > 1">
     <button
       v-if="labels"
       class="pagination_item prev"
@@ -86,7 +86,7 @@ export default {
       transform: rotate(-90deg);
       margin-left: 8px;
     }
-    &:hover {
+    &:hover:not(.active) {
       outline: 1px solid var(--primary-color);
     }
     &.active {

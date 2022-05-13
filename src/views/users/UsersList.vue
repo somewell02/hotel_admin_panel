@@ -6,12 +6,13 @@
   </div>
   <div class="tabs_content_wrap">
     <div class="list_modifications">
-      <div class="filters_wrap"></div>
+      <bordered-filters :filters="filters" />
       <div class="sorts_wrap">
         <bordered-select
           v-model="sortId"
           :options="sortOptions"
           prefix="Сортировка:"
+          dropdownSide="right"
         />
       </div>
     </div>
@@ -24,7 +25,7 @@
     />
     <div class="pagination_wrap">
       <div class="count_title"></div>
-      <filled-pagination :length="5" v-model="page" />
+      <filled-pagination :length="2" v-model="page" />
     </div>
   </div>
   <confirmation-popup ref="deleteConfirmation" :popupSubtitle="popupText" />
@@ -37,6 +38,7 @@ import BorderedSelect from "@/components/dropdowns/BorderedSelect";
 import FilledPagination from "@/components/paginations/FilledPagination";
 
 import { getUsers, addUser, deleteUser } from "@/data/firebase/users-api";
+import BorderedFilters from "@/components/filters/BorderedFilters.vue";
 
 export default {
   components: {
@@ -44,6 +46,7 @@ export default {
     ConfirmationPopup,
     BorderedSelect,
     FilledPagination,
+    BorderedFilters,
   },
 
   data() {
@@ -58,6 +61,27 @@ export default {
         { id: "default", title: "По умолчанию" },
         { id: "visits", title: "Посещения (↑)" },
         { id: "visits-desc", title: "Посещения (↓)" },
+      ],
+      filters: [
+        {
+          id: "class",
+          title: "Класс",
+          options: [
+            { id: "premium", title: "Премиум" },
+            { id: "standart", title: "Стандарт" },
+            { id: "econom", title: "Эконом" },
+          ],
+          values: [],
+        },
+        {
+          id: "role",
+          title: "Должность",
+          options: [
+            { id: "admin", title: "Администратор" },
+            { id: "guest", title: "Гость" },
+          ],
+          values: [],
+        },
       ],
     };
   },
@@ -115,7 +139,7 @@ export default {
 
 <style lang="scss" scoped>
 .list_modifications {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   @include flex-between;
 }
 .pagination_wrap {

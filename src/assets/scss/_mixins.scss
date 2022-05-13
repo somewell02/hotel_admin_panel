@@ -5,8 +5,24 @@
 }
 
 @mixin flex-between {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin custom-scroll(
+  $track-color: var(--border-color),
+  $thumb-color: var(--secondary-color)
+) {
+  &::-webkit-scrollbar {
+    width: 4px;
   }
-  
+  &::-webkit-scrollbar-track {
+    border: none;
+    background: $track-color;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background: $thumb-color;
+  }
+}
