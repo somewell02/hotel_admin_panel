@@ -1,18 +1,12 @@
 <template>
   <router-link class="link_item_icon">
-    <component :is="icon" /> <slot />
+    <slot />
   </router-link>
 </template>
 
 <script>
 export default {
   name: "router-link-icon",
-  props: {
-    icon: {
-      type: String,
-      required: false,
-    },
-  },
 };
 </script>
 

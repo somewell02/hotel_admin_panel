@@ -4,11 +4,13 @@
       <main-logo />
     </header>
     <nav class="main_menu">
-      <router-link-icon :to="{ name: 'main' }" icon="graph-icon">
-        Главная
+      <router-link-icon :to="{ name: 'main' }">
+        <graph-icon />
+        {{ $t("dashboard.nav") }}
       </router-link-icon>
-      <router-link-icon :to="{ name: 'users' }" icon="users-icon">
-        Пользователи
+      <router-link-icon :to="{ name: 'users' }">
+        <users-icon />
+        {{ $t("user.nav") }}
       </router-link-icon>
     </nav>
   </div>

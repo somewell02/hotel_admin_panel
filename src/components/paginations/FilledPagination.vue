@@ -5,7 +5,7 @@
       class="pagination_item prev"
       @click="changePage(modelValue - 1)"
     >
-      <arrow-icon /> Предыдущая
+      <arrow-icon /> {{ $t("pagination.prev") }}
     </button>
     <button
       v-for="num in length"
@@ -21,7 +21,7 @@
       class="pagination_item next"
       @click="changePage(modelValue + 1)"
     >
-      Следующая <arrow-icon />
+      {{ $t("pagination.next") }} <arrow-icon />
     </button>
   </div>
 </template>

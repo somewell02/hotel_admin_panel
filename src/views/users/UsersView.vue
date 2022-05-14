@@ -5,14 +5,14 @@
 </template>
 
 <script>
-import TabsLayout from "@/layouts/dashboard/TabsLayout";
+import TabsLayout from "@/layouts/TabsLayout";
 
 export default {
   data() {
     return {
       tabs: [
-        { id: "users", title: "Пользователи" },
-        { id: "roles", title: "Должности" },
+        { id: "users", title: this.$t("user.nav") },
+        { id: "roles", title: this.$t("role.nav") },
       ],
     };
   },

@@ -34,6 +34,9 @@ export default {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  .tabs_nav {
+    display: flex;
+  }
   .tabs_content_wrap {
     width: 100%;
     margin-top: 30px;

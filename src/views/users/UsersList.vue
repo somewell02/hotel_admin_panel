@@ -2,15 +2,15 @@
   <preloader-spinner v-if="isLoading" ref="preloader" />
   <div class="actions">
     <search-input v-model="search" />
-    <filled-button @click="add">Добавить</filled-button>
+    <filled-button @click="add">{{ $t("add") }}</filled-button>
   </div>
   <div class="tabs_content_wrap">
     <div class="list_modifications">
       <bordered-filters :filters="filters" />
       <div class="sorts_wrap">
         <bordered-select
-          v-model="sortId"
-          :options="sortOptions"
+          v-model="sort.value"
+          :options="sort.options"
           prefix="Сортировка:"
           dropdownSide="right"
         />
@@ -18,14 +18,14 @@
     </div>
     <spacing-bordered-table
       class="users_table"
-      :titles="tableTitles"
-      :rows="modifiedUsersList"
-      :actions="tableActions"
+      :titles="table.titles"
+      :rows="usersList"
+      :actions="table.actions"
       @delete="(user) => deleteUser(user)"
     />
     <div class="pagination_wrap">
       <div class="count_title"></div>
-      <filled-pagination :length="2" v-model="page" />
+      <filled-pagination :length="2" v-model="pagination.page" />
     </div>
   </div>
   <confirmation-popup ref="deleteConfirmation" :popupSubtitle="popupText" />
@@ -37,7 +37,11 @@ import ConfirmationPopup from "@/components/popups/ConfirmationPopup";
 import BorderedSelect from "@/components/dropdowns/BorderedSelect";
 import FilledPagination from "@/components/paginations/FilledPagination";
 
-import { getUsers, addUser, deleteUser } from "@/data/firebase/users-api";
+import {
+  getFilteredSortedPaginatedUsers,
+  addUser,
+  deleteUser,
+} from "@/data/firebase/users-api";
 import BorderedFilters from "@/components/filters/BorderedFilters.vue";
 
 export default {
@@ -55,26 +59,18 @@ export default {
       isLoading: true,
       popupText: "",
       search: "",
-      sortId: "default",
-      page: 1,
-      sortOptions: [
-        { id: "default", title: "По умолчанию" },
-        { id: "visits", title: "Посещения (↑)" },
-        { id: "visits-desc", title: "Посещения (↓)" },
-      ],
+      sort: {
+        options: [
+          { id: "default", title: "По умолчанию" },
+          { id: "email:asc", title: "Посещения (↑)" },
+          { id: "email:desc", title: "Посещения (↓)" },
+        ],
+        value: "default",
+      },
       filters: [
         {
-          id: "class",
-          title: "Класс",
-          options: [
-            { id: "premium", title: "Премиум" },
-            { id: "standart", title: "Стандарт" },
-            { id: "econom", title: "Эконом" },
-          ],
-          values: [],
-        },
-        {
           id: "role",
+          type: "checkbox",
           title: "Должность",
           options: [
             { id: "admin", title: "Администратор" },
@@ -83,48 +79,84 @@ export default {
           values: [],
         },
       ],
+      pagination: {
+        page: 1,
+        limit: 2,
+      },
     };
   },
 
   created() {
-    getUsers()
-      .then((data) => {
-        this.usersList = data;
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
+    this.getUsers();
+  },
+
+  watch: {
+    // usersList(v) {
+    //   console.log("list change: " + this.msToDate(Date.now()));
+    //   console.log(v);
+    // },
+    filters: {
+      handler() {
+        this.getUsers();
+      },
+      deep: true,
+    },
+    sort: {
+      handler() {
+        this.getUsers();
+      },
+      deep: true,
+    },
+    search() {
+      this.getUsers();
+    },
   },
 
   computed: {
-    tableTitles() {
-      return [
-        { id: "fullName", name: "ФИО", width: 28 },
-        { id: "role", name: "Должность", width: 18 },
-        { id: "phone", name: "Телефон", width: 16 },
-        { id: "email", name: "Email", width: 20 },
-      ];
+    table() {
+      return {
+        titles: [
+          { id: "name", name: "ФИО", width: 28 },
+          { id: "role", name: "Должность", width: 18 },
+          { id: "phone", name: "Телефон", width: 16 },
+          { id: "email", name: "Email", width: 20 },
+        ],
+        actions: ["edit", "delete"],
+      };
     },
 
-    tableActions() {
-      return ["edit", "delete"];
-    },
-
-    modifiedUsersList() {
-      if (this.usersList) {
-        this.usersList.forEach((user) => {
-          user.fullName = user.lastName ? user.lastName + " " : "";
-          user.fullName += user.firstName ? user.firstName + " " : "";
-          user.fullName += user.patronumic ?? "";
-        });
-      }
-      return this.usersList;
-    },
+    // modifiedUsersList() {
+    //   if (this.usersList) {
+    //     this.usersList.forEach((user) => {
+    //       user.fullName = user.lastName ? user.lastName + " " : "";
+    //       user.fullName += user.firstName ? user.firstName + " " : "";
+    //       user.fullName += user.patronumic ?? "";
+    //     });
+    //   }
+    //   return this.usersList;
+    // },
   },
 
   methods: {
+    getUsers() {
+      //console.log("create: " + this.msToDate(Date.now()));
+      getFilteredSortedPaginatedUsers(
+        this.search,
+        this.filters,
+        this.sort,
+        this.pagination
+      )
+        .then((data) => {
+          this.usersList = data;
+          //console.log("get data: " + this.msToDate(Date.now()));
+          //console.log(data);
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
     add() {
-      addUser("firstName", "lastName", "patronumic", "role", "phone", "email");
+      addUser("firstName", "lastName", "patronumic", "guest", "phone", "email");
     },
     async deleteUser(user) {
       this.popupText = "Удалить пользователя: " + user.fullName + "?";
@@ -132,6 +164,19 @@ export default {
       if (popupResult) {
         deleteUser(user.id);
       }
+    },
+
+    msToDate(ms) {
+      var date = new Date(ms);
+      var options = {
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+      };
+
+      var result = date.toLocaleDateString("ru", options);
+
+      return result.toString();
     },
   },
 };

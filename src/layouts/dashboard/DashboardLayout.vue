@@ -35,7 +35,7 @@ export default {
     padding: 40px 40px 0 40px;
     height: 100vh;
     overflow-y: auto;
-    @include custom-scroll;
+    @include custom-scroll(#ececec, #8c8c8c);
   }
   .dashboard_navbar {
     width: 100%;
@@ -45,6 +45,7 @@ export default {
   }
   .dashboard_wrapper {
     flex-grow: 3;
+    padding-bottom: 40px;
   }
 }
 </style>

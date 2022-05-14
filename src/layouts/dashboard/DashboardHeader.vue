@@ -3,7 +3,8 @@
     <div class="title">
       <h1>{{ $route.meta.title }}</h1>
     </div>
-    <div class="info">
+    <div class="info_wrap">
+      <language-switcher class="header_language_switcher" />
       <div class="profile">
         <img src="@/assets/img/avatar.svg" alt="avatar" class="avatar" />
         <div class="profile_info">
@@ -16,30 +17,46 @@
 </template>
 
 <script>
-export default {};
+import LanguageSwitcher from "@/components/dropdowns/LanguageSwitcher.vue";
+export default {
+  components: {
+    LanguageSwitcher,
+  },
+};
 </script>
 
 <style lang="scss" scoped>
 .dashboard_main_header {
   display: flex;
+  align-items: flex-start;
   justify-content: space-between;
-  .profile {
+  .info_wrap {
     display: flex;
-    align-items: center;
-    .profile_info {
-      margin: 0 30px 0 10px;
-      p {
-        font-size: 14px;
-        margin: 0;
-        &:not(:last-child) {
-          margin-bottom: 2px;
-        }
-        &.name {
-          font-weight: 500;
-        }
-        &.role {
-          font-weight: 400;
-          color: #aeaeae;
+    .header_language_switcher {
+      display: flex;
+      margin-right: 20px;
+    }
+    .profile {
+      display: flex;
+      align-items: center;
+      img {
+        width: 40px;
+      }
+      .profile_info {
+        margin: 0 30px 0 10px;
+        p {
+          font-size: 14px;
+          margin: 0;
+          &:not(:last-child) {
+            margin-bottom: 2px;
+          }
+          &.name {
+            font-weight: 500;
+          }
+          &.role {
+            font-weight: 400;
+            color: #aeaeae;
+          }
         }
       }
     }

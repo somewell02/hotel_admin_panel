@@ -1,13 +1,13 @@
 <template>
   <popup-wrap v-model="isOpen">
-    <h5>{{ popupTitle ?? "Подтверждение" }}</h5>
+    <h5>{{ popupTitle ?? $t("popups.confirmation.title") }}</h5>
     <div class="subtitle" v-if="popupSubtitle">{{ popupSubtitle }}</div>
     <div class="actions">
       <filled-button @click="close">
-        {{ cancleText ?? "Отмена" }}
+        {{ cancelText ?? $t("popups.confirmation.cancel") }}
       </filled-button>
       <filled-button @click="confirm">
-        {{ okText ?? "Да" }}
+        {{ okText ?? $t("popups.confirmation.ok") }}
       </filled-button>
     </div>
   </popup-wrap>
@@ -34,7 +34,7 @@ export default {
       type: String,
       required: false,
     },
-    cancleText: {
+    cancelText: {
       type: String,
       required: false,
     },

@@ -1,21 +1,21 @@
 <template>
   <div class="filters_wrap">
     <div class="filters_icon"><filter-icon /></div>
-    <bordered-filter-item
-      v-for="filter in filters"
-      :key="filter.id"
-      v-model="filter.values"
-      :title="filter.title"
-      :options="filter.options"
-    />
-    <bordered-button class="clear_btn" @click="clearFilters"
-      ><reset-icon />Сбросить</bordered-button
-    >
+    <div class="filter_item_wrap" v-for="filter in filters" :key="filter.id">
+      <checkbox-filter-item
+        v-if="filter.type == 'checkbox'"
+        v-model="filter.values"
+        :filter="filter"
+      />
+    </div>
+    <bordered-button class="clear_btn" @click="clearFilters">
+      <reset-icon /> {{ $t("reset") }}
+    </bordered-button>
   </div>
 </template>
 
 <script>
-import BorderedFilterItem from "./BorderedFilterItem";
+import CheckboxFilterItem from "./CheckboxFilterItem";
 import FilterIcon from "@/assets/img/icons/FilterIcon";
 import BorderedButton from "@/components/default/buttons/BorderedButton.vue";
 import ResetIcon from "@/assets/img/icons/ResetIcon.vue";
@@ -29,7 +29,7 @@ export default {
   },
 
   components: {
-    BorderedFilterItem,
+    CheckboxFilterItem,
     FilterIcon,
     BorderedButton,
     ResetIcon,

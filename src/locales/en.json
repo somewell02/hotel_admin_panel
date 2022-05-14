@@ -1,0 +1,34 @@
+{
+  "add": "Add",
+  "search": "Search",
+  "reset": "Clear",
+  "sorting": "Sorting",
+  "pagination": {
+    "prev": "Previous",
+    "next": "Next"
+  },
+  "popups": {
+    "confirmation": {
+      "title": "Confirmation",
+      "ok": "Yes",
+      "cancel": "Cancel"
+    }
+  },
+  "dashboard": {
+    "nav": "Dashboard",
+    "title": "Dashboard"
+  },
+  "user": {
+    "nav": "Users",
+    "title": "Users",
+    "table-title": {
+      "name": "ФИО",
+      "role": "Должность",
+      "phone": "Телефон",
+      "email": "Email"
+    }
+  },
+  "role": {
+    "nav": "Roles"
+  }
+}

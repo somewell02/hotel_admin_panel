@@ -10,6 +10,8 @@ import Directives from "./services/directives/directives";
 
 import "./assets/scss/index.scss";
 
+import i18n from "./i18n";
+
 const app = createApp(App);
 
 DefaultComponents.forEach((component) => {
@@ -24,4 +26,4 @@ Directives.forEach((directive) => {
   app.directive(directive.name, directive);
 });
 
-app.use(store).use(router).mount("#app");
+app.use(store).use(router).use(i18n).mount("#app");

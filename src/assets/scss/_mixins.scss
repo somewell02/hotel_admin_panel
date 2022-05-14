@@ -12,17 +12,18 @@
 
 @mixin custom-scroll(
   $track-color: var(--border-color),
-  $thumb-color: var(--secondary-color)
+  $thumb-color: var(--secondary-color),
+  $width: 4px,
 ) {
   &::-webkit-scrollbar {
-    width: 4px;
+    width: $width;
   }
   &::-webkit-scrollbar-track {
     border: none;
     background: $track-color;
   }
   &::-webkit-scrollbar-thumb {
-    border-radius: 2px;
+    border-radius: $width / 2;
     background: $thumb-color;
   }
 }

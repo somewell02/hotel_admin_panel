@@ -1,40 +1,53 @@
 import { createRouter, createWebHistory } from "vue-router";
 import DashboardLayout from "../layouts/dashboard/DashboardLayout";
+import { RouterView } from "vue-router";
+import i18n from "@/i18n";
 
 const routes = [
   {
     path: "/",
-    redirect: { name: "main" },
+    redirect: `/${i18n.locale}`,
   },
   {
-    path: "/auth",
-    name: "authorization",
-    component: () => import("../views/auth/AuthView.vue"),
-  },
-  {
-    path: "/dashboard",
-    component: DashboardLayout,
+    path: "/:lang",
+    component: RouterView,
     children: [
       {
-        path: "main",
-        name: "main",
-        meta: { title: "Панель администратора" },
-        component: () => import("../views/main/MainView.vue"),
+        path: "",
+        redirect: { name: "main" },
       },
       {
-        path: "users",
-        meta: { title: "Пользователи" },
-        component: () => import("../views/users/UsersView.vue"),
+        path: "auth",
+        name: "authorization",
+        component: () => import("../views/auth/AuthView.vue"),
+      },
+      {
+        path: "dashboard",
+        component: DashboardLayout,
+        redirect: { name: "main" },
         children: [
           {
-            path: "",
-            name: "users",
-            component: () => import("../views/users/UsersList.vue"),
+            path: "main",
+            name: "main",
+            meta: { title: i18n.global.t("dashboard.title") },
+            component: () => import("../views/main/MainView.vue"),
           },
           {
-            path: "roles",
-            name: "roles",
-            component: () => import("../views/users/RolesList.vue"),
+            path: "users",
+            meta: { title: i18n.global.t("user.title") },
+            component: () => import("../views/users/UsersView.vue"),
+            children: [
+              {
+                path: "",
+                name: "users",
+                component: () => import("../views/users/UsersList.vue"),
+              },
+              {
+                path: "roles",
+                name: "roles",
+                component: () => import("../views/users/RolesList.vue"),
+              },
+            ],
           },
         ],
       },
@@ -45,6 +58,16 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.params.lang == "undefined") {
+    i18n.locale = "ru";
+    return next("ru");
+  } else {
+    i18n.locale = to.params.lang;
+    return next();
+  }
 });
 
 export default router;
