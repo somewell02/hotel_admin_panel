@@ -1,5 +1,5 @@
 <template>
-  <preloader-spinner v-if="isLoading" ref="preloader" />
+  <preloader-spinner v-if="isLoading" />
   <div class="actions">
     <search-input v-model="search" />
     <filled-button @click="add">{{ $t("add") }}</filled-button>
@@ -21,6 +21,7 @@
       :titles="table.titles"
       :rows="usersList"
       :actions="table.actions"
+      @edit="(userId) => editUser(userId)"
       @delete="(user) => deleteUser(user)"
     />
     <div class="pagination_wrap">
@@ -158,6 +159,9 @@ export default {
     add() {
       addUser("firstName", "lastName", "patronumic", "guest", "phone", "email");
     },
+    editUser(userId) {
+      this.$router.push({ name: "userEdit", params: { id: userId } });
+    },
     async deleteUser(user) {
       this.popupText = "Удалить пользователя: " + user.fullName + "?";
       const popupResult = await this.$refs.deleteConfirmation.open();
@@ -190,5 +194,8 @@ export default {
 .pagination_wrap {
   margin-top: 30px;
   @include flex-between;
+}
+.tabs_content_wrap {
+  padding-bottom: 40px;
 }
 </style>

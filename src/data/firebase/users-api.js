@@ -6,12 +6,10 @@ const usersCollection = firestore.collection("users");
 export const getFilteredSortedPaginatedUsers = async (
   search,
   filters,
-  sort,
-  pagination
+  sort
 ) => {
   const users = ref([]);
   let modifiedUsers = usersCollection;
-  console.log(pagination);
 
   if (search) {
     modifiedUsers = modifiedUsers.where("email", "array-contains", search);
@@ -82,8 +80,8 @@ export const getUsers3 = () => {
 };
 
 export const getUserById = async (id) => {
-  const user = await usersCollection.doc(id).get();
-  return user.exists ? user.data() : null;
+  const res = await usersCollection.doc(id).get();
+  return res.exists ? res.data() : null;
 };
 
 export const addUser = async (

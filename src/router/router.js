@@ -49,6 +49,23 @@ const routes = [
               },
             ],
           },
+          {
+            path: "users/edit/:id",
+            name: "userEdit",
+            redirect: { name: "userInfo" },
+            component: () => import("../views/users/UserEditView.vue"),
+            children: [
+              {
+                path: "",
+                name: "userInfo",
+                component: () => import("../views/users/UserInfo.vue"),
+              },
+              {
+                path: "visits",
+                name: "userVisits",
+              },
+            ],
+          },
         ],
       },
     ],

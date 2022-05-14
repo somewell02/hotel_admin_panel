@@ -17,7 +17,7 @@ export default {
 
   computed: {
     btnClass() {
-      const colors = ["primary"];
+      const colors = ["primary", "primary-light"];
       if (this.color == null || !colors.includes(this.color)) return "primary";
       else return this.color;
     },
@@ -42,6 +42,14 @@ button {
       background: none;
       outline: 1px solid var(--primary-color);
       color: var(--primary-color);
+    }
+  }
+  &.primary-light {
+    background: var(--primary-light-color);
+    color: var(--text-color);
+    &:hover {
+      background: none;
+      outline: 1px solid var(--primary-light-color);
     }
   }
 }

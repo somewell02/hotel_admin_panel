@@ -38,7 +38,7 @@ export default {
     }
   }
   &.router-link-active {
-    background: rgba(80, 109, 170, 0.1);
+    background: var(--primary-light-color);
     color: var(--primary-color);
     .icon.stroke * {
       stroke: var(--primary-color);

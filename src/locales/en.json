@@ -1,5 +1,8 @@
 {
   "add": "Add",
+  "save": "Save",
+  "back": "Back",
+  "backToList": "Back to list",
   "search": "Search",
   "reset": "Clear",
   "sorting": "Sorting",
@@ -26,6 +29,12 @@
       "role": "Должность",
       "phone": "Телефон",
       "email": "Email"
+    },
+    "edit": {
+      "nav": {
+        "info": "Information",
+        "visits": "Visits"
+      }
     }
   },
   "role": {

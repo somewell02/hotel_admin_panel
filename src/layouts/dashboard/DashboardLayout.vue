@@ -45,7 +45,6 @@ export default {
   }
   .dashboard_wrapper {
     flex-grow: 3;
-    padding-bottom: 40px;
   }
 }
 </style>
