@@ -41,6 +41,12 @@ const routes = [
         ],
       },
       {
+        path: "users/add",
+        name: "userAdd",
+        meta: { title: i18n.global.t("user.add") },
+        component: () => import("../views/users/UserAddView.vue"),
+      },
+      {
         path: "users/edit/:id",
         name: "userEdit",
         redirect: { name: "userInfo" },

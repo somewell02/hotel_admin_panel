@@ -13,7 +13,7 @@ export const getUserRoles = async () => {
   return users;
 };
 
-export const getFilteredSortedPaginatedUsers = () => {
+export const getUsers = () => {
   const users = ref([]);
   let modifiedUsers = usersCollection;
 
@@ -65,22 +65,6 @@ export const getUsers2 = async () => {
   return users;
 };
 
-export const getUsers3 = () => {
-  const users = ref([]);
-
-  const close = usersCollection.onSnapshot(async (snapshot) => {
-    users.value = await snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-  });
-  onUnmounted(close);
-
-  return new Promise((resolve) => {
-    resolve(users);
-  });
-};
-
 export const getUserById = async (id) => {
   const res = await usersCollection.doc(id).get();
   return res.exists ? res.data() : null;
@@ -106,5 +90,6 @@ export const updateUser = async (id, user) => {
 };
 
 export const deleteUser = (id) => {
-  return usersCollection.doc(id).delete();
+  const res = usersCollection.doc(id).delete();
+  if (res) return res;
 };

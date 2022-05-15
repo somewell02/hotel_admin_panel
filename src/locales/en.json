@@ -26,7 +26,8 @@
   "user": {
     "nav": "Users",
     "title": "Users",
-    "tableTitle": {
+    "add": "Adding a user",
+    "fields": {
       "name": "Full name",
       "role": "Role",
       "phone": "Phone",
@@ -37,6 +38,10 @@
         "info": "Information",
         "visits": "Visits"
       }
+    },
+    "form": {
+      "info": "Personal information",
+      "contact": "Contact details"
     }
   },
   "role": {

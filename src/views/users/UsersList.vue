@@ -2,7 +2,7 @@
   <preloader-spinner v-if="isLoading" />
   <div class="actions">
     <search-input v-model="search.value" />
-    <filled-button @click="add">{{ $t("add") }}</filled-button>
+    <filled-button @click="addUser">{{ $t("add") }}</filled-button>
   </div>
   <div class="tabs_content_wrap">
     <div class="list_modifications">
@@ -42,12 +42,7 @@ import ConfirmationPopup from "@/components/popups/ConfirmationPopup";
 import BorderedSelect from "@/components/dropdowns/BorderedSelect";
 import FilledPagination from "@/components/paginations/FilledPagination";
 
-import {
-  getFilteredSortedPaginatedUsers,
-  addUser,
-  deleteUser,
-  getUserRoles,
-} from "@/data/firebase/users-api";
+import { getUsers, deleteUser, getUserRoles } from "@/data/firebase/users-api";
 import BorderedFilters from "@/components/filters/BorderedFilters.vue";
 
 export default {
@@ -71,10 +66,10 @@ export default {
       },
       table: {
         titles: [
-          { id: "name", name: this.$t("user.tableTitle.name"), width: 28 },
-          { id: "roleTitle", name: this.$t("user.tableTitle.role"), width: 18 },
-          { id: "phone", name: this.$t("user.tableTitle.phone"), width: 16 },
-          { id: "email", name: this.$t("user.tableTitle.email"), width: 20 },
+          { id: "name", name: this.$t("user.fields.name"), width: 28 },
+          { id: "roleTitle", name: this.$t("user.fields.role"), width: 18 },
+          { id: "phone", name: this.$t("user.fields.phone"), width: 16 },
+          { id: "email", name: this.$t("user.fields.email"), width: 20 },
         ],
         actions: ["edit", "delete"],
       },
@@ -90,7 +85,7 @@ export default {
         {
           id: "role",
           type: "checkbox",
-          title: this.$t("user.tableTitle.role"),
+          title: this.$t("user.fields.role"),
           options: [],
           values: [],
         },
@@ -199,7 +194,7 @@ export default {
     },
 
     async initData() {
-      await getFilteredSortedPaginatedUsers(this.filters)
+      await getUsers(this.filters)
         .then((data) => {
           this.usersList = data;
         })
@@ -219,8 +214,8 @@ export default {
       });
     },
 
-    add() {
-      addUser("firstName", "lastName", "patronumic", "guest", "phone", "email");
+    addUser() {
+      this.$router.push({ name: "userAdd" });
     },
 
     editUser(userId) {

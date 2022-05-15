@@ -76,7 +76,6 @@ export default {
       });
     },
     selectLanguage(language) {
-      this.$i18n.locale = language.id;
       setLocale(language.id);
       this.isActive = false;
       location.reload();
