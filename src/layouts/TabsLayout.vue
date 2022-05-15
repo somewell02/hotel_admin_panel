@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import RouterLinkUnderline from "@/components/default/buttons/RouterLinkUnderline";
+import RouterLinkUnderline from "@/components/buttons/RouterLinkUnderline";
 
 export default {
   components: {

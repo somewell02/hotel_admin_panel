@@ -2,34 +2,36 @@ import { ref, onUnmounted } from "vue";
 import { firestore } from "./firebase.js";
 
 const usersCollection = firestore.collection("users");
+const rolesCollection = firestore.collection("userRoles");
 
-export const getFilteredSortedPaginatedUsers = async (
-  search,
-  filters,
-  sort
-) => {
+export const getUserRoles = async () => {
+  const res = await rolesCollection.get();
+  const users = res.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+  return users;
+};
+
+export const getFilteredSortedPaginatedUsers = () => {
   const users = ref([]);
   let modifiedUsers = usersCollection;
 
-  if (search) {
-    modifiedUsers = modifiedUsers.where("email", "array-contains", search);
-  }
+  // filters.forEach((filter) => {
+  //   if (filter.values.length > 0) {
+  //     switch (filter.type) {
+  //       case "checkbox":
+  //         modifiedUsers = modifiedUsers.where(filter.id, "in", filter.values);
+  //         break;
+  //     }
+  //   }
+  // });
 
-  filters.forEach((filter) => {
-    if (filter.values.length > 0) {
-      switch (filter.type) {
-        case "checkbox":
-          modifiedUsers = modifiedUsers.where(filter.id, "in", filter.values);
-          break;
-      }
-    }
-  });
-
-  if (sort.value != "default") {
-    const value = sort.value.split(":")[0];
-    const direction = sort.value.split(":")[1];
-    modifiedUsers = modifiedUsers.orderBy(value, direction);
-  }
+  // if (sort.value != "default") {
+  //   const value = sort.value.split(":")[0];
+  //   const direction = sort.value.split(":")[1];
+  //   modifiedUsers = modifiedUsers.orderBy(value, direction);
+  // }
 
   // let length;
   // await modifiedUsers.get().then((snap) => {
@@ -84,80 +86,25 @@ export const getUserById = async (id) => {
   return res.exists ? res.data() : null;
 };
 
-export const addUser = async (
-  firstName,
-  lastName,
-  patronumic,
-  role,
-  phone,
-  email
-) => {
-  const user = {
-    firstName: firstName,
-    lastName: lastName,
-    patronumic: patronumic,
-    role: role,
-    phone: phone,
-    email: email,
-  };
-  await usersCollection.add(user);
+export const addUser = async (user) => {
+  const res = await usersCollection.add(user);
+
+  if (res) return true;
+  else return false;
 };
 
-export const updateUser = async (
-  id,
-  first_name,
-  last_name,
-  patronumic,
-  role,
-  phone,
-  email
-) => {
-  await usersCollection.doc(id).update({
-    firstName: first_name,
-    lastName: last_name,
-    patronumic: patronumic,
-    role: role,
-    phone: phone,
-    email: email,
+export const updateUser = async (id, user) => {
+  const res = await usersCollection.doc(id).update({
+    name: user.name,
+    role: user.role,
+    phone: user.phone,
+    email: user.email,
   });
+
+  if (res) return true;
+  else return false;
 };
 
 export const deleteUser = (id) => {
   return usersCollection.doc(id).delete();
 };
-
-/*this.usersList = [
-          {
-            email: "nikitka32171@gmail.com",
-            id: "WNl3pjYmZhg5l4HpCJCvPJdzq723",
-            isNotifications: true,
-            name: "Никита МихайлоvA",
-            phone: null,
-            photoUrl: null,
-            role: "guest",
-            uid: "WNl3pjYmZhg5l4HpCJCvPJdzq723",
-          },
-          {
-            email: "qwe",
-            id: "blZLihSea0cXbFAet9x7ehnZgf63",
-            isNotifications: false,
-            name: "qweqwe",
-            phone: "+71111111111",
-            photoUrl: null,
-            uid: "blZLihSea0cXbFAet9x7ehnZgf63",
-          },
-          {
-            email: "123123fff",
-            firstName: "Михаил",
-            id: "xtFyuvqvScZ04TFbW4b9FkMmfVS2",
-            isNotifications: true,
-            lastName: "Машканцев",
-            name: "Никита Михайловdzzdyg",
-            patronumic: "Максимович",
-            phone: "+79111742312",
-            photoUrl:
-              "https://lh3.googleusercontent.com/a/AATXAJzEryE0Xz_nyoTLRvO9uIrCvRNSOaz1LxaDtCGO=s96-c",
-            role: "Портье",
-            uid: "xtFyuvqvScZ04TFbW4b9FkMmfVS2",
-          },
-        ];*/

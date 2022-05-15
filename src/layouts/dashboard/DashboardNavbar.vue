@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import RouterLinkIcon from "@/components/default/buttons/RouterLinkIcon";
+import RouterLinkIcon from "@/components/buttons/RouterLinkIcon";
 
 export default {
   components: {

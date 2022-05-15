@@ -12,9 +12,10 @@
 
 <script>
 import SearchIcon from "@/assets/img/icons/SearchIcon.vue";
+import BorderedInput from "./BorderedInput";
+
 export default {
   name: "search-input",
-  components: { SearchIcon },
   props: {
     modelValue: {
       type: String,
@@ -26,6 +27,11 @@ export default {
       default: "",
       required: false,
     },
+  },
+
+  components: {
+    SearchIcon,
+    BorderedInput,
   },
 
   methods: {
@@ -41,6 +47,9 @@ export default {
   position: relative;
   input {
     padding-left: 50px;
+    &:focus {
+      padding-left: 49px;
+    }
   }
   .search_icon {
     position: absolute;

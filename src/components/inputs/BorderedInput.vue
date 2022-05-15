@@ -29,14 +29,15 @@ input {
   padding: 0 20px;
   height: 40px;
   background: transparent;
-  border: none;
+  outline: none;
   border-radius: 3px;
-  font-size: 15px;
+  font-size: 14px;
   &.gray {
     color: var(--text-color);
-    outline: 1px solid var(--input-color);
+    border: 1px solid var(--input-color);
     &:focus {
-      outline: 2px solid var(--input-color);
+      border: 2px solid var(--input-color);
+      padding: 0 19px;
     }
     &::placeholder {
       color: var(--secondary-color);

@@ -1,10 +1,12 @@
 <template>
-  <bordered-input type="text" :value="modelValue" @input="updateInput" />
+  <bordered-input type="password" :value="modelValue" @input="updateInput" />
 </template>
 
 <script>
+import BorderedInput from "./BorderedInput";
+
 export default {
-  name: "text-input",
+  name: "password-input",
   props: {
     modelValue: {
       type: String,
@@ -16,6 +18,10 @@ export default {
       default: "",
       required: false,
     },
+  },
+
+  components: {
+    BorderedInput,
   },
 
   methods: {

@@ -1,7 +1,7 @@
 <template>
   <preloader-spinner v-if="isLoading" />
   <div class="actions">
-    <search-input v-model="search" />
+    <search-input v-model="search.value" />
     <filled-button @click="add">{{ $t("add") }}</filled-button>
   </div>
   <div class="tabs_content_wrap">
@@ -11,22 +11,26 @@
         <bordered-select
           v-model="sort.value"
           :options="sort.options"
-          prefix="Сортировка:"
+          :prefix="$t('sorting') + ':'"
           dropdownSide="right"
         />
       </div>
     </div>
     <spacing-bordered-table
       class="users_table"
+      v-if="this.usersList"
       :titles="table.titles"
-      :rows="usersList"
+      :rows="modifiedUsersList()"
       :actions="table.actions"
       @edit="(userId) => editUser(userId)"
       @delete="(user) => deleteUser(user)"
     />
     <div class="pagination_wrap">
       <div class="count_title"></div>
-      <filled-pagination :length="2" v-model="pagination.page" />
+      <filled-pagination
+        :length="pagination.length"
+        v-model="pagination.page"
+      />
     </div>
   </div>
   <confirmation-popup ref="deleteConfirmation" :popupSubtitle="popupText" />
@@ -42,6 +46,7 @@ import {
   getFilteredSortedPaginatedUsers,
   addUser,
   deleteUser,
+  getUserRoles,
 } from "@/data/firebase/users-api";
 import BorderedFilters from "@/components/filters/BorderedFilters.vue";
 
@@ -57,12 +62,25 @@ export default {
   data() {
     return {
       usersList: null,
+      rolesList: null,
       isLoading: true,
       popupText: "",
-      search: "",
+      search: {
+        value: "",
+        fields: ["name", "email", "phone"],
+      },
+      table: {
+        titles: [
+          { id: "name", name: this.$t("user.tableTitle.name"), width: 28 },
+          { id: "roleTitle", name: this.$t("user.tableTitle.role"), width: 18 },
+          { id: "phone", name: this.$t("user.tableTitle.phone"), width: 16 },
+          { id: "email", name: this.$t("user.tableTitle.email"), width: 20 },
+        ],
+        actions: ["edit", "delete"],
+      },
       sort: {
         options: [
-          { id: "default", title: "По умолчанию" },
+          { id: "default", title: this.$t("default") },
           { id: "email:asc", title: "Посещения (↑)" },
           { id: "email:desc", title: "Посещения (↓)" },
         ],
@@ -72,23 +90,22 @@ export default {
         {
           id: "role",
           type: "checkbox",
-          title: "Должность",
-          options: [
-            { id: "admin", title: "Администратор" },
-            { id: "guest", title: "Гость" },
-          ],
+          title: this.$t("user.tableTitle.role"),
+          options: [],
           values: [],
         },
       ],
       pagination: {
         page: 1,
-        limit: 2,
+        limit: 5,
+        length: 0,
       },
     };
   },
 
-  created() {
-    this.getUsers();
+  async created() {
+    await this.initData();
+    this.initFilters();
   },
 
   watch: {
@@ -98,89 +115,124 @@ export default {
     // },
     filters: {
       handler() {
-        this.getUsers();
+        this.pagination.page = 1;
       },
       deep: true,
     },
     sort: {
       handler() {
-        this.getUsers();
+        this.pagination.page = 1;
       },
       deep: true,
     },
-    search() {
-      this.getUsers();
+    search: {
+      handler() {
+        this.pagination.page = 1;
+      },
+      deep: true,
     },
-  },
-
-  computed: {
-    table() {
-      return {
-        titles: [
-          { id: "name", name: "ФИО", width: 28 },
-          { id: "role", name: "Должность", width: 18 },
-          { id: "phone", name: "Телефон", width: 16 },
-          { id: "email", name: "Email", width: 20 },
-        ],
-        actions: ["edit", "delete"],
-      };
-    },
-
-    // modifiedUsersList() {
-    //   if (this.usersList) {
-    //     this.usersList.forEach((user) => {
-    //       user.fullName = user.lastName ? user.lastName + " " : "";
-    //       user.fullName += user.firstName ? user.firstName + " " : "";
-    //       user.fullName += user.patronumic ?? "";
-    //     });
-    //   }
-    //   return this.usersList;
-    // },
   },
 
   methods: {
-    getUsers() {
-      //console.log("create: " + this.msToDate(Date.now()));
-      getFilteredSortedPaginatedUsers(
-        this.search,
-        this.filters,
-        this.sort,
-        this.pagination
-      )
+    modifiedUsersList() {
+      let users = this.usersList.map((user) => {
+        return {
+          ...user,
+        };
+      });
+      if (users && this.rolesList) {
+        users.forEach((user) => {
+          // user.fullName = user.lastName ? user.lastName + " " : "";
+          // user.fullName += user.firstName ? user.firstName + " " : "";
+          // user.fullName += user.patronumic ?? "";
+          user.roleTitle = this.rolesList.find(
+            (role) => role.id == user.role
+          ).title;
+        });
+
+        if (this.search.value) {
+          const s = this.search;
+          users = users.filter((user) => {
+            let t = false;
+            s.fields.forEach((field) => {
+              if (user[field] && user[field].includes(s.value)) {
+                t = true;
+                return;
+              }
+            });
+            return t;
+          });
+        }
+
+        if (this.sort.value !== "default") {
+          const value = this.sort.value.split(":")[0];
+          const direction = this.sort.value.split(":")[1];
+          users.sort((o1, o2) => {
+            if (o1[value] > o2[value]) return direction == "asc" ? 1 : -1;
+            if (o1[value] < o2[value]) return direction == "asc" ? -1 : 1;
+            return 0;
+          });
+        }
+
+        this.filters.forEach((filter) => {
+          if (filter.values.length > 0) {
+            switch (filter.type) {
+              case "checkbox":
+                users = users.filter((user) =>
+                  filter.values.includes(user[filter.id])
+                );
+                break;
+            }
+          }
+        });
+
+        const p = this.pagination;
+        this.pagination.length = Math.ceil(users.length / p.limit);
+        users = users.filter(
+          (user) =>
+            users.indexOf(user) >= (p.page - 1) * p.limit &&
+            users.indexOf(user) < p.page * p.limit
+        );
+      }
+
+      return users;
+    },
+
+    async initData() {
+      await getFilteredSortedPaginatedUsers(this.filters)
         .then((data) => {
           this.usersList = data;
-          //console.log("get data: " + this.msToDate(Date.now()));
-          //console.log(data);
         })
         .finally(() => {
           this.isLoading = false;
         });
+      await getUserRoles().then((roles) => {
+        this.rolesList = roles;
+      });
     },
+
+    initFilters() {
+      this.rolesList.forEach((role) => {
+        this.filters
+          .find((filter) => filter.id == "role")
+          .options.push({ id: role.id, title: role.title });
+      });
+    },
+
     add() {
       addUser("firstName", "lastName", "patronumic", "guest", "phone", "email");
     },
+
     editUser(userId) {
       this.$router.push({ name: "userEdit", params: { id: userId } });
     },
+
     async deleteUser(user) {
-      this.popupText = "Удалить пользователя: " + user.fullName + "?";
+      this.popupText = "Удалить пользователя: " + user.name + "?";
       const popupResult = await this.$refs.deleteConfirmation.open();
       if (popupResult) {
         deleteUser(user.id);
       }
-    },
-
-    msToDate(ms) {
-      var date = new Date(ms);
-      var options = {
-        hour: "numeric",
-        minute: "numeric",
-        second: "numeric",
-      };
-
-      var result = date.toLocaleDateString("ru", options);
-
-      return result.toString();
     },
   },
 };

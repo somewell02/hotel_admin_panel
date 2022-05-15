@@ -1,11 +1,13 @@
 {
   "add": "Add",
   "save": "Save",
+  "delete": "Delete",
   "back": "Back",
   "backToList": "Back to list",
   "search": "Search",
   "reset": "Clear",
   "sorting": "Sorting",
+  "default": "Default",
   "pagination": {
     "prev": "Previous",
     "next": "Next"
@@ -24,10 +26,10 @@
   "user": {
     "nav": "Users",
     "title": "Users",
-    "table-title": {
-      "name": "ФИО",
-      "role": "Должность",
-      "phone": "Телефон",
+    "tableTitle": {
+      "name": "Full name",
+      "role": "Role",
+      "phone": "Phone",
       "email": "Email"
     },
     "edit": {

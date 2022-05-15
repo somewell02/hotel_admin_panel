@@ -28,8 +28,11 @@
 </template>
 
 <script>
+import { setLocale } from "@/data/localstorage/locale";
+
 import RuFlag from "@/assets/img/flags/RuFlag";
 import EnFlag from "@/assets/img/flags/EnFlag";
+
 export default {
   data() {
     return {
@@ -74,10 +77,9 @@ export default {
     },
     selectLanguage(language) {
       this.$i18n.locale = language.id;
-      this.$router.push({
-        params: { lang: language.id },
-      });
+      setLocale(language.id);
       this.isActive = false;
+      location.reload();
     },
 
     handleMouseClick(e) {

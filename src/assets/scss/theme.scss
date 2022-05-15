@@ -6,6 +6,8 @@
     --input-color: #ECECEC;
     --text-color: #404040;
     --background-color: #ffffff;
+    --error-color: #920000;
+    --success-color: #639200;
 }
 
 .dark-theme {
@@ -25,5 +27,9 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
     font-size: 24px;
+    font-weight: 500;
+}
+h2 {
+    font-size: 18px;
     font-weight: 500;
 }

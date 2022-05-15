@@ -30,24 +30,35 @@
               <bookings-icon />
               {{ $t("user.edit.nav.visits") }}
             </router-link-icon>
+            <icon-button @click="deleteUser">
+              <delete-icon />
+              {{ $t("delete") }}
+            </icon-button>
           </nav>
         </div>
       </div>
       <div class="user_edit_content">
         <router-view />
       </div>
+      <confirmation-popup
+        ref="deleteConfirmation"
+        :popupSubtitle="'Удалить пользователя: ' + user.name + '?'"
+      />
     </div>
   </main>
 </template>
 
 <script>
-import FilledButton from "@/components/default/buttons/FilledButton.vue";
-import RouterLinkIcon from "@/components/default/buttons/RouterLinkIcon.vue";
+import FilledButton from "@/components/buttons/FilledButton.vue";
+import RouterLinkIcon from "@/components/buttons/RouterLinkIcon.vue";
+import IconButton from "@/components/buttons/IconButton.vue";
+import ConfirmationPopup from "@/components/popups/ConfirmationPopup";
 
 import InfoIcon from "@/assets/img/icons/InfoIcon";
 import BookingsIcon from "@/assets/img/icons/BookingsIcon";
+import DeleteIcon from "@/assets/img/icons/DeleteIcon.vue";
 
-import { getUserById } from "@/data/firebase/users-api";
+import { getUserById, deleteUser } from "@/data/firebase/users-api";
 
 export default {
   data() {
@@ -59,13 +70,7 @@ export default {
   },
 
   created() {
-    getUserById(this.userId)
-      .then((data) => {
-        this.user = data;
-      })
-      .finally(() => {
-        this.isLoading = false;
-      });
+    this.initData();
   },
 
   components: {
@@ -73,6 +78,29 @@ export default {
     RouterLinkIcon,
     InfoIcon,
     BookingsIcon,
+    IconButton,
+    DeleteIcon,
+    ConfirmationPopup,
+  },
+
+  methods: {
+    initData() {
+      getUserById(this.userId)
+        .then((data) => {
+          this.user = data;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+    },
+
+    async deleteUser() {
+      const popupResult = await this.$refs.deleteConfirmation.open();
+      if (popupResult) {
+        deleteUser(this.userId);
+        this.$router.push({ name: "users" });
+      }
+    },
   },
 };
 </script>
@@ -86,7 +114,10 @@ export default {
     .user_edit_main {
       margin-top: 30px;
       border-right: 1px solid var(--border-color);
-      padding: 20px 40px 20px 0;
+      padding: 20px 40px 0 0;
+      height: calc(100vh - 190px);
+      overflow-y: auto;
+      @include custom-scroll;
       .user_main_info {
         display: flex;
         flex-direction: column;
@@ -118,7 +149,7 @@ export default {
   }
   .user_edit_content {
     flex-grow: 3;
-    padding: 0 0 20px 40px;
+    padding-left: 40px;
   }
 }
 </style>

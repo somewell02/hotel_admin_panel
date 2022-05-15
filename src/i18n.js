@@ -1,4 +1,5 @@
 import { createI18n } from "vue-i18n";
+import { getLocale } from "@/data/localstorage/locale";
 
 function loadLocaleMessages() {
   const locales = require.context(
@@ -19,7 +20,7 @@ function loadLocaleMessages() {
 
 export default createI18n({
   legacy: true,
-  locale: "ru",
-  fallbackLocale: "ru",
+  locale: getLocale(),
+  fallbackLocale: getLocale(),
   messages: loadLocaleMessages(),
 });

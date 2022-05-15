@@ -8,7 +8,7 @@
       {{ prefix ? prefix + " " + selectedTitle.toLowerCase() : selectedTitle }}
       <arrow-icon />
     </bordered-button>
-    <bordered-div class="options" :class="dropdownSide" v-if="isActive">
+    <div class="options" :class="dropdownSide" v-if="isActive">
       <button
         class="option_item"
         v-for="option in options"
@@ -18,12 +18,12 @@
       >
         {{ option.title }}
       </button>
-    </bordered-div>
+    </div>
   </div>
 </template>
 
 <script>
-import BorderedButton from "@/components/default/buttons/BorderedButton.vue";
+import BorderedButton from "@/components/buttons/BorderedButton.vue";
 
 export default {
   data() {
@@ -123,6 +123,8 @@ export default {
       right: 0;
     }
     background: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
     max-height: 250px;
     min-width: 100%;
     @include custom-scroll;

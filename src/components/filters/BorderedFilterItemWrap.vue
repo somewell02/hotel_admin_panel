@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import BorderedButton from "@/components/default/buttons/BorderedButton.vue";
+import BorderedButton from "@/components/buttons/BorderedButton.vue";
 
 export default {
   data() {

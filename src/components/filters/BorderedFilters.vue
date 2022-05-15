@@ -17,7 +17,7 @@
 <script>
 import CheckboxFilterItem from "./CheckboxFilterItem";
 import FilterIcon from "@/assets/img/icons/FilterIcon";
-import BorderedButton from "@/components/default/buttons/BorderedButton.vue";
+import BorderedButton from "@/components/buttons/BorderedButton.vue";
 import ResetIcon from "@/assets/img/icons/ResetIcon.vue";
 
 export default {
