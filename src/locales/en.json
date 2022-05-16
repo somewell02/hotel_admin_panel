@@ -1,4 +1,6 @@
 {
+  "yes": "Yes",
+  "no": "No",
   "add": "Add",
   "save": "Save",
   "delete": "Delete",
@@ -25,8 +27,7 @@
   },
   "user": {
     "nav": "Users",
-    "title": "Users",
-    "add": "Adding a user",
+    "add": "Add a user",
     "fields": {
       "name": "Full name",
       "role": "Role",
@@ -53,6 +54,14 @@
     }
   },
   "role": {
-    "nav": "Roles"
+    "nav": "Roles",
+    "add": "Add a role",
+    "fields": {
+      "title": "Title",
+      "id": "ID",
+      "staff": "Staff",
+      "permissions": "Permissions",
+      "color": "Color"
+    }
   }
 }

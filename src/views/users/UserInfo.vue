@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { getUserById, updateUser } from "@/data/firebase/users-api";
+import { getUserById, updateUser } from "@/data/firebase/usersApi";
 
 import UserForm from "@/layouts/dashboard/users/UserForm";
 

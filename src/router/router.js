@@ -25,17 +25,18 @@ const routes = [
       },
       {
         path: "users",
-        meta: { title: i18n.global.t("user.title") },
         component: () => import("../views/users/UsersView.vue"),
         children: [
           {
             path: "",
             name: "users",
+            meta: { title: i18n.global.t("user.nav") },
             component: () => import("../views/users/UsersList.vue"),
           },
           {
             path: "roles",
             name: "roles",
+            meta: { title: i18n.global.t("role.nav") },
             component: () => import("../views/users/RolesList.vue"),
           },
         ],

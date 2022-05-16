@@ -12,7 +12,15 @@
       </div>
     </div>
     <div class="rows">
-      <div class="row" v-for="row in rows" :key="row.id">
+      <div
+        class="row"
+        v-for="row in rows"
+        :key="row.id"
+        :class="{
+          spaced: this.type == 1,
+          compressed: this.type == 2,
+        }"
+      >
         <div
           v-for="title in titles"
           :key="title.id"
@@ -22,16 +30,34 @@
           class="column"
         >
           <div
-            class="content"
-            :class="{
-              background: row[title.id + 'Background'],
-            }"
-            :style="{
-              background: row[title.id + 'Background'] ?? 'none',
-            }"
+            v-if="!title.type || title.type == 'string'"
+            class="content string"
           >
             {{ row[title.id] ? row[title.id] : "-" }}
           </div>
+          <div
+            v-else-if="title.type == 'background'"
+            class="content"
+            :class="{ background: row[title.id] }"
+            :style="{
+              background: row[title.id].background ?? 'none',
+            }"
+          >
+            {{ row[title.id] ? row[title.id].title : "-" }}
+          </div>
+          <div v-else-if="title.type == 'bool'" class="content bool">
+            {{ row[title.id] ? $t("yes") : $t("no") }}
+          </div>
+          <div v-else-if="title.type == 'array'" class="content array">
+            {{ row[title.id].length > 0 ? row[title.id].join(", ") : "-" }}
+          </div>
+          <div
+            v-else-if="title.type == 'color'"
+            class="content color"
+            :style="{
+              background: row[title.id],
+            }"
+          ></div>
         </div>
         <div class="actions" v-if="actions">
           <eye-icon
@@ -67,6 +93,11 @@ export default {
     EyeIcon,
   },
   props: {
+    type: {
+      type: Number,
+      requried: false,
+      default: 1,
+    },
     titles: {
       type: Array,
       requried: false,
@@ -100,11 +131,17 @@ export default {
   }
   .row {
     display: flex;
-    padding: 15px 20px;
-    border-radius: 5px;
-    border: 1px solid var(--border-color);
-    &:not(:last-child) {
-      margin-bottom: 15px;
+    padding: 12px 20px;
+    min-height: 40px;
+    &.spaced {
+      border-radius: 5px;
+      border: 1px solid var(--border-color);
+      &:not(:last-child) {
+        margin-bottom: 12px;
+      }
+    }
+    &.compressed:not(:last-child) {
+      border-bottom: 1px solid var(--border-color);
     }
     .column {
       padding-right: 15px;
@@ -119,6 +156,11 @@ export default {
           padding: 5px 15px;
           border-radius: 5px;
           color: white;
+        }
+        &.color {
+          width: 60px;
+          height: 20px;
+          border-radius: 5px;
         }
       }
     }

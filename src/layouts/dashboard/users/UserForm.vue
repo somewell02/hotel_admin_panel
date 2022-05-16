@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { getUserRoles } from "@/data/firebase/users-api";
+import { getUserRoles } from "@/data/firebase/userRolesApi";
 
 import BorderedSelect from "@/components/dropdowns/BorderedSelect";
 

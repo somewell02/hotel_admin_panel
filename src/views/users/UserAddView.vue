@@ -22,7 +22,7 @@
 
 <script>
 import UserForm from "@/layouts/dashboard/users/UserForm";
-import { addUser } from "@/data/firebase/users-api";
+import { addUser } from "@/data/firebase/usersApi";
 
 export default {
   data() {

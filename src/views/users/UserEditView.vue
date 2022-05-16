@@ -56,7 +56,7 @@ import InfoIcon from "@/assets/img/icons/InfoIcon";
 import BookingsIcon from "@/assets/img/icons/BookingsIcon";
 import DeleteIcon from "@/assets/img/icons/DeleteIcon.vue";
 
-import { getUserById, deleteUser } from "@/data/firebase/users-api";
+import { getUserById, deleteUser } from "@/data/firebase/usersApi";
 
 export default {
   data() {

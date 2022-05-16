@@ -18,7 +18,7 @@
     </div>
     <spacing-bordered-table
       class="users_table"
-      v-if="this.usersList"
+      v-if="usersList"
       :titles="table.titles"
       :rows="modifiedUsersList()"
       :actions="table.actions"
@@ -42,9 +42,12 @@ import SpacingBorderedTable from "@/components/lists/SpacingBorderedTable";
 import ConfirmationPopup from "@/components/popups/ConfirmationPopup";
 import BorderedSelect from "@/components/dropdowns/BorderedSelect";
 import FilledPagination from "@/components/paginations/FilledPagination";
-
-import { getUsers, deleteUser, getUserRoles } from "@/data/firebase/users-api";
 import BorderedFilters from "@/components/filters/BorderedFilters.vue";
+
+import { table, sort, filters, search } from "./userConstants";
+
+import { getUsers, deleteUser } from "@/data/firebase/usersApi";
+import { getUserRoles } from "@/data/firebase/userRolesApi";
 
 export default {
   components: {
@@ -61,39 +64,13 @@ export default {
       rolesList: null,
       isLoading: true,
       popupText: "",
-      search: {
-        value: "",
-        fields: ["name", "email", "phone"],
-      },
-      table: {
-        titles: [
-          { id: "name", name: this.$t("user.fields.name"), width: 28 },
-          { id: "roleTitle", name: this.$t("user.fields.role"), width: 18 },
-          { id: "phone", name: this.$t("user.fields.phone"), width: 16 },
-          { id: "email", name: this.$t("user.fields.email"), width: 20 },
-        ],
-        actions: ["edit", "delete"],
-      },
-      sort: {
-        options: [
-          { id: "default", title: this.$t("default") },
-          { id: "email:asc", title: "Посещения (↑)" },
-          { id: "email:desc", title: "Посещения (↓)" },
-        ],
-        value: "default",
-      },
-      filters: [
-        {
-          id: "role",
-          type: "checkbox",
-          title: this.$t("user.fields.role"),
-          options: [],
-          values: [],
-        },
-      ],
+      search: search,
+      table: table,
+      sort: sort,
+      filters: filters,
       pagination: {
         page: 1,
-        limit: 5,
+        limit: 7,
         length: 0,
       },
     };
@@ -138,14 +115,20 @@ export default {
           ...user,
         };
       });
+
       if (users && this.rolesList) {
         users.forEach((user) => {
           // user.fullName = user.lastName ? user.lastName + " " : "";
           // user.fullName += user.firstName ? user.firstName + " " : "";
           // user.fullName += user.patronumic ?? "";
-          user.roleTitle = this.rolesList.find(
-            (role) => role.id == user.role
-          ).title;
+          const userRole = this.rolesList.find((role) => role.id == user.role);
+          if (userRole) {
+            user.roleId = userRole.id;
+            user.role = {
+              title: userRole.title,
+              background: userRole.color,
+            };
+          }
         });
 
         if (this.search.value) {
@@ -218,7 +201,7 @@ export default {
     initFilters() {
       this.rolesList.forEach((role) => {
         this.filters
-          .find((filter) => filter.id == "role")
+          .find((filter) => filter.id == "roleId")
           .options.push({ id: role.id, title: role.title });
       });
     },
