@@ -42,6 +42,14 @@
     "form": {
       "info": "Personal information",
       "contact": "Contact details"
+    },
+    "alerts": {
+      "added": "User successfully added",
+      "deleted": "User successfully deleted",
+      "updated": "User successfully updated",
+      "notFound": "User not found",
+      "needPhoneOrEmail": "Enter user phone or gmail address",
+      "incorrectGmail": "The email address is entered incorrectly or is not registered on gmail"
     }
   },
   "role": {

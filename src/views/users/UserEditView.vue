@@ -4,10 +4,7 @@
     <div v-else class="user_edit">
       <div class="user_edit_navbar">
         <div class="user_edit_header">
-          <filled-button
-            color="primary-light"
-            @click="$router.push({ name: 'users' })"
-          >
+          <filled-button color="primary-light" @click="backToList">
             {{ $t("backToList") }}
           </filled-button>
         </div>
@@ -45,6 +42,7 @@
         :popupSubtitle="'Удалить пользователя: ' + user.name + '?'"
       />
     </div>
+    <message-alert ref="alert"></message-alert>
   </main>
 </template>
 
@@ -69,8 +67,9 @@ export default {
     };
   },
 
-  created() {
-    this.initData();
+  async created() {
+    await this.initData();
+    this.getRouterParams();
   },
 
   components: {
@@ -87,10 +86,21 @@ export default {
     initData() {
       getUserById(this.userId)
         .then((data) => {
+          if (!data) {
+            this.$router.push({
+              name: "users",
+              params: {
+                messageType: "error",
+                messageText: this.$t("user.alerts.notFound"),
+              },
+            });
+          }
           this.user = data;
         })
         .finally(() => {
-          this.isLoading = false;
+          if (this.user) {
+            this.isLoading = false;
+          }
         });
     },
 
@@ -98,7 +108,26 @@ export default {
       const popupResult = await this.$refs.deleteConfirmation.open();
       if (popupResult) {
         deleteUser(this.userId);
-        this.$router.push({ name: "users" });
+        this.$router.push({
+          name: "users",
+          params: {
+            messageType: "success",
+            messageText: this.$t("user.alerts.deleted"),
+          },
+        });
+      }
+    },
+
+    backToList() {
+      this.$router.push({ name: "users" });
+    },
+
+    getRouterParams() {
+      if (this.$route.params.messageText) {
+        this.$refs.alert.open(
+          this.$route.params.messageType,
+          this.$route.params.messageText
+        );
       }
     },
   },

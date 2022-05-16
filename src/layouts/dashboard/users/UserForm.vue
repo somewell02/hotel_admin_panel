@@ -3,32 +3,35 @@
     <div class="form_block">
       <h2>{{ $t("user.fields.role") }}</h2>
       <div class="form_block_inputs column_3">
-        <bordered-select
-          v-if="roles"
-          v-model="user.role"
-          @input="updateUser"
-          :options="roles"
-        />
+        <bordered-select v-if="roles" v-model="user.role" :options="roles" />
       </div>
     </div>
     <div class="form_block">
       <h2>{{ $t("user.form.info") }}</h2>
       <div class="form_block_inputs column_3">
-        <text-input v-model="user.name" placeholder="ФИО" />
+        <text-input v-model="user.name" :placeholder="$t('user.fields.name')" />
       </div>
     </div>
     <div class="form_block">
       <h2>{{ $t("user.form.contact") }}</h2>
       <div class="form_block_inputs column_3">
-        <text-input v-model="user.phone" placeholder="Телефон" />
-        <text-input v-model="user.email" placeholder="Email" />
+        <text-input
+          v-model="user.phone"
+          :placeholder="$t('user.fields.phone')"
+        />
+        <text-input
+          v-model="user.email"
+          :placeholder="$t('user.fields.email')"
+        />
       </div>
     </div>
+    <message-alert ref="alert"></message-alert>
   </div>
 </template>
 
 <script>
 import { getUserRoles } from "@/data/firebase/users-api";
+
 import BorderedSelect from "@/components/dropdowns/BorderedSelect";
 
 export default {
@@ -36,6 +39,7 @@ export default {
     return {
       user: this.modelValue,
       roles: null,
+      role: null,
     };
   },
 
@@ -52,6 +56,7 @@ export default {
 
   async created() {
     await this.initData();
+    this.role = this.user.role.toString();
   },
 
   methods: {
@@ -60,8 +65,26 @@ export default {
         this.roles = roles;
       });
     },
+
     updateUser() {
       this.$emit("update:modelValue", this.user);
+    },
+
+    validate() {
+      const pattern = /^[^ ]+@gmail.com$/;
+      if (!this.user.phone.trim() && !this.user.email.trim()) {
+        this.$refs.alert.open("error", this.$t("user.alerts.needPhoneOrEmail"));
+        return false;
+      }
+      if (this.user.email.trim() && !this.user.email.trim().match(pattern)) {
+        this.$refs.alert.open("error", this.$t("user.alerts.incorrectGmail"));
+        return false;
+      }
+      if (this.user.role != this.role && this.user.role == "admin") {
+        //this.$refs.alert.open("information", "Нужно подтверждение");
+        //return false;
+      }
+      return true;
     },
   },
 };

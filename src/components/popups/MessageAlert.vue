@@ -1,9 +1,10 @@
 <template>
   <transition name="fade">
     <div class="message_wrap" v-if="isShow">
-      <div class="message_content" :class="type">
+      <div class="message_content" :class="funcType">
         <div class="message_text">
-          <slot />
+          <div v-if="text">{{ text }}</div>
+          <slot v-else />
         </div>
         <close-icon @click="close" />
       </div>
@@ -15,10 +16,12 @@
 import CloseIcon from "@/assets/img/icons/CloseIcon";
 
 export default {
-  name: "message-popup",
+  name: "message-alert",
   data() {
     return {
       isShow: false,
+      text: "",
+      funcType: "",
     };
   },
   props: {
@@ -41,7 +44,7 @@ export default {
   popupController: null,
 
   methods: {
-    open() {
+    open(type, text) {
       let resolve;
       let reject;
       const popupPromise = new Promise((ok, fail) => {
@@ -50,6 +53,8 @@ export default {
       });
 
       this.$options.popupController = { resolve, reject };
+      this.funcType = type ?? this.type;
+      this.text = text;
       this.isShow = true;
 
       return popupPromise;

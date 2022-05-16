@@ -14,8 +14,9 @@
       </div>
     </header>
     <div class="user_add_content">
-      <user-form v-model="user" />
+      <user-form ref="userAddForm" v-model="user" />
     </div>
+    <message-alert ref="alert"></message-alert>
   </main>
 </template>
 
@@ -41,7 +42,20 @@ export default {
 
   methods: {
     addUser() {
-      addUser(this.user);
+      if (this.$refs.userAddForm.validate()) {
+        addUser(this.user).then((user) => {
+          if (user) {
+            this.$router.push({
+              name: "userEdit",
+              params: {
+                id: user.id,
+                messageType: "success",
+                messageText: this.$t("user.alerts.added"),
+              },
+            });
+          }
+        });
+      }
     },
   },
 };

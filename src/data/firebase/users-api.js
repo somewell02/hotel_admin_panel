@@ -72,18 +72,11 @@ export const getUserById = async (id) => {
 
 export const addUser = async (user) => {
   const res = await usersCollection.add(user);
-
-  if (res) return true;
-  else return false;
+  return res ?? null;
 };
 
 export const updateUser = async (id, user) => {
-  const res = await usersCollection.doc(id).update({
-    name: user.name,
-    role: user.role,
-    phone: user.phone,
-    email: user.email,
-  });
+  const res = await usersCollection.doc(id).update(user);
 
   if (res) return true;
   else return false;

@@ -33,6 +33,7 @@
       />
     </div>
   </div>
+  <message-alert ref="alert"></message-alert>
   <confirmation-popup ref="deleteConfirmation" :popupSubtitle="popupText" />
 </template>
 
@@ -101,6 +102,8 @@ export default {
   async created() {
     await this.initData();
     this.initFilters();
+
+    this.getRouterParams();
   },
 
   watch: {
@@ -150,7 +153,13 @@ export default {
           users = users.filter((user) => {
             let t = false;
             s.fields.forEach((field) => {
-              if (user[field] && user[field].includes(s.value)) {
+              if (
+                user[field] &&
+                user[field]
+                  .trim()
+                  .toLowerCase()
+                  .includes(s.value.trim().toLowerCase())
+              ) {
                 t = true;
                 return;
               }
@@ -226,7 +235,19 @@ export default {
       this.popupText = "Удалить пользователя: " + user.name + "?";
       const popupResult = await this.$refs.deleteConfirmation.open();
       if (popupResult) {
-        deleteUser(user.id);
+        const res = deleteUser(user.id);
+        if (res) {
+          this.$refs.alert.open("success", this.$t("user.alerts.deleted"));
+        }
+      }
+    },
+
+    getRouterParams() {
+      if (this.$route.params.messageText) {
+        this.$refs.alert.open(
+          this.$route.params.messageType,
+          this.$route.params.messageText
+        );
       }
     },
   },

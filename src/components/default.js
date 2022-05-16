@@ -6,10 +6,13 @@ import SearchInput from "./inputs/SearchInput";
 
 import FilledButton from "./buttons/FilledButton";
 
+import MessageAlert from "./popups/MessageAlert";
+
 export default [
   BorderedDiv,
   PreloaderSpinner,
   TextInput,
   SearchInput,
   FilledButton,
+  MessageAlert,
 ];

@@ -30,7 +30,7 @@
               background: row[title.id + 'Background'] ?? 'none',
             }"
           >
-            {{ row[title.id] ?? "-" }}
+            {{ row[title.id] ? row[title.id] : "-" }}
           </div>
         </div>
         <div class="actions" v-if="actions">

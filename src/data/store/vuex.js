@@ -1,12 +1,14 @@
 import { createStore } from "vuex";
+import userModule from "./userModule";
 
 export default createStore({
-  state: {
+  state: () => ({
     darkTheme: false,
-    isAuth: false,
-  },
+  }),
   getters: {},
   mutations: {},
   actions: {},
-  modules: {},
+  modules: {
+    user: userModule,
+  },
 });
