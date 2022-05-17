@@ -1,26 +1,24 @@
 import i18n from "@/i18n";
 
-export const tableInfo = {
-  titles: [
-    { id: "name", name: i18n.global.t("user.fields.name"), width: 28 },
-    {
-      id: "role",
-      name: i18n.global.t("user.fields.role"),
-      width: 18,
-      type: "background",
-    },
-    { id: "phone", name: i18n.global.t("user.fields.phone"), width: 16 },
-    { id: "email", name: i18n.global.t("user.fields.email"), width: 20 },
-  ],
+export const structureInfo = {
+  imgId: "",
+  info: {
+    left: [{ id: "name", type: "title" }],
+    right: [
+      { id: "price", type: "price", unit: "₽/ночь" },
+      { id: "rating", type: "rating" },
+    ],
+  },
   actions: ["edit", "delete"],
 };
 
-export const sortInfo = {
+export const sort = {
   options: [
     { id: "default", title: i18n.global.t("default") },
     { id: "email:asc", title: "Посещения (↑)" },
     { id: "email:desc", title: "Посещения (↓)" },
   ],
+  value: "default",
 };
 
 export const filters = [
@@ -33,6 +31,7 @@ export const filters = [
   },
 ];
 
-export const searchInfo = {
+export const search = {
+  value: "",
   fields: ["name", "email", "phone"],
 };

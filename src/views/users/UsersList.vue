@@ -1,7 +1,7 @@
 <template>
   <preloader-spinner v-if="isLoading" />
   <div class="actions">
-    <search-input v-model="search.value" />
+    <search-input v-model="search" />
     <filled-button @click="addUser">{{ $t("add") }}</filled-button>
   </div>
   <div class="tabs_content_wrap">
@@ -9,8 +9,8 @@
       <bordered-filters :filters="filters" />
       <div class="sorts_wrap">
         <bordered-select
-          v-model="sort.value"
-          :options="sort.options"
+          v-model="sort"
+          :options="sortInfo.options"
           :prefix="$t('sorting') + ':'"
           dropdownSide="right"
         />
@@ -19,9 +19,9 @@
     <spacing-bordered-table
       class="users_table"
       v-if="usersList"
-      :titles="table.titles"
+      :titles="tableInfo.titles"
       :rows="modifiedUsersList()"
-      :actions="table.actions"
+      :actions="tableInfo.actions"
       @edit="(user) => editUser(user.id)"
       @delete="(user) => deleteUser(user)"
     />
@@ -44,7 +44,7 @@ import BorderedSelect from "@/components/dropdowns/BorderedSelect";
 import FilledPagination from "@/components/paginations/FilledPagination";
 import BorderedFilters from "@/components/filters/BorderedFilters.vue";
 
-import { table, sort, filters, search } from "./userConstants";
+import { tableInfo, sortInfo, filters, searchInfo } from "./userConstants";
 
 import { getUsers, deleteUser } from "@/data/firebase/usersApi";
 import { getUserRoles } from "@/data/firebase/userRolesApi";
@@ -63,9 +63,8 @@ export default {
       usersList: null,
       rolesList: null,
       isLoading: true,
-      search: search,
-      table: table,
-      sort: sort,
+      search: "",
+      sort: "default",
       filters: filters,
       pagination: {
         page: 1,
@@ -107,7 +106,40 @@ export default {
     },
   },
 
+  computed: {
+    sortInfo() {
+      return sortInfo;
+    },
+    tableInfo() {
+      return tableInfo;
+    },
+    searchInfo() {
+      return searchInfo;
+    },
+  },
+
   methods: {
+    async initData() {
+      await getUsers()
+        .then((data) => {
+          this.usersList = data;
+        })
+        .finally(() => {
+          this.isLoading = false;
+        });
+      await getUserRoles().then((roles) => {
+        this.rolesList = roles;
+      });
+    },
+
+    initFilters() {
+      this.rolesList.forEach((role) => {
+        this.filters
+          .find((filter) => filter.id == "roleId")
+          .options.push({ id: role.id, title: role.title });
+      });
+    },
+
     modifiedUsersList() {
       let users = this.usersList.map((user) => {
         return {
@@ -130,17 +162,17 @@ export default {
           }
         });
 
-        if (this.search.value) {
-          const s = this.search;
+        if (this.search) {
+          const fields = this.searchInfo.fields;
           users = users.filter((user) => {
             let t = false;
-            s.fields.forEach((field) => {
+            fields.forEach((field) => {
               if (
                 user[field] &&
                 user[field]
                   .trim()
                   .toLowerCase()
-                  .includes(s.value.trim().toLowerCase())
+                  .includes(this.search.trim().toLowerCase())
               ) {
                 t = true;
                 return;
@@ -150,9 +182,9 @@ export default {
           });
         }
 
-        if (this.sort.value !== "default") {
-          const value = this.sort.value.split(":")[0];
-          const direction = this.sort.value.split(":")[1];
+        if (this.sort !== "default") {
+          const value = this.sort.split(":")[0];
+          const direction = this.sort.split(":")[1];
           users.sort((o1, o2) => {
             if (o1[value] > o2[value]) return direction == "asc" ? 1 : -1;
             if (o1[value] < o2[value]) return direction == "asc" ? -1 : 1;
@@ -182,27 +214,6 @@ export default {
       }
 
       return users;
-    },
-
-    async initData() {
-      await getUsers(this.filters)
-        .then((data) => {
-          this.usersList = data;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
-      await getUserRoles().then((roles) => {
-        this.rolesList = roles;
-      });
-    },
-
-    initFilters() {
-      this.rolesList.forEach((role) => {
-        this.filters
-          .find((filter) => filter.id == "roleId")
-          .options.push({ id: role.id, title: role.title });
-      });
     },
 
     addUser() {

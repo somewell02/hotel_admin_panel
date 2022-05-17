@@ -12,6 +12,10 @@
         <users-icon />
         {{ $t("user.nav") }}
       </router-link-icon>
+      <router-link-icon :to="{ name: 'rooms' }">
+        <rooms-icon />
+        {{ $t("room.nav") }}
+      </router-link-icon>
     </nav>
   </div>
 </template>

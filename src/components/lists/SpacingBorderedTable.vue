@@ -1,5 +1,5 @@
 <template>
-  <div class="users_list">
+  <div class="spacing_bordered_table">
     <div class="titles">
       <div
         v-for="title in titles"
@@ -121,7 +121,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.users_list {
+.spacing_bordered_table {
   font-size: 14px;
   font-weight: 400;
   .titles {
