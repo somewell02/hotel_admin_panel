@@ -215,8 +215,7 @@ export default {
 
     async deleteUser(user) {
       const popupResult = await this.$refs.deleteConfirmation.open(
-        "Подтверждение",
-        `Удалить пользователя: ${user.name} ?`
+        this.$t("user.delete") + ": " + user.name + "?"
       );
       if (popupResult) {
         const res = deleteUser(user.id);

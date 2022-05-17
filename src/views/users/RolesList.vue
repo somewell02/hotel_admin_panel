@@ -67,6 +67,7 @@ export default {
         title: "",
         id: "",
         staff: false,
+        isDeleted: true,
         permissions: [],
         color: "#000000",
       },
@@ -108,11 +109,7 @@ export default {
             this.$refs.alert.open("success", this.$t("role.alerts.added"));
           })
           .finally(() => {
-            this.role.title = "";
-            this.role.id = "";
-            this.role.staff = false;
-            this.role.permissions = [];
-            this.role.color = "#000000";
+            this.resetRole();
           });
       }
     },
@@ -127,13 +124,18 @@ export default {
 
     deleteRole(role) {
       getUsersByRole(role.id).then(async (data) => {
-        if (data.length > 0) {
+        if (!role.isDeleted) {
+          this.$refs.alert.open(
+            "error",
+            this.$t("role.alerts.cannotBeDeleted")
+          );
+          return;
+        } else if (data.length > 0) {
           this.$refs.alert.open("error", this.$t("role.alerts.usersExist"));
           return;
         } else {
           const popupResult = await this.$refs.deleteConfirmation.open(
-            "Подтверждение",
-            `Удалить должность: ${role.id} ?`
+            this.$t("role.delete") + ": " + role.id + "?"
           );
           if (popupResult) {
             const res = deleteUserRole(role.id);
@@ -156,13 +158,18 @@ export default {
     },
 
     backToAdd() {
+      this.resetRole();
+      this.$router.push({ name: "roles" });
+    },
+
+    resetRole() {
       this.isEdit = false;
       this.role.title = "";
       this.role.id = "";
       this.role.staff = false;
+      this.role.isDeleted = true;
       this.role.permissions = [];
       this.role.color = "#000000";
-      this.$router.push({ name: "roles" });
     },
   },
 };

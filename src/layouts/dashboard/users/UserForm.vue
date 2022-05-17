@@ -71,12 +71,25 @@ export default {
     },
 
     validate() {
-      const pattern = /^[^ ]+@gmail.com$/;
+      const emailPattern = /^[^ ]+@gmail.com$/;
+      const phonePattern =
+        /^(\+7|7|8)?[\s-]?\(?[489][0-9]{2}\)?[\s-]?[0-9]{3}[\s-]?[0-9]{2}[\s-]?[0-9]{2}$/;
+
       if (!this.user.phone.trim() && !this.user.email.trim()) {
         this.$refs.alert.open("error", this.$t("user.alerts.needPhoneOrEmail"));
         return false;
       }
-      if (this.user.email.trim() && !this.user.email.trim().match(pattern)) {
+      if (
+        this.user.phone.trim() &&
+        !this.user.phone.trim().match(phonePattern)
+      ) {
+        this.$refs.alert.open("error", this.$t("user.alerts.incorrectPhone"));
+        return false;
+      }
+      if (
+        this.user.email.trim() &&
+        !this.user.email.trim().match(emailPattern)
+      ) {
         this.$refs.alert.open("error", this.$t("user.alerts.incorrectGmail"));
         return false;
       }

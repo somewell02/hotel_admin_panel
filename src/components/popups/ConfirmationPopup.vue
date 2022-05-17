@@ -49,7 +49,7 @@ export default {
   popupController: null,
 
   methods: {
-    open(title, subtitle) {
+    open(subtitle, title) {
       let resolve;
       let reject;
       const popupPromise = new Promise((ok, fail) => {
