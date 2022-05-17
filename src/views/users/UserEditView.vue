@@ -37,10 +37,7 @@
       <div class="user_edit_content">
         <router-view />
       </div>
-      <confirmation-popup
-        ref="deleteConfirmation"
-        :popupSubtitle="'Удалить пользователя: ' + user.name + '?'"
-      />
+      <confirmation-popup ref="deleteConfirmation" />
     </div>
     <message-alert ref="alert"></message-alert>
   </main>
@@ -105,7 +102,10 @@ export default {
     },
 
     async deleteUser() {
-      const popupResult = await this.$refs.deleteConfirmation.open();
+      const popupResult = await this.$refs.deleteConfirmation.open(
+        "Подтверждение",
+        `Удалить пользователя: ${this.user.name} ?`
+      );
       if (popupResult) {
         deleteUser(this.userId);
         this.$router.push({

@@ -55,6 +55,15 @@ export const getUsers2 = async () => {
   return users;
 };
 
+export const getUsersByRole = async (roleId) => {
+  const res = await usersCollection.where("role", "==", roleId).get();
+  const users = res.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+  return users;
+};
+
 export const getUserById = async (id) => {
   const res = await usersCollection.doc(id).get();
   return res.exists ? res.data() : null;

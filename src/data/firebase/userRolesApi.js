@@ -27,3 +27,27 @@ export const subscribeUserRoles = async () => {
     resolve(roles);
   });
 };
+
+export const getUserRoleById = async (id) => {
+  const res = await rolesCollection.doc(id).get();
+  return res.exists ? { id: res.id, ...res.data() } : null;
+};
+
+export const addUserRole = async (role) => {
+  const data = { ...role };
+  delete data.id;
+  const res = await rolesCollection.doc(role.id).set(role);
+  return res ?? null;
+};
+
+export const updateUserRole = async (role) => {
+  const data = { ...role };
+  delete data.id;
+  const res = await rolesCollection.doc(role.id).update(data);
+  return res ?? null;
+};
+
+export const deleteUserRole = (id) => {
+  const res = rolesCollection.doc(id).delete();
+  return res ?? null;
+};

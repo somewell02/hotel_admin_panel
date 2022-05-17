@@ -56,12 +56,21 @@
   "role": {
     "nav": "Roles",
     "add": "Add a role",
+    "edit": "Edit a role",
     "fields": {
       "title": "Title",
       "id": "ID",
       "staff": "Staff",
       "permissions": "Permissions",
       "color": "Color"
-    }
+    },
+    "alerts": {
+      "added": "Role successfully added",
+      "deleted": "Role successfully deleted",
+      "updated": "Role successfully updated",
+      "requiredFileds": "ID and title are required",
+      "alreadyExists": "The roole with the entered ID already exists",
+      "usersExist": "There are users with the selected role. Before deleting, change their role or delete them."
+    } 
   }
 }

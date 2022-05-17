@@ -39,6 +39,12 @@ const routes = [
             meta: { title: i18n.global.t("role.nav") },
             component: () => import("../views/users/RolesList.vue"),
           },
+          {
+            path: "roles/edit/:id",
+            name: "roleEdit",
+            meta: { title: i18n.global.t("role.nav") },
+            component: () => import("../views/users/RolesList.vue"),
+          },
         ],
       },
       {

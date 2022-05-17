@@ -6,12 +6,23 @@
       :placeholder="$t('role.fields.title')"
     />
     <text-input
+      v-if="!isEdit"
       v-model="role.id"
       class="role_form_input"
       :placeholder="$t('role.fields.id')"
     />
-    isStaff<br />
-    Permissions <br />
+    <div class="role_form_input staff_input">
+      {{ $t("role.fields.staff") }}
+      <true-false-switch v-model="role.staff" />
+    </div>
+    <div class="role_form_input permissions_input">
+      {{ $t("role.fields.permissions") }}
+      <checkbox-list
+        class="permissions_list"
+        v-model="role.permissions"
+        :options="permissions"
+      />
+    </div>
     <color-input
       v-model="role.color"
       class="role_form_input"
@@ -23,23 +34,43 @@
 
 <script>
 import ColorInput from "@/components/inputs/ColorInput";
+import TrueFalseSwitch from "@/components/inputs/TrueFalseSwitch.vue";
+import CheckboxList from "@/components/inputs/CheckboxList";
 
 export default {
   data() {
     return {
       role: this.modelValue,
+      type: null,
+      permissions: [
+        { id: "admin" },
+        { id: "guest" },
+        { id: "chat" },
+        { id: "stat" },
+      ],
     };
   },
 
   props: {
+    roles: {
+      type: Array,
+      required: true,
+    },
     modelValue: {
       type: Object,
       required: true,
+    },
+    isEdit: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
 
   components: {
     ColorInput,
+    TrueFalseSwitch,
+    CheckboxList,
   },
 
   async created() {
@@ -54,18 +85,13 @@ export default {
     },
 
     validate() {
-      const pattern = /^[^ ]+@gmail.com$/;
-      if (!this.role.phone.trim() && !this.role.email.trim()) {
-        this.$refs.alert.open("error", this.$t("role.alerts.needPhoneOrEmail"));
+      if (!this.role.id || !this.role.title) {
+        this.$refs.alert.open("error", this.$t("role.alerts.requiredFileds"));
         return false;
       }
-      if (this.role.email.trim() && !this.role.email.trim().match(pattern)) {
-        this.$refs.alert.open("error", this.$t("role.alerts.incorrectGmail"));
+      if (!this.isEdit && this.roles.includes(this.role.id.trim())) {
+        this.$refs.alert.open("error", this.$t("role.alerts.alreadyExists"));
         return false;
-      }
-      if (this.role.role != this.role && this.role.role == "admin") {
-        //this.$refs.alert.open("information", "Нужно подтверждение");
-        //return false;
       }
       return true;
     },
@@ -78,6 +104,17 @@ export default {
   .role_form_input {
     &:not(:first-child) {
       margin-top: 20px;
+    }
+    &.staff_input {
+      @include flex-between;
+      font-size: 15px;
+    }
+    &.permissions_input {
+      font-size: 15px;
+      .permissions_list {
+        margin-top: 10px;
+        max-height: 100px;
+      }
     }
   }
 }

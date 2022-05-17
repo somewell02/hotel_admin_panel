@@ -1,7 +1,7 @@
 <template>
   <popup-wrap v-model="isOpen">
-    <h5>{{ popupTitle ?? $t("popups.confirmation.title") }}</h5>
-    <div class="subtitle" v-if="popupSubtitle">{{ popupSubtitle }}</div>
+    <h5>{{ title ?? $t("popups.confirmation.title") }}</h5>
+    <div class="subtitle" v-if="subtitle">{{ subtitle }}</div>
     <div class="actions">
       <filled-button @click="close">
         {{ cancelText ?? $t("popups.confirmation.cancel") }}
@@ -22,6 +22,8 @@ export default {
   data() {
     return {
       isOpen: false,
+      title: this.popupTitle,
+      subtitle: this.popupSubtitle,
     };
   },
 
@@ -47,7 +49,7 @@ export default {
   popupController: null,
 
   methods: {
-    open() {
+    open(title, subtitle) {
       let resolve;
       let reject;
       const popupPromise = new Promise((ok, fail) => {
@@ -56,6 +58,8 @@ export default {
       });
 
       this.$options.popupController = { resolve, reject };
+      if (title) this.title = title;
+      if (subtitle) this.subtitle = subtitle;
       this.isOpen = true;
 
       return popupPromise;

@@ -63,12 +63,12 @@
           <eye-icon
             v-if="actions.includes('view')"
             class="action_btn"
-            @click="this.$emit('view', row.id)"
+            @click="this.$emit('view', row)"
           />
           <edit-icon
             v-if="actions.includes('edit')"
             class="action_btn"
-            @click="this.$emit('edit', row.id)"
+            @click="this.$emit('edit', row)"
           />
           <delete-icon
             v-if="actions.includes('delete')"

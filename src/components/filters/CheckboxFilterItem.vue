@@ -12,7 +12,6 @@
           v-for="option in filter.options"
           :key="option.id"
           @click="selectOption(option)"
-          :class="{ active: option.id === modelValue }"
         >
           <div class="checkbox">
             <check-icon v-if="this.modelValue.includes(option.id)" />
@@ -29,6 +28,11 @@ import CheckIcon from "@/assets/img/icons/CheckIcon";
 import BorderedFilterItemWrap from "./BorderedFilterItemWrap";
 
 export default {
+  data() {
+    return {
+      values: this.modelValue,
+    };
+  },
   components: {
     CheckIcon,
     BorderedFilterItemWrap,

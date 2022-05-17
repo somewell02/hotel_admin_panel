@@ -22,7 +22,7 @@
       :titles="table.titles"
       :rows="modifiedUsersList()"
       :actions="table.actions"
-      @edit="(userId) => editUser(userId)"
+      @edit="(user) => editUser(user.id)"
       @delete="(user) => deleteUser(user)"
     />
     <div class="pagination_wrap">
@@ -34,7 +34,7 @@
     </div>
   </div>
   <message-alert ref="alert"></message-alert>
-  <confirmation-popup ref="deleteConfirmation" :popupSubtitle="popupText" />
+  <confirmation-popup ref="deleteConfirmation" />
 </template>
 
 <script>
@@ -63,7 +63,6 @@ export default {
       usersList: null,
       rolesList: null,
       isLoading: true,
-      popupText: "",
       search: search,
       table: table,
       sort: sort,
@@ -215,8 +214,10 @@ export default {
     },
 
     async deleteUser(user) {
-      this.popupText = "Удалить пользователя: " + user.name + "?";
-      const popupResult = await this.$refs.deleteConfirmation.open();
+      const popupResult = await this.$refs.deleteConfirmation.open(
+        "Подтверждение",
+        `Удалить пользователя: ${user.name} ?`
+      );
       if (popupResult) {
         const res = deleteUser(user.id);
         if (res) {
