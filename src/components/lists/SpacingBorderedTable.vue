@@ -40,7 +40,10 @@
             class="content"
             :class="{ background: row[title.id] }"
             :style="{
-              background: row[title.id].background ?? 'none',
+              background: row[title.id].background
+                ? `#${row[title.id].background}`
+                : 'none',
+              color: isDark(row[title.id].background) ? 'white' : 'black',
             }"
           >
             {{ row[title.id] ? row[title.id].title : "-" }}
@@ -55,7 +58,7 @@
             v-else-if="title.type == 'color'"
             class="content color"
             :style="{
-              background: row[title.id],
+              background: `#${row[title.id]}`,
             }"
           ></div>
         </div>
@@ -85,6 +88,8 @@
 import EditIcon from "@/assets/img/icons/EditIcon";
 import DeleteIcon from "@/assets/img/icons/DeleteIcon";
 import EyeIcon from "@/assets/img/icons/EyeIcon";
+
+import { isDark } from "@/services/methods/color";
 
 export default {
   components: {
@@ -116,6 +121,12 @@ export default {
     view: null,
     edit: null,
     delete: null,
+  },
+
+  methods: {
+    isDark(color) {
+      return isDark(color);
+    },
   },
 };
 </script>

@@ -2,6 +2,10 @@ import i18n from "@/i18n";
 
 export const structureInfo = {
   imgId: "",
+  imgInfo: {
+    left: [{ id: "num" }],
+    right: [{ id: "type" }],
+  },
   info: {
     left: [{ id: "name", type: "title" }],
     right: [

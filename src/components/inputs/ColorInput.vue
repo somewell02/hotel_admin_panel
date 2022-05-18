@@ -6,7 +6,10 @@
       :value="modelValue"
       @input="updateInput"
     />
-    <div class="color_btn" :style="{ background: modelValue ?? 'none' }"></div>
+    <div
+      class="color_btn"
+      :style="{ background: modelValue ? `#${modelValue}` : 'none' }"
+    ></div>
   </div>
 </template>
 
@@ -41,8 +44,22 @@ export default {
 <style lang="scss" scoped>
 .color_input {
   position: relative;
+  &:before {
+    content: "#";
+    position: absolute;
+    line-height: 1;
+    left: 20px;
+    top: 13px;
+    top: calc(50% - 7px);
+    color: var(--secondary-color);
+  }
   input {
     padding-right: 100px;
+    padding-left: 37px;
+    &:focus {
+      padding-right: 99px;
+      padding-left: 36px;
+    }
   }
   .color_btn {
     position: absolute;

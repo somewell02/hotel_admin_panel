@@ -69,7 +69,7 @@ export default {
         staff: false,
         isDeleted: true,
         permissions: [],
-        color: "#000000",
+        color: "000000",
       },
     };
   },
@@ -169,7 +169,7 @@ export default {
       this.role.staff = false;
       this.role.isDeleted = true;
       this.role.permissions = [];
-      this.role.color = "#000000";
+      this.role.color = "000000";
     },
   },
 };

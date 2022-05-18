@@ -1,7 +1,7 @@
 <template>
   <div class="actions">
     <search-input v-model="search.value" />
-    <filled-button @click="addRoom">{{ $t("add") }}</filled-button>
+    <filled-button>{{ $t("add") }}</filled-button>
   </div>
   <div class="tabs_content_wrap">
     <image-card-list
@@ -21,6 +21,7 @@ import ImageCardList from "@/components/lists/ImageCardList";
 import { structureInfo } from "./roomConstants";
 
 import { getRooms } from "@/data/firebase/roomsApi";
+import { getRoomTypes } from "@/data/firebase/roomTypesApi";
 
 export default {
   components: {
@@ -31,6 +32,7 @@ export default {
   data() {
     return {
       roomsList: null,
+      typesList: null,
       isLoading: true,
       search: "",
     };
@@ -55,6 +57,9 @@ export default {
         .finally(() => {
           this.isLoading = false;
         });
+      await getRoomTypes().then((types) => {
+        this.typesList = types;
+      });
     },
 
     modifiedRoomsList() {
@@ -63,6 +68,24 @@ export default {
           ...room,
         };
       });
+
+      if (rooms && this.typesList) {
+        rooms.forEach((room) => {
+          room.num = {
+            title: room.id,
+            background: "ffffff",
+          };
+          const roomType = this.typesList.find((type) => type.id == room.type);
+          if (roomType) {
+            room.typeId = roomType.id;
+            room.type = {
+              title: roomType.title,
+              background: roomType.color,
+            };
+          }
+        });
+      }
+
       return rooms;
     },
   },

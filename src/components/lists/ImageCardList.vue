@@ -3,12 +3,53 @@
     <div class="card_item" v-for="item in list" :key="item.id">
       <div class="img_wrap">
         <img src="@/assets/img/room.png" alt="img" />
+        <div class="info_side left_info">
+          <div
+            v-for="info in structure.imgInfo.left"
+            :key="info.id"
+            class="info_item_wrap"
+          >
+            <div
+              class="info_item"
+              v-if="item[info.id]"
+              :style="{
+                background: item[info.id].background
+                  ? `#${item[info.id].background}`
+                  : 'none',
+                color: isDark(item[info.id].background) ? 'white' : 'black',
+              }"
+            >
+              {{ item[info.id].title }}
+            </div>
+          </div>
+        </div>
+        <div class="info_side right_info">
+          <div
+            v-for="info in structure.imgInfo.right"
+            :key="info.id"
+            class="info_item_wrap"
+          >
+            <div
+              class="info_item"
+              v-if="item[info.id]"
+              :style="{
+                background: item[info.id].background
+                  ? `#${item[info.id].background}`
+                  : 'none',
+                color: isDark(item[info.id].background) ? 'white' : 'black',
+              }"
+            >
+              {{ item[info.id].title }}
+            </div>
+          </div>
+        </div>
       </div>
       <div class="info_wrap">
-        <div class="info_item left_info">
+        <div class="info_side left_info">
           <div
             v-for="info in structure.info.left"
             :key="info.id"
+            class="info_item"
             :class="info.type ?? 'string'"
           >
             <template v-if="!info.type || info.type == 'title'">
@@ -16,10 +57,11 @@
             </template>
           </div>
         </div>
-        <div class="info_item right_info">
+        <div class="info_side right_info">
           <div
             v-for="info in structure.info.right"
             :key="info.id"
+            class="info_item"
             :class="info.type ?? 'string'"
           >
             <template v-if="!info.type">
@@ -29,12 +71,7 @@
               {{ item[info.id] + " " + info.unit }}
             </template>
             <template v-else-if="info.type == 'rating'">
-              <star-icon
-                v-for="index in item[info.id]"
-                :key="index"
-                class="fill"
-              />
-              <star-icon v-for="index in 5 - item[info.id]" :key="index" />
+              <stars-rating :rating="item[info.id]" />
             </template>
           </div>
         </div>
@@ -59,10 +96,11 @@
 </template>
 
 <script>
-import StarIcon from "@/assets/img/icons/StarIcon.vue";
+import StarsRating from "@/components/other/StarsRating.vue";
+import { isDark } from "@/services/methods/color";
 
 export default {
-  components: { StarIcon },
+  components: { StarsRating },
   props: {
     type: {
       type: Number,
@@ -80,6 +118,12 @@ export default {
     list: {
       type: Array,
       requried: true,
+    },
+  },
+
+  methods: {
+    isDark(color) {
+      return isDark(color);
     },
   },
 };
@@ -104,6 +148,33 @@ export default {
       img {
         border-radius: 5px 5px 0 0;
       }
+      .info_side {
+        position: absolute;
+        top: 15px;
+        display: flex;
+        flex-direction: column;
+        &.left_info {
+          left: 15px;
+        }
+        &.right_info {
+          right: 15px;
+        }
+        .info_item_wrap {
+          display: flex;
+          &:not(:last-child) {
+            margin-bottom: 8px;
+          }
+          .info_item {
+            @include flex-center;
+            width: 100%;
+            min-width: 60px;
+            padding: 3px 10px;
+            font-size: 9px;
+            font-weight: 500;
+            border-radius: 4px;
+          }
+        }
+      }
     }
     .info_wrap {
       display: flex;
@@ -118,7 +189,7 @@ export default {
         flex: 0 0 auto;
         margin-left: 20px;
       }
-      .info_item {
+      .info_side {
         & > *:not(:last-child) {
           margin-bottom: 7px;
         }
@@ -131,14 +202,6 @@ export default {
           font-size: 12px;
           line-height: 1;
           font-weight: 500;
-        }
-        .rating {
-          display: flex;
-          .star_icon {
-            &:not(:last-child) {
-              margin-right: 3px;
-            }
-          }
         }
       }
     }
