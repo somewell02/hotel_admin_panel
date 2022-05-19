@@ -1,10 +1,12 @@
 const userModule = {
   state: () => ({
-    isAuth: false,
-    role: "",
-    password: "",
+    user: null,
   }),
-  mutations: {},
+  mutations: {
+    setUser(state, user) {
+      state.user = user;
+    },
+  },
   actions: {},
   namespaced: true,
 };

@@ -8,7 +8,7 @@ import { roomsRoutes } from "./roomsRoutes";
 const routes = [
   {
     path: "/",
-    redirect: { name: "main" },
+    redirect: { name: "authorization" },
   },
   {
     path: "/auth",
@@ -18,6 +18,7 @@ const routes = [
   {
     path: "/dashboard",
     component: DashboardLayout,
+    name: "dashboard",
     redirect: { name: "main" },
     children: [
       {

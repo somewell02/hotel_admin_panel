@@ -17,9 +17,9 @@
           placeholder="Password"
         />
         <filled-button @click="auth"> Войти </filled-button>
-        <div v-if="error" class="error_message">Неверный логин или пароль</div>
       </div>
     </bordered-div>
+    <message-alert ref="alert"></message-alert>
   </center-layout>
 </template>
 
@@ -34,7 +34,6 @@ export default {
     return {
       login: "",
       password: "",
-      error: false,
     };
   },
 
@@ -45,13 +44,29 @@ export default {
 
   methods: {
     async auth() {
-      const user = await getAuth(this.login, this.password);
-      if (user === true) {
-        // localStorage.setItem("isAuth", true);
-        // this.$router.push("/dashboard");
-        this.errer = false;
+      if (!this.login || !this.password) {
+        this.$refs.alert.open("error", "Введите email и пароль");
       } else {
-        this.error = true;
+        const res = await getAuth(this.login, this.password);
+        if (res === "auth/invalid-email") {
+          this.$refs.alert.open(
+            "error",
+            "Электронная почта введена некорректно"
+          );
+        } else if (res === "auth/user-not-found") {
+          this.$refs.alert.open(
+            "error",
+            "Пользователя с введеной почтой не существует"
+          );
+        } else if (res === "auth/wrong-password") {
+          this.$refs.alert.open("error", "Неверный пароль");
+        } else if (res === "no-access") {
+          this.$refs.alert.open("error", "Доступ запрещен");
+        } else if (res == "access") {
+          this.$router.push({ name: "dashboard" });
+        } else {
+          this.$refs.alert.open("error", "Ошибка входа");
+        }
       }
     },
   },

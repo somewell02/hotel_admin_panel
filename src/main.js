@@ -3,6 +3,7 @@ import App from "./App.vue";
 
 import router from "./router/router";
 import store from "./data/store/vuex";
+import { getAuthUser } from "@/data/firebase/auth";
 
 import DefaultComponents from "./components/default";
 import Images from "./assets/img/img";
@@ -27,3 +28,5 @@ Directives.forEach((directive) => {
 });
 
 app.use(store).use(router).use(i18n).mount("#app");
+
+getAuthUser();
