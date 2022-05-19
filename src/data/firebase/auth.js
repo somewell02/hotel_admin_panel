@@ -9,17 +9,18 @@ export const getAuthUser = () => {
   auth.onAuthStateChanged((user) => {
     if (user) {
       isStaff(user.uid)
-        .then((staff) => {
-          if (staff) {
+        .then((role) => {
+          if (role.staff) {
             getUserById(user.uid).then((data) => {
+              data.role = role;
               store.commit("user/setUser", data);
             });
-            router.push({ name: "main" });
+            if (router.currentRoute.value.name == "authorization") {
+              router.push({ name: "main" });
+            }
           } else {
             logout();
-            router.push({
-              name: "authorization",
-            });
+            router.push({ name: "authorization" });
           }
         })
         .catch((error) => {
@@ -37,8 +38,8 @@ export const getAuth = async (email, password) => {
     .signInWithEmailAndPassword(email, password)
     .then((data) => {
       const access = isStaff(data.user.uid)
-        .then((staff) => {
-          if (staff) {
+        .then((role) => {
+          if (role.staff) {
             return "access";
           } else {
             return "no-access";
@@ -71,7 +72,7 @@ export const isStaff = async (uid) => {
   const user = await getUserById(uid);
   if (user) {
     const role = await getUserRoleById(user.role);
-    if (role) return role.staff;
+    if (role) return role;
     else return false;
   } else return false;
 };

@@ -2,7 +2,7 @@
   <center-layout class="auth_page_wrap">
     <bordered-div class="auth_container container">
       <main-logo class="main_logo" />
-      <h1>Авторизация</h1>
+      <h1>{{ $t("auth.title") }}</h1>
       <div class="auth_form">
         <text-input
           v-model="login"
@@ -16,7 +16,7 @@
           id="password"
           placeholder="Password"
         />
-        <filled-button @click="auth"> Войти </filled-button>
+        <filled-button @click="auth"> {{ $t("auth.login") }} </filled-button>
       </div>
     </bordered-div>
     <message-alert ref="alert"></message-alert>
@@ -45,27 +45,21 @@ export default {
   methods: {
     async auth() {
       if (!this.login || !this.password) {
-        this.$refs.alert.open("error", "Введите email и пароль");
+        this.$refs.alert.open("error", this.$t("auth.errors.emptyFields"));
       } else {
         const res = await getAuth(this.login, this.password);
         if (res === "auth/invalid-email") {
-          this.$refs.alert.open(
-            "error",
-            "Электронная почта введена некорректно"
-          );
+          this.$refs.alert.open("error", this.$t("auth.errors.invalidEmail"));
         } else if (res === "auth/user-not-found") {
-          this.$refs.alert.open(
-            "error",
-            "Пользователя с введеной почтой не существует"
-          );
+          this.$refs.alert.open("error", this.$t("auth.errors.userNotFound"));
         } else if (res === "auth/wrong-password") {
-          this.$refs.alert.open("error", "Неверный пароль");
+          this.$refs.alert.open("error", this.$t("auth.errors.wrongPassword"));
         } else if (res === "no-access") {
-          this.$refs.alert.open("error", "Доступ запрещен");
+          this.$refs.alert.open("error", this.$t("auth.errors.noAccess"));
         } else if (res == "access") {
           this.$router.push({ name: "dashboard" });
         } else {
-          this.$refs.alert.open("error", "Ошибка входа");
+          this.$refs.alert.open("error", this.$t("auth.errors.authError"));
         }
       }
     },

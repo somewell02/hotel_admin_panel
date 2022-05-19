@@ -6,15 +6,22 @@
     <div class="info_wrap">
       <language-switcher class="header_language_switcher" />
       <div class="profile">
-        <img
-          src="@/assets/img/avatar.svg"
-          alt="avatar"
-          class="avatar"
-          @click="logout"
-        />
+        <img src="@/assets/img/avatar.svg" alt="avatar" class="avatar" />
         <div class="profile_info">
-          <p class="name">Самвел</p>
-          <p class="role">Администратор</p>
+          <p class="name">
+            {{
+              this.$store.state.user.user
+                ? this.$store.state.user.user.name
+                : ""
+            }}
+          </p>
+          <p class="role">
+            {{
+              this.$store.state.user.user
+                ? this.$store.state.user.user.role.title
+                : ""
+            }}
+          </p>
         </div>
       </div>
     </div>
@@ -23,17 +30,10 @@
 
 <script>
 import LanguageSwitcher from "@/components/dropdowns/LanguageSwitcher.vue";
-import { logout } from "@/data/firebase/auth";
 
 export default {
   components: {
     LanguageSwitcher,
-  },
-
-  methods: {
-    logout() {
-      logout();
-    },
   },
 };
 </script>

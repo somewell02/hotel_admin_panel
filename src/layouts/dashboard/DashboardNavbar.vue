@@ -16,16 +16,36 @@
         <rooms-icon />
         {{ $t("room.nav") }}
       </router-link-icon>
+      <router-link-icon :to="{ name: 'chat' }">
+        <chat-icon />
+        {{ $t("chat.nav") }}
+      </router-link-icon>
+      <icon-button @click="logout">
+        <logout-icon />
+        {{ $t("auth.logout") }}
+      </icon-button>
     </nav>
   </div>
 </template>
 
 <script>
 import RouterLinkIcon from "@/components/buttons/RouterLinkIcon";
+import IconButton from "@/components/buttons/IconButton";
+import LogoutIcon from "@/assets/img/icons/LogoutIcon";
+
+import { logout } from "@/data/firebase/auth";
 
 export default {
   components: {
     RouterLinkIcon,
+    IconButton,
+    LogoutIcon,
+  },
+
+  methods: {
+    logout() {
+      logout();
+    },
   },
 };
 </script>

@@ -11,6 +11,19 @@
   "reset": "Clear",
   "sorting": "Sorting",
   "default": "Default",
+  "auth": {
+    "title": "Authorization",
+    "login": "Login",
+    "logout": "Logout",
+    "errors": {
+      "emptyFields": "Enter your email and password",
+      "invalidEmail": "Email entered incorrectly",
+      "userNotFound": "The user with the entered mail does not exist",
+      "wrongPassword": "Wrong password",
+      "noAccess": "Access denied",
+      "authError": "Login error"
+    }
+  },
   "pagination": {
     "prev": "Previous",
     "next": "Next"
@@ -77,5 +90,11 @@
       "cannotBeDeleted": "The selected role is not available for deletion",
       "usersExist": "There are users with the selected role. Before deleting, change their role or delete them."
     } 
+  },
+  "room": {
+    "nav": "Rooms"
+  },
+  "chat": {
+    "nav": "Messages"
   }
 }
