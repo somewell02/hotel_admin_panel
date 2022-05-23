@@ -150,7 +150,7 @@ export default {
       }
       &:hover,
       &.active {
-        background: var(--border-color);
+        background: var(--hover-color);
       }
     }
   }

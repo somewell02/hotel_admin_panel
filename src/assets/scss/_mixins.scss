@@ -15,6 +15,7 @@
   $thumb-color: var(--secondary-color),
   $width: 4px,
 ) {
+  overflow-y: auto;
   &::-webkit-scrollbar {
     width: $width;
   }

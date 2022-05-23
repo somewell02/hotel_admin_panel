@@ -35,16 +35,17 @@ export default {
     padding: 40px 40px 0 40px;
     height: 100vh;
     overflow-y: auto;
-    @include custom-scroll(#ececec, #8c8c8c);
   }
   .dashboard_navbar {
     width: 100%;
     max-width: 280px;
     border: solid var(--border-color);
     border-width: 0 1px 0 0;
+    @include custom-scroll();
   }
   .dashboard_wrapper {
     flex-grow: 3;
+    @include custom-scroll(#ececec, #8c8c8c);
   }
 }
 </style>

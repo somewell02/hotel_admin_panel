@@ -95,6 +95,20 @@
     "nav": "Rooms"
   },
   "chat": {
-    "nav": "Messages"
+    "nav": "Messages",
+    "send": "Send",
+    "placeholder": "Enter a message...",
+    "open": "Open",
+    "complete": "Complete",
+    "status": {
+      "default": "Inactive",
+      "active": "Active",
+      "processing": "In processing"
+    },
+    "tab": {
+      "all": "All",
+      "active": "Active",
+      "processing": "In processing"
+    }
   }
 }

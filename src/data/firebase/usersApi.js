@@ -66,7 +66,12 @@ export const getUsersByRole = async (roleId) => {
 
 export const getUserById = async (id) => {
   const res = await usersCollection.doc(id).get();
-  return res.exists ? res.data() : null;
+  if (res.exists) {
+    return {
+      id: id,
+      ...res.data(),
+    };
+  } else return null;
 };
 
 export const addUser = async (user) => {

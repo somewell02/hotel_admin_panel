@@ -110,7 +110,7 @@ export default {
     border-radius: 0 0 5px 5px;
   }
   &:hover {
-    background: var(--border-color);
+    background: var(--hover-color);
   }
   .checkbox {
     width: 16px;
