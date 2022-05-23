@@ -27,6 +27,12 @@
               <bookings-icon />
               {{ $t("user.edit.nav.visits") }}
             </router-link-icon>
+            <router-link-icon
+              :to="{ name: 'currentChat', params: { id: userId } }"
+            >
+              <chat-icon />
+              {{ $t("user.edit.nav.goToChat") }}
+            </router-link-icon>
             <icon-button @click="deleteUser">
               <delete-icon />
               {{ $t("delete") }}
@@ -164,7 +170,7 @@ export default {
           margin-top: 15px;
         }
         .user_id {
-          font-size: 12px;
+          font-size: 11px;
           font-weight: 500;
           color: var(--secondary-color);
           margin-top: 10px;

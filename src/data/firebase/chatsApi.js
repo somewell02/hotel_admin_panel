@@ -36,6 +36,22 @@ export const getChatById = async (id) => {
   return chat.exists ? chat.data() : null;
 };
 
+export const addChat = (id, chat) => {
+  const res = chatsCollection.doc(id).set(chat);
+  return res ?? null;
+};
+
+export const deleteChat = async (id) => {
+  const messagesCollection = chatsCollection.doc(id).collection("messages");
+
+  const snapshot = await messagesCollection.get();
+  snapshot.docs.forEach((message) => {
+    messagesCollection.doc(message.ref.id).delete();
+  });
+
+  return chatsCollection.doc(id).delete();
+};
+
 export const setProcessingStatus = (chatId, id) => {
   chatsCollection.doc(chatId).update({
     status: "processing",

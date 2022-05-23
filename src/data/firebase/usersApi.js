@@ -1,5 +1,6 @@
 import { ref, onUnmounted } from "vue";
 import { firestore } from "./firebase.js";
+import { addChat, deleteChat } from "./chatsApi";
 
 const usersCollection = firestore.collection("users");
 
@@ -76,6 +77,15 @@ export const getUserById = async (id) => {
 
 export const addUser = async (user) => {
   const res = await usersCollection.add(user);
+  await addChat(res.id, {
+    name: user.name,
+    recentMessage: {
+      sendAt: Date.now(),
+    },
+    status: "default",
+    uid: res.id,
+    userIds: [res.id],
+  });
   return res ?? null;
 };
 
@@ -88,5 +98,6 @@ export const updateUser = async (id, user) => {
 
 export const deleteUser = (id) => {
   const res = usersCollection.doc(id).delete();
+  deleteChat(id);
   if (res) return res;
 };

@@ -7,4 +7,10 @@ export const chatRoutes = [
     meta: { title: i18n.global.t("chat.nav") },
     component: () => import("../views/chat/ChatView.vue"),
   },
+  {
+    path: "chat?id=:id",
+    name: "currentChat",
+    meta: { title: i18n.global.t("chat.nav") },
+    component: () => import("../views/chat/ChatView.vue"),
+  },
 ];

@@ -133,11 +133,12 @@ export default {
     },
 
     initFilters() {
+      const filterRoles = [];
       this.rolesList.forEach((role) => {
-        this.filters
-          .find((filter) => filter.id == "roleId")
-          .options.push({ id: role.id, title: role.title });
+        filterRoles.push({ id: role.id, title: role.title });
       });
+      this.filters.find((filter) => filter.id == "roleId").options =
+        filterRoles;
     },
 
     modifiedUsersList() {

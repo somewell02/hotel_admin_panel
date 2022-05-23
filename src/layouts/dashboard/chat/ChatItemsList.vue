@@ -28,7 +28,11 @@
           </div>
         </div>
         <div class="recent_message">
-          {{ sliceWithEllipsis(chat.recentMessage.content, 30) }}
+          {{
+            chat.recentMessage.content
+              ? sliceWithEllipsis(chat.recentMessage.content, 30)
+              : ""
+          }}
         </div>
       </div>
     </div>
