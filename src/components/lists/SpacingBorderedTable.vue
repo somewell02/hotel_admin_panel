@@ -36,7 +36,7 @@
             {{ row[title.id] ? row[title.id] : "-" }}
           </div>
           <div
-            v-else-if="title.type == 'background'"
+            v-else-if="row[title.id] && title.type == 'background'"
             class="content"
             :class="{ background: row[title.id] }"
             :style="{
@@ -55,7 +55,7 @@
             {{ row[title.id].length > 0 ? row[title.id].join(", ") : "-" }}
           </div>
           <div
-            v-else-if="title.type == 'color'"
+            v-else-if="row[title.id] && title.type == 'color'"
             class="content color"
             :style="{
               background: `#${row[title.id]}`,

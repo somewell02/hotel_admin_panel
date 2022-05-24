@@ -1,10 +1,10 @@
 <template>
-  <preloader-spinner v-if="isLoading" />
   <div class="actions">
     <search-input v-model="search" />
     <filled-button @click="addUser">{{ $t("add") }}</filled-button>
   </div>
   <div class="tabs_content_wrap">
+    <preloader-spinner ref="preloader" />
     <div class="list_modifications">
       <bordered-filters :filters="filters" />
       <div class="sorts_wrap">
@@ -62,7 +62,6 @@ export default {
     return {
       usersList: null,
       rolesList: null,
-      isLoading: true,
       search: "",
       sort: "default",
       filters: filters,
@@ -82,10 +81,10 @@ export default {
   },
 
   watch: {
-    // usersList(v) {
-    //   console.log("list change: " + this.msToDate(Date.now()));
-    //   console.log(v);
-    // },
+    usersList(newValue, oldValue) {
+      if (oldValue && oldValue.length == 0 && newValue.length > 0)
+        this.$refs.preloader.hide();
+    },
     filters: {
       handler() {
         this.pagination.page = 1;
@@ -120,13 +119,9 @@ export default {
 
   methods: {
     async initData() {
-      await getUsers()
-        .then((data) => {
-          this.usersList = data;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
+      await getUsers().then((data) => {
+        this.usersList = data;
+      });
       await getUserRoles().then((roles) => {
         this.rolesList = roles;
       });
@@ -260,5 +255,6 @@ export default {
 }
 .tabs_content_wrap {
   padding-bottom: 40px;
+  position: relative;
 }
 </style>

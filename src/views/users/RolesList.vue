@@ -24,6 +24,7 @@
       </div>
     </div>
     <bordered-div class="roles_list_wrap">
+      <preloader-spinner ref="preloader" />
       <spacing-bordered-table
         class="roles_table"
         :type="2"
@@ -172,6 +173,13 @@ export default {
       this.role.color = "000000";
     },
   },
+
+  watch: {
+    rolesList(newValue, oldValue) {
+      if (oldValue && oldValue.length == 0 && newValue.length > 0)
+        this.$refs.preloader.hide();
+    },
+  },
 };
 </script>
 
@@ -202,6 +210,8 @@ export default {
   .roles_list_wrap {
     width: 65%;
     padding-top: 15px;
+    position: relative;
+    min-height: 70px;
   }
 }
 </style>

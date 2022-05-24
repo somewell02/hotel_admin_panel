@@ -23,6 +23,7 @@
       </nav>
       <search-input class="chat_search" v-model="search" />
       <div class="chat_tabs_content">
+        <preloader-spinner ref="preloader" />
         <chat-items-list
           v-if="filteredChats"
           :chats="filteredChats"
@@ -106,7 +107,10 @@ export default {
   },
 
   watch: {
-    chats() {
+    chats(newValue, oldValue) {
+      if (oldValue && oldValue.length == 0 && newValue.length > 0)
+        this.$refs.preloader.hide();
+
       const windowData = getGetParams();
       if (windowData["id"]) {
         this.currentChat = this.chats.find(
@@ -128,6 +132,7 @@ export default {
       margin-top: 20px;
     }
     .chat_tabs_content {
+      position: relative;
       height: calc(100vh - 231px);
       @include custom-scroll;
       margin-top: 10px;

@@ -4,6 +4,7 @@
     <filled-button>{{ $t("add") }}</filled-button>
   </div>
   <div class="tabs_content_wrap">
+    <preloader-spinner ref="preloader" />
     <image-card-list
       class="rooms_list"
       v-if="roomsList"
@@ -89,11 +90,19 @@ export default {
       return rooms;
     },
   },
+
+  watch: {
+    roomsList(newValue, oldValue) {
+      if (oldValue && oldValue.length == 0 && newValue.length > 0)
+        this.$refs.preloader.hide();
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .tabs_content_wrap {
   padding-bottom: 40px;
+  position: relative;
 }
 </style>
