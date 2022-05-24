@@ -7,6 +7,7 @@
   "delete": "Delete",
   "back": "Back",
   "backToList": "Back to list",
+  "of": "of",
   "search": "Search",
   "reset": "Clear",
   "sorting": "Sorting",
@@ -94,6 +95,16 @@
   },
   "room": {
     "nav": "Rooms"
+  },
+  "booking": {
+    "nav": "Bookings",
+    "fields": {
+      "dates": "Dates",
+      "status": "Status",
+      "roomId": "Room",
+      "roomClass": "Room type",
+      "totalPrice": "Total price"
+    }
   },
   "chat": {
     "nav": "Messages",

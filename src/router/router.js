@@ -5,6 +5,7 @@ import i18n from "@/i18n";
 import { usersRoutes } from "./usersRoutes";
 import { roomsRoutes } from "./roomsRoutes";
 import { chatRoutes } from "./chatRoutes";
+import { bookingsRoutes } from "./bookingsRoutes";
 
 const routes = [
   {
@@ -31,6 +32,7 @@ const routes = [
       ...usersRoutes,
       ...roomsRoutes,
       ...chatRoutes,
+      ...bookingsRoutes,
     ],
   },
 ];

@@ -48,10 +48,22 @@
           >
             {{ row[title.id] ? row[title.id].title : "-" }}
           </div>
-          <div v-else-if="title.type == 'bool'" class="content bool">
+          <div
+            v-else-if="row[title.id] && title.type == 'price'"
+            class="content string"
+          >
+            {{ row[title.id] ? row[title.id] + " " + title.unit : "-" }}
+          </div>
+          <div
+            v-else-if="row[title.id] && title.type == 'bool'"
+            class="content bool"
+          >
             {{ row[title.id] ? $t("yes") : $t("no") }}
           </div>
-          <div v-else-if="title.type == 'array'" class="content array">
+          <div
+            v-else-if="row[title.id] && title.type == 'array'"
+            class="content array"
+          >
             {{ row[title.id].length > 0 ? row[title.id].join(", ") : "-" }}
           </div>
           <div

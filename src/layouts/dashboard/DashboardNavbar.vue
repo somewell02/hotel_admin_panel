@@ -16,6 +16,10 @@
         <rooms-icon />
         {{ $t("room.nav") }}
       </router-link-icon>
+      <router-link-icon :to="{ name: 'bookings' }">
+        <bookings-icon />
+        {{ $t("booking.nav") }}
+      </router-link-icon>
       <router-link-icon :to="{ name: 'chat' }">
         <chat-icon />
         {{ $t("chat.nav") }}
