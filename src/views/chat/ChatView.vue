@@ -25,11 +25,12 @@
       <div class="chat_tabs_content">
         <preloader-spinner ref="preloader" />
         <chat-items-list
-          v-if="modifiedChats"
+          v-if="modifiedChats && modifiedChats.length > 0"
           :chats="modifiedChats"
           @select="(chat) => selectChat(chat)"
           :active="currentChat ? currentChat.id : ''"
         />
+        <div v-else class="no_records">{{ $t("chat.noRecords") }}</div>
       </div>
     </div>
     <bordered-div class="current_chat_wrap">
@@ -48,6 +49,8 @@ import ChatItemsList from "@/layouts/dashboard/chat/ChatItemsList.vue";
 import CurrentChat from "@/layouts/dashboard/chat/CurrentChat.vue";
 import { getChats } from "@/data/firebase/chatsApi.js";
 import { setGetParams, getGetParams } from "@/services/methods/urlGetParams";
+
+import { search } from "@/services/methods/list.js";
 
 export default {
   data() {
@@ -71,25 +74,30 @@ export default {
 
   computed: {
     modifiedChats() {
-      if (this.chats) {
+      if (this.chats && this.$store.state.user.user) {
         let chats = this.chats.map((chat) => {
           return {
             ...chat,
           };
         });
 
-        if (this.selectedTab !== "all") {
-          chats = chats.filter((chat) => chat.status === this.selectedTab);
+        switch (this.selectedTab) {
+          case "active":
+            chats = chats.filter((chat) => chat.status === this.selectedTab);
+            break;
+          case "processing":
+            chats = chats.filter(
+              (chat) =>
+                chat.status === this.selectedTab &&
+                chat.userIds.includes(this.$store.state.user.user.id)
+            );
+            break;
+          case "all":
+            break;
         }
 
-        if (this.search) {
-          chats = chats.filter((chat) =>
-            chat.name
-              .trim()
-              .toLowerCase()
-              .includes(this.search.trim().toLowerCase())
-          );
-        }
+        const searchInfo = { fields: ["name", "id"] };
+        if (this.search) chats = search(chats, searchInfo, this.search);
 
         return chats;
       } else return null;
@@ -122,9 +130,8 @@ export default {
   },
 
   watch: {
-    chats(newValue, oldValue) {
-      if (oldValue && oldValue.length == 0 && newValue.length > 0)
-        this.$refs.preloader.hide();
+    chats(newValue) {
+      if (newValue) this.$refs.preloader.hide();
 
       const windowData = getGetParams();
       if (windowData["id"]) {
@@ -157,6 +164,10 @@ export default {
     flex-grow: 3;
     margin-left: 30px;
     margin-bottom: 30px;
+  }
+  .no_records {
+    color: var(--text-color);
+    font-size: 14px;
   }
 }
 </style>

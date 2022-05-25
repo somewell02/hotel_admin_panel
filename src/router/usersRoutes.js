@@ -45,6 +45,7 @@ export const usersRoutes = [
       {
         path: "visits",
         name: "userVisits",
+        component: () => import("../views/users/UserVisits.vue"),
       },
     ],
   },

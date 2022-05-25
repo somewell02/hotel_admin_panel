@@ -89,9 +89,13 @@ export default {
   },
 
   watch: {
-    roomsList(newValue, oldValue) {
-      if (oldValue && oldValue.length == 0 && newValue.length > 0)
+    roomsList(newValue) {
+      if (newValue) {
         this.$refs.preloader.hide();
+        if (newValue.length == 0) {
+          this.dataCount = this.$t("noRecords");
+        }
+      }
     },
     filters: {
       handler() {
@@ -151,7 +155,7 @@ export default {
         };
       });
 
-      if (rooms && this.typesList) {
+      if (rooms && rooms.length > 0 && this.typesList) {
         rooms.forEach((room) => {
           room.num = {
             title: room.id,
@@ -205,6 +209,10 @@ export default {
 .pagination_wrap {
   margin-top: 30px;
   @include flex-between;
+  .count_title {
+    color: var(--text-color);
+    font-size: 14px;
+  }
 }
 .tabs_content_wrap {
   padding-bottom: 40px;

@@ -5,7 +5,7 @@ import { addChat, deleteChat } from "./chatsApi";
 const usersCollection = firestore.collection("users");
 
 export const getUsers = () => {
-  const users = ref([]);
+  const users = ref(null);
   let modifiedUsers = usersCollection;
 
   // filters.forEach((filter) => {
@@ -41,19 +41,6 @@ export const getUsers = () => {
   return new Promise((resolve) => {
     resolve(users);
   });
-};
-
-export const getUsers2 = async () => {
-  let users = ref([]);
-
-  await usersCollection.get().then(function (snapshot) {
-    users.value = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-  });
-
-  return users;
 };
 
 export const getUsersByRole = async (roleId) => {

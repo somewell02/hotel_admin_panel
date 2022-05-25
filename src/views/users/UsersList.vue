@@ -92,9 +92,13 @@ export default {
   },
 
   watch: {
-    usersList(newValue, oldValue) {
-      if (oldValue && oldValue.length == 0 && newValue.length > 0)
+    usersList(newValue) {
+      if (newValue) {
         this.$refs.preloader.hide();
+        if (newValue.length == 0) {
+          this.dataCount = this.$t("noRecords");
+        }
+      }
     },
     filters: {
       handler() {
@@ -154,7 +158,7 @@ export default {
         };
       });
 
-      if (users && this.rolesList) {
+      if (users && users.length > 0 && this.rolesList) {
         users.forEach((user) => {
           // user.fullName = user.lastName ? user.lastName + " " : "";
           // user.fullName += user.firstName ? user.firstName + " " : "";
@@ -227,6 +231,10 @@ export default {
 .pagination_wrap {
   margin-top: 30px;
   @include flex-between;
+  .count_title {
+    color: var(--text-color);
+    font-size: 14px;
+  }
 }
 .tabs_content_wrap {
   padding-bottom: 40px;

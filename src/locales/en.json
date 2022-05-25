@@ -13,6 +13,7 @@
   "sorting": "Sorting",
   "default": "Default",
   "noRecordsForFilters": "No records were found for the specified filters",
+  "noRecords": "No records found",
   "auth": {
     "title": "Authorization",
     "login": "Login",
@@ -56,7 +57,8 @@
         "info": "Information",
         "visits": "Visits",
         "goToChat": "Go to chat"
-      }
+      },
+      "noVisits": "The user has no visits"
     },
     "form": {
       "info": "Personal information",
@@ -116,6 +118,8 @@
     "placeholder": "Enter a message...",
     "open": "Open",
     "complete": "Complete",
+    "join": "Join",
+    "noRecords": "Chats not found",
     "status": {
       "default": "Inactive",
       "active": "Active",

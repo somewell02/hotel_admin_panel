@@ -4,7 +4,7 @@ import { firestore } from "./firebase.js";
 const roomsCollection = firestore.collection("rooms");
 
 export const getRooms = () => {
-  const rooms = ref([]);
+  const rooms = ref(null);
 
   const close = roomsCollection.onSnapshot((snapshot) => {
     rooms.value = snapshot.docs.map((doc) => ({

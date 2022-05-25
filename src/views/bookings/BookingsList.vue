@@ -96,9 +96,13 @@ export default {
   },
 
   watch: {
-    bookingsList(newValue, oldValue) {
-      if (oldValue && oldValue.length == 0 && newValue.length > 0)
-        this.$refs.preloader.hide();
+    bookingsList(newValue) {
+      if (newValue && newValue.length == 0) {
+        this.dataCount = this.$t("noRecords");
+      }
+    },
+    roomTypesList(newValue) {
+      if (newValue) this.$refs.preloader.hide();
     },
     filters: {
       handler() {
@@ -168,7 +172,12 @@ export default {
         };
       });
 
-      if (bookings && this.statusesList && this.roomTypesList) {
+      if (
+        bookings &&
+        bookings.length > 0 &&
+        this.statusesList &&
+        this.roomTypesList
+      ) {
         bookings.forEach((booking) => {
           booking.dates =
             msToDayMonthYear(booking.dateStart.seconds * 1000) +

@@ -28,13 +28,14 @@
       <spacing-bordered-table
         class="roles_table"
         :type="2"
-        v-if="rolesList"
+        v-if="rolesList && rolesList.length > 0"
         :titles="table.titles"
         :rows="rolesList"
         :actions="table.actions"
         @delete="(role) => deleteRole(role)"
         @edit="(role) => pushToEdit(role)"
       />
+      <div v-else class="no_records">{{ $t("noRecords") }}</div>
     </bordered-div>
     <message-alert ref="alert"></message-alert>
     <confirmation-popup ref="deleteConfirmation" />
@@ -175,9 +176,8 @@ export default {
   },
 
   watch: {
-    rolesList(newValue, oldValue) {
-      if (oldValue && oldValue.length == 0 && newValue.length > 0)
-        this.$refs.preloader.hide();
+    rolesList(newValue) {
+      if (newValue) this.$refs.preloader.hide();
     },
   },
 };
@@ -212,6 +212,11 @@ export default {
     padding-top: 15px;
     position: relative;
     min-height: 70px;
+  }
+  .no_records {
+    padding: 0 20px;
+    color: var(--text-color);
+    font-size: 14px;
   }
 }
 </style>

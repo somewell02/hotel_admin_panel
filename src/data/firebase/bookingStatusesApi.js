@@ -13,7 +13,7 @@ export const getBookingStatuses = async () => {
 };
 
 export const subscribeBookingStatuses = async () => {
-  const statuses = ref([]);
+  const statuses = ref(null);
 
   const close = statusesCollection.onSnapshot((snapshot) => {
     statuses.value = snapshot.docs.map((doc) => ({

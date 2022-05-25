@@ -37,7 +37,7 @@ export default {
       height: 20px;
     }
   }
-  &.router-link-active {
+  &.router-link-exact-active {
     background: var(--primary-light-color);
     color: var(--primary-color);
     .icon.stroke * {

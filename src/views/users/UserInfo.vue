@@ -36,13 +36,9 @@ export default {
 
   methods: {
     async initData() {
-      await getUserById(this.userId)
-        .then((data) => {
-          this.user = data;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
+      await getUserById(this.userId).then((data) => {
+        this.user = data;
+      });
     },
 
     editUser() {

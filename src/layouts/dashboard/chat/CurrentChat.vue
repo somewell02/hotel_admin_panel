@@ -23,8 +23,15 @@
           </filled-button>
         </div>
         <div class="processing" v-if="chat.status === 'processing'">
-          <filled-button @click="setDefaultStatus()">
+          <filled-button
+            v-if="chat.userIds.includes($store.state.user.user.id)"
+            @click="setDefaultStatus()"
+          >
             {{ $t("chat.complete") }}
+          </filled-button>
+
+          <filled-button v-else @click="joinChat()">
+            {{ $t("chat.join") }}
           </filled-button>
         </div>
       </div>
@@ -115,7 +122,13 @@
         </div>
       </div>
     </div>
-    <div class="chat_form" v-if="chat.status == 'processing'">
+    <div
+      class="chat_form"
+      v-if="
+        chat.status == 'processing' &&
+        chat.userIds.includes($store.state.user.user.id)
+      "
+    >
       <text-input
         v-model="currentMessage"
         @keydown.enter="sendMessage"
@@ -138,6 +151,7 @@ import {
   sendMessage,
   setProcessingStatus,
   setDefaultStatus,
+  joinChat,
 } from "@/data/firebase/chatsApi";
 
 import {
@@ -211,9 +225,13 @@ export default {
         "Вы уверены что закончили обработку заявки?"
       );
       if (result) {
-        setDefaultStatus(this.chat.id, this.$store.state.user.user.id);
+        setDefaultStatus(this.chat.id);
         this.$emit("update", "default");
       }
+    },
+
+    joinChat() {
+      joinChat(this.chat.id, this.$store.state.user.user.id);
     },
 
     msToHourMin,

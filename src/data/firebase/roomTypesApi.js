@@ -13,7 +13,7 @@ export const getRoomTypes = async () => {
 };
 
 export const subscribeRoomTypes = async () => {
-  const types = ref([]);
+  const types = ref(null);
 
   const close = typesCollection.onSnapshot((snapshot) => {
     types.value = snapshot.docs.map((doc) => ({

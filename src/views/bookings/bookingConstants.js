@@ -31,6 +31,11 @@ export const tableInfo = {
   actions: ["edit", "delete"],
 };
 
+export const userTableInfo = {
+  titles: tableInfo.titles,
+  actions: ["view"],
+};
+
 export const sortInfo = {
   options: [
     { id: "default", title: i18n.global.t("default") },

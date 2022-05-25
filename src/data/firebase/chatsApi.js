@@ -6,7 +6,7 @@ import { getUserById } from "./usersApi.js";
 const chatsCollection = firestore.collection("chats");
 
 export const getChats = () => {
-  const chats = ref([]);
+  const chats = ref(null);
 
   const close = chatsCollection
     .orderBy("recentMessage.sendAt", "desc")
@@ -59,15 +59,21 @@ export const setProcessingStatus = (chatId, id) => {
   });
 };
 
-export const setDefaultStatus = (chatId, id) => {
+export const setDefaultStatus = (chatId) => {
   chatsCollection.doc(chatId).update({
     status: "default",
-    userIds: firebase.firestore.FieldValue.arrayRemove(id),
+    userIds: [chatId],
+  });
+};
+
+export const joinChat = (chatId, id) => {
+  chatsCollection.doc(chatId).update({
+    userIds: firebase.firestore.FieldValue.arrayUnion(id),
   });
 };
 
 export const getChatMessages = (id) => {
-  const chatMessages = ref([]);
+  const chatMessages = ref(null);
 
   const close = chatsCollection
     .doc(id)

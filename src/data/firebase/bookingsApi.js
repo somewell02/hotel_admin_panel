@@ -4,7 +4,7 @@ import { firestore } from "./firebase.js";
 const bookingsCollection = firestore.collection("bookings");
 
 export const getBookings = () => {
-  const bookings = ref([]);
+  const bookings = ref(null);
 
   const close = bookingsCollection.onSnapshot((snapshot) => {
     bookings.value = snapshot.docs.map((doc) => ({
@@ -12,6 +12,24 @@ export const getBookings = () => {
       ...doc.data(),
     }));
   });
+  onUnmounted(close);
+
+  return new Promise((resolve) => {
+    resolve(bookings);
+  });
+};
+
+export const getBookingsByUser = (id) => {
+  const bookings = ref(null);
+
+  const close = bookingsCollection
+    .where("uid", "==", id)
+    .onSnapshot((snapshot) => {
+      bookings.value = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+    });
   onUnmounted(close);
 
   return new Promise((resolve) => {

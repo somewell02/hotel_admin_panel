@@ -13,7 +13,7 @@ export const getUserRoles = async () => {
 };
 
 export const subscribeUserRoles = async () => {
-  const roles = ref([]);
+  const roles = ref(null);
 
   const close = rolesCollection.onSnapshot((snapshot) => {
     roles.value = snapshot.docs.map((doc) => ({
