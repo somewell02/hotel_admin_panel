@@ -16,8 +16,9 @@ export const tableInfo = {
     },
     {
       id: "roomType",
-      name: i18n.global.t("booking.fields.roomClass"),
+      name: i18n.global.t("booking.fields.roomType"),
       width: 18,
+      type: "background",
     },
     {
       id: "totalPrice",
@@ -46,8 +47,15 @@ export const filters = [
     options: [],
     values: [],
   },
+  {
+    id: "roomTypeId",
+    type: "checkbox",
+    title: i18n.global.t("booking.fields.roomType"),
+    options: [],
+    values: [],
+  },
 ];
 
 export const searchInfo = {
-  fields: ["dates", "roomId", "roomType"],
+  fields: ["dates", "roomId", "roomType.title"],
 };

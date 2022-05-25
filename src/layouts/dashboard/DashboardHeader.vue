@@ -6,7 +6,14 @@
     <div class="info_wrap">
       <language-switcher class="header_language_switcher" />
       <div class="profile">
-        <img src="@/assets/img/avatar.svg" alt="avatar" class="avatar" />
+        <div class="avatar" v-if="this.$store.state.user.user">
+          <img
+            v-if="this.$store.state.user.user.photoUrl"
+            :src="this.$store.state.user.user.photoUrl"
+            alt="avatar"
+          />
+          <default-avatar v-else />
+        </div>
         <div class="profile_info">
           <p class="name">
             {{
@@ -30,10 +37,12 @@
 
 <script>
 import LanguageSwitcher from "@/components/dropdowns/LanguageSwitcher.vue";
+import DefaultAvatar from "@/assets/img/DefaultAvatar";
 
 export default {
   components: {
     LanguageSwitcher,
+    DefaultAvatar,
   },
 };
 </script>
@@ -47,16 +56,23 @@ export default {
     display: flex;
     .header_language_switcher {
       display: flex;
-      margin-right: 20px;
     }
     .profile {
       display: flex;
       align-items: center;
-      img {
+      margin-left: 20px;
+      .avatar {
         width: 40px;
+        height: 40px;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 50%;
+        }
       }
       .profile_info {
-        margin: 0 30px 0 10px;
+        margin-left: 10px;
         p {
           font-size: 14px;
           margin: 0;

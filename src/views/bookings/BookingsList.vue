@@ -18,7 +18,7 @@
     </div>
     <spacing-bordered-table
       class="bookings_table"
-      v-if="bookingsList"
+      v-if="bookingsList && modifiedBookingsList().length > 0"
       :titles="tableInfo.titles"
       :rows="modifiedBookingsList()"
       :actions="tableInfo.actions"
@@ -50,8 +50,17 @@ import { tableInfo, sortInfo, filters, searchInfo } from "./bookingConstants";
 
 import { getBookings, deleteBooking } from "@/data/firebase/bookingsApi";
 import { getBookingStatuses } from "@/data/firebase/bookingStatusesApi";
+import { getRoomTypes } from "@/data/firebase/roomTypesApi";
 
 import { msToDayMonthYear } from "@/services/methods/datetime";
+
+import {
+  search,
+  sort,
+  filter,
+  paginate,
+  recordsCount,
+} from "@/services/methods/list.js";
 
 export default {
   components: {
@@ -66,6 +75,7 @@ export default {
     return {
       bookingsList: null,
       statusesList: null,
+      roomTypesList: null,
       search: "",
       sort: "default",
       filters: filters,
@@ -130,6 +140,9 @@ export default {
       await getBookingStatuses().then((statuses) => {
         this.statusesList = statuses;
       });
+      await getRoomTypes().then((types) => {
+        this.roomTypesList = types;
+      });
     },
 
     initFilters() {
@@ -139,6 +152,13 @@ export default {
       });
       this.filters.find((filter) => filter.id == "statusId").options =
         filterStatuses;
+
+      const filterRoomTypes = [];
+      this.roomTypesList.forEach((type) => {
+        filterRoomTypes.push({ id: type.id, title: type.title });
+      });
+      this.filters.find((filter) => filter.id == "roomTypeId").options =
+        filterRoomTypes;
     },
 
     modifiedBookingsList() {
@@ -148,7 +168,7 @@ export default {
         };
       });
 
-      if (bookings) {
+      if (bookings && this.statusesList && this.roomTypesList) {
         bookings.forEach((booking) => {
           booking.dates =
             msToDayMonthYear(booking.dateStart.seconds * 1000) +
@@ -165,63 +185,33 @@ export default {
               background: bookingStatus.color,
             };
           }
-        });
 
-        if (this.search) {
-          const fields = this.searchInfo.fields;
-          bookings = bookings.filter((booking) => {
-            let t = false;
-            fields.forEach((field) => {
-              if (
-                booking[field] &&
-                booking[field]
-                  .trim()
-                  .toLowerCase()
-                  .includes(this.search.trim().toLowerCase())
-              ) {
-                t = true;
-                return;
-              }
-            });
-            return t;
-          });
-        }
-
-        if (this.sort !== "default") {
-          const value = this.sort.split(":")[0];
-          const direction = this.sort.split(":")[1];
-          bookings.sort((o1, o2) => {
-            if (o1[value] > o2[value]) return direction == "asc" ? 1 : -1;
-            if (o1[value] < o2[value]) return direction == "asc" ? -1 : 1;
-            return 0;
-          });
-        }
-
-        this.filters.forEach((filter) => {
-          if (filter.values.length > 0) {
-            switch (filter.type) {
-              case "checkbox":
-                bookings = bookings.filter((booking) =>
-                  filter.values.includes(booking[filter.id])
-                );
-                break;
-            }
+          const roomType = this.roomTypesList.find(
+            (type) => type.id == booking.roomType
+          );
+          if (roomType) {
+            booking.roomTypeId = roomType.id;
+            booking.roomType = {
+              title: roomType.title,
+              background: roomType.color,
+            };
           }
         });
+
+        if (this.search)
+          bookings = search(bookings, this.searchInfo, this.search);
+
+        if (this.sort !== "default") bookings = sort(bookings, this.sort);
+
+        bookings = filter(bookings, this.filters);
 
         const l = bookings.length;
 
         const p = this.pagination;
         this.pagination.length = Math.ceil(bookings.length / p.limit);
-        bookings = bookings.filter(
-          (booking) =>
-            bookings.indexOf(booking) >= (p.page - 1) * p.limit &&
-            bookings.indexOf(booking) < p.page * p.limit
-        );
+        bookings = paginate(bookings, p);
 
-        const from = (p.page - 1) * p.limit + 1;
-        const to = p.page * p.limit > l ? l : p.page * p.limit;
-        this.dataCount = from + " - " + to + " " + this.$t("of") + " " + l;
+        this.dataCount = recordsCount(p, l);
       }
 
       return bookings;

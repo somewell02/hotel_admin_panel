@@ -1,7 +1,7 @@
 <template>
   <main class="user_edit_wrap">
-    <preloader-spinner v-if="isLoading" ref="preloader" />
-    <div v-else class="user_edit">
+    <preloader-spinner ref="preloader" />
+    <div v-if="user" class="user_edit">
       <div class="user_edit_navbar">
         <div class="user_edit_header">
           <filled-button color="primary-light" @click="backToList">
@@ -10,11 +10,10 @@
         </div>
         <div class="user_edit_main">
           <div class="user_main_info">
-            <img
-              src="@/assets/img/avatar.svg"
-              class="user_photo"
-              alt="user-photo"
-            />
+            <div class="user_photo">
+              <img v-if="user.photoUrl" :src="user.photoUrl" alt="user-photo" />
+              <default-avatar v-else />
+            </div>
             <div class="user_name">{{ user.name }}</div>
             <div class="user_id">{{ userId }}</div>
           </div>
@@ -54,6 +53,7 @@ import FilledButton from "@/components/buttons/FilledButton.vue";
 import RouterLinkIcon from "@/components/buttons/RouterLinkIcon.vue";
 import IconButton from "@/components/buttons/IconButton.vue";
 import ConfirmationPopup from "@/components/popups/ConfirmationPopup";
+import DefaultAvatar from "@/assets/img/DefaultAvatar";
 
 import InfoIcon from "@/assets/img/icons/InfoIcon";
 import BookingsIcon from "@/assets/img/icons/BookingsIcon";
@@ -66,7 +66,6 @@ export default {
     return {
       userId: this.$route.params.id,
       user: null,
-      isLoading: true,
     };
   },
 
@@ -83,6 +82,7 @@ export default {
     IconButton,
     DeleteIcon,
     ConfirmationPopup,
+    DefaultAvatar,
   },
 
   methods: {
@@ -102,7 +102,7 @@ export default {
         })
         .finally(() => {
           if (this.user) {
-            this.isLoading = false;
+            this.$refs.preloader.hide();
           }
         });
     },
@@ -140,50 +140,57 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.user_edit {
-  display: flex;
-  .user_edit_navbar {
-    width: 100%;
-    max-width: 250px;
-    .user_edit_main {
-      margin-top: 30px;
-      border-right: 1px solid var(--border-color);
-      padding: 20px 40px 0 0;
-      height: calc(100vh - 190px);
-      overflow-y: auto;
-      @include custom-scroll;
-      .user_main_info {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        .user_photo {
-          width: 100px;
-          height: 100px;
-          border-radius: 50%;
-          object-fit: cover;
-        }
-        .user_name {
-          font-size: 16px;
-          font-weight: 500;
-          color: var(--text-color);
-          margin-top: 15px;
-        }
-        .user_id {
-          font-size: 11px;
-          font-weight: 500;
-          color: var(--secondary-color);
-          margin-top: 10px;
-        }
-      }
-      .user_edit_menu {
+.user_edit_wrap {
+  position: relative;
+  .user_edit {
+    display: flex;
+    .user_edit_navbar {
+      width: 100%;
+      max-width: 250px;
+      .user_edit_main {
         margin-top: 30px;
+        border-right: 1px solid var(--border-color);
+        padding: 20px 40px 0 0;
+        height: calc(100vh - 190px);
+        overflow-y: auto;
+        @include custom-scroll;
+        .user_main_info {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          .user_photo {
+            width: 100px;
+            height: 100px;
+            img {
+              width: 100%;
+              height: 100%;
+              border-radius: 50%;
+              object-fit: cover;
+            }
+          }
+          .user_name {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-color);
+            margin-top: 15px;
+          }
+          .user_id {
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--secondary-color);
+            margin-top: 10px;
+          }
+        }
+        .user_edit_menu {
+          margin-top: 30px;
+        }
       }
     }
-  }
-  .user_edit_content {
-    flex-grow: 3;
-    padding-left: 40px;
+    .user_edit_content {
+      flex-grow: 3;
+      padding-left: 40px;
+    }
   }
 }
 </style>

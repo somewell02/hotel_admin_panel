@@ -76,7 +76,19 @@
                   !messages[index + 1]
                 "
               >
-                <img v-if="chat.photoUrl" :src="chat.photoUrl" alt="avatar" />
+                <img
+                  v-if="message.sendBy === chat.id && chat.photoUrl"
+                  :src="chat.photoUrl"
+                  alt="avatar"
+                />
+                <img
+                  v-else-if="
+                    message.sendBy === $store.state.user.user.id &&
+                    $store.state.user.user.photoUrl
+                  "
+                  :src="$store.state.user.user.photoUrl"
+                  alt="avatar"
+                />
                 <default-avatar v-else />
               </div>
             </div>
@@ -227,7 +239,7 @@ export default {
   .avatar {
     width: 45px;
     height: 45px;
-    img {
+    & * {
       width: 100%;
       height: 100%;
       object-fit: cover;

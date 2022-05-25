@@ -56,7 +56,7 @@ export default {
 
   async created() {
     await this.initData();
-    this.role = this.user.role.toString();
+    this.role = this.user.role ? this.user.role.toString() : "";
   },
 
   methods: {

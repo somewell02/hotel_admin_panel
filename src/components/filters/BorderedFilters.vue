@@ -48,6 +48,7 @@ export default {
 <style lang="scss" scoped>
 .filters_wrap {
   display: flex;
+  z-index: 10;
   .filters_icon {
     height: 40px;
     padding: 12px 20px;

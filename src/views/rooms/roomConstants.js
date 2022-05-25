@@ -16,26 +16,26 @@ export const structureInfo = {
   actions: ["edit", "delete"],
 };
 
-export const sort = {
+export const sortInfo = {
   options: [
     { id: "default", title: i18n.global.t("default") },
-    { id: "email:asc", title: "Посещения (↑)" },
-    { id: "email:desc", title: "Посещения (↓)" },
+    { id: "price:asc", title: "Стоимость (↑)" },
+    { id: "price:desc", title: "Стоимость (↓)" },
+    { id: "rating:asc", title: "Рейтинг (↑)" },
+    { id: "rating:desc", title: "Рейтинг (↓)" },
   ],
-  value: "default",
 };
 
 export const filters = [
   {
-    id: "roleId",
+    id: "typeId",
     type: "checkbox",
-    title: i18n.global.t("user.fields.role"),
+    title: i18n.global.t("room.fields.type"),
     options: [],
     values: [],
   },
 ];
 
-export const search = {
-  value: "",
-  fields: ["name", "email", "phone"],
+export const searchInfo = {
+  fields: ["name", "type.title"],
 };

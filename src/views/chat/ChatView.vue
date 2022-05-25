@@ -25,8 +25,8 @@
       <div class="chat_tabs_content">
         <preloader-spinner ref="preloader" />
         <chat-items-list
-          v-if="filteredChats"
-          :chats="filteredChats"
+          v-if="modifiedChats"
+          :chats="modifiedChats"
           @select="(chat) => selectChat(chat)"
           :active="currentChat ? currentChat.id : ''"
         />
@@ -70,13 +70,28 @@ export default {
   },
 
   computed: {
-    filteredChats() {
+    modifiedChats() {
       if (this.chats) {
-        if (this.selectedTab === "all") {
-          return this.chats;
-        } else {
-          return this.chats.filter((chat) => chat.status === this.selectedTab);
+        let chats = this.chats.map((chat) => {
+          return {
+            ...chat,
+          };
+        });
+
+        if (this.selectedTab !== "all") {
+          chats = chats.filter((chat) => chat.status === this.selectedTab);
         }
+
+        if (this.search) {
+          chats = chats.filter((chat) =>
+            chat.name
+              .trim()
+              .toLowerCase()
+              .includes(this.search.trim().toLowerCase())
+          );
+        }
+
+        return chats;
       } else return null;
     },
   },

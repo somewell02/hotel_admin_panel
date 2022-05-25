@@ -18,7 +18,7 @@
     </div>
     <spacing-bordered-table
       class="users_table"
-      v-if="usersList"
+      v-if="usersList && modifiedUsersList().length > 0"
       :titles="tableInfo.titles"
       :rows="modifiedUsersList()"
       :actions="tableInfo.actions"
@@ -26,7 +26,9 @@
       @delete="(user) => deleteUser(user)"
     />
     <div class="pagination_wrap">
-      <div class="count_title"></div>
+      <div class="count_title">
+        {{ dataCount }}
+      </div>
       <filled-pagination
         :length="pagination.length"
         v-model="pagination.page"
@@ -49,6 +51,14 @@ import { tableInfo, sortInfo, filters, searchInfo } from "./userConstants";
 import { getUsers, deleteUser } from "@/data/firebase/usersApi";
 import { getUserRoles } from "@/data/firebase/userRolesApi";
 
+import {
+  search,
+  sort,
+  filter,
+  paginate,
+  recordsCount,
+} from "@/services/methods/list.js";
+
 export default {
   components: {
     SpacingBorderedTable,
@@ -70,6 +80,7 @@ export default {
         limit: 7,
         length: 0,
       },
+      dataCount: "",
     };
   },
 
@@ -158,55 +169,19 @@ export default {
           }
         });
 
-        if (this.search) {
-          const fields = this.searchInfo.fields;
-          users = users.filter((user) => {
-            let t = false;
-            fields.forEach((field) => {
-              if (
-                user[field] &&
-                user[field]
-                  .trim()
-                  .toLowerCase()
-                  .includes(this.search.trim().toLowerCase())
-              ) {
-                t = true;
-                return;
-              }
-            });
-            return t;
-          });
-        }
+        if (this.search) users = search(users, this.searchInfo, this.search);
 
-        if (this.sort !== "default") {
-          const value = this.sort.split(":")[0];
-          const direction = this.sort.split(":")[1];
-          users.sort((o1, o2) => {
-            if (o1[value] > o2[value]) return direction == "asc" ? 1 : -1;
-            if (o1[value] < o2[value]) return direction == "asc" ? -1 : 1;
-            return 0;
-          });
-        }
+        if (this.sort !== "default") users = sort(users, this.sort);
 
-        this.filters.forEach((filter) => {
-          if (filter.values.length > 0) {
-            switch (filter.type) {
-              case "checkbox":
-                users = users.filter((user) =>
-                  filter.values.includes(user[filter.id])
-                );
-                break;
-            }
-          }
-        });
+        users = filter(users, this.filters);
+
+        const l = users.length;
 
         const p = this.pagination;
         this.pagination.length = Math.ceil(users.length / p.limit);
-        users = users.filter(
-          (user) =>
-            users.indexOf(user) >= (p.page - 1) * p.limit &&
-            users.indexOf(user) < p.page * p.limit
-        );
+        users = paginate(users, p);
+
+        this.dataCount = recordsCount(p, l);
       }
 
       return users;

@@ -1,66 +1,147 @@
 <template>
   <div class="actions">
-    <search-input v-model="search.value" />
+    <search-input v-model="search" />
     <filled-button>{{ $t("add") }}</filled-button>
   </div>
   <div class="tabs_content_wrap">
     <preloader-spinner ref="preloader" />
+    <div class="list_modifications">
+      <bordered-filters :filters="filters" />
+      <div class="sorts_wrap">
+        <bordered-select
+          v-model="sort"
+          :options="sortInfo.options"
+          :prefix="$t('sorting') + ':'"
+          dropdownSide="right"
+        />
+      </div>
+    </div>
     <image-card-list
       class="rooms_list"
       v-if="roomsList"
       :structure="structureInfo"
       :list="modifiedRoomsList()"
     />
+    <div class="pagination_wrap">
+      <div class="count_title">
+        {{ dataCount }}
+      </div>
+      <filled-pagination
+        :length="pagination.length"
+        v-model="pagination.page"
+      />
+    </div>
   </div>
+  <message-alert ref="alert"></message-alert>
   <confirmation-popup ref="deleteConfirmation" />
 </template>
 
 <script>
 import ConfirmationPopup from "@/components/popups/ConfirmationPopup";
 import ImageCardList from "@/components/lists/ImageCardList";
+import BorderedSelect from "@/components/dropdowns/BorderedSelect";
+import FilledPagination from "@/components/paginations/FilledPagination";
+import BorderedFilters from "@/components/filters/BorderedFilters.vue";
 
-import { structureInfo } from "./roomConstants";
+import { structureInfo, sortInfo, filters, searchInfo } from "./roomConstants";
 
 import { getRooms } from "@/data/firebase/roomsApi";
 import { getRoomTypes } from "@/data/firebase/roomTypesApi";
+
+import {
+  search,
+  sort,
+  filter,
+  paginate,
+  recordsCount,
+} from "@/services/methods/list.js";
 
 export default {
   components: {
     ImageCardList,
     ConfirmationPopup,
+    BorderedSelect,
+    FilledPagination,
+    BorderedFilters,
   },
 
   data() {
     return {
       roomsList: null,
       typesList: null,
-      isLoading: true,
       search: "",
+      sort: "default",
+      filters: filters,
+      pagination: {
+        page: 1,
+        limit: 8,
+        length: 0,
+      },
+      dataCount: "",
     };
   },
 
   async created() {
     await this.initData();
+    this.initFilters();
+
+    this.getRouterParams();
+  },
+
+  watch: {
+    roomsList(newValue, oldValue) {
+      if (oldValue && oldValue.length == 0 && newValue.length > 0)
+        this.$refs.preloader.hide();
+    },
+    filters: {
+      handler() {
+        this.pagination.page = 1;
+      },
+      deep: true,
+    },
+    sort: {
+      handler() {
+        this.pagination.page = 1;
+      },
+      deep: true,
+    },
+    search: {
+      handler() {
+        this.pagination.page = 1;
+      },
+      deep: true,
+    },
   },
 
   computed: {
     structureInfo() {
       return structureInfo;
     },
+    sortInfo() {
+      return sortInfo;
+    },
+    searchInfo() {
+      return searchInfo;
+    },
   },
 
   methods: {
     async initData() {
-      await getRooms()
-        .then((data) => {
-          this.roomsList = data;
-        })
-        .finally(() => {
-          this.isLoading = false;
-        });
+      await getRooms().then((data) => {
+        this.roomsList = data;
+      });
       await getRoomTypes().then((types) => {
         this.typesList = types;
       });
+    },
+
+    initFilters() {
+      const filterTypes = [];
+      this.typesList.forEach((type) => {
+        filterTypes.push({ id: type.id, title: type.title });
+      });
+      this.filters.find((filter) => filter.id == "typeId").options =
+        filterTypes;
     },
 
     modifiedRoomsList() {
@@ -85,22 +166,46 @@ export default {
             };
           }
         });
+
+        if (this.search) rooms = search(rooms, this.searchInfo, this.search);
+
+        if (this.sort !== "default") rooms = sort(rooms, this.sort);
+
+        rooms = filter(rooms, this.filters);
+
+        const l = rooms.length;
+
+        const p = this.pagination;
+        this.pagination.length = Math.ceil(rooms.length / p.limit);
+        rooms = paginate(rooms, p);
+
+        this.dataCount = recordsCount(p, l);
       }
 
       return rooms;
     },
-  },
 
-  watch: {
-    roomsList(newValue, oldValue) {
-      if (oldValue && oldValue.length == 0 && newValue.length > 0)
-        this.$refs.preloader.hide();
+    getRouterParams() {
+      if (this.$route.params.messageText) {
+        this.$refs.alert.open(
+          this.$route.params.messageType,
+          this.$route.params.messageText
+        );
+      }
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.list_modifications {
+  margin-bottom: 20px;
+  @include flex-between;
+}
+.pagination_wrap {
+  margin-top: 30px;
+  @include flex-between;
+}
 .tabs_content_wrap {
   padding-bottom: 40px;
   position: relative;

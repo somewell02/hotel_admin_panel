@@ -12,6 +12,7 @@
   "reset": "Clear",
   "sorting": "Sorting",
   "default": "Default",
+  "noRecordsForFilters": "No records were found for the specified filters",
   "auth": {
     "title": "Authorization",
     "login": "Login",
@@ -94,7 +95,10 @@
     } 
   },
   "room": {
-    "nav": "Rooms"
+    "nav": "Rooms",
+    "fields": {
+      "type": "Type"
+    }
   },
   "booking": {
     "nav": "Bookings",
@@ -102,7 +106,7 @@
       "dates": "Dates",
       "status": "Status",
       "roomId": "Room",
-      "roomClass": "Room type",
+      "roomType": "Room type",
       "totalPrice": "Total price"
     }
   },

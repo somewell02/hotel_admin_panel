@@ -8,13 +8,13 @@
       @click="$emit('select', chat)"
     >
       <div class="user_img">
-        <img v-if="chat.photoUrl" src="chat.photoUrl" alt="avatar" />
+        <img v-if="chat.photoUrl" :src="chat.photoUrl" alt="avatar" />
         <default-avatar v-else />
       </div>
       <div class="chat_info_wrap">
         <div class="chat_info">
           <div class="user_name">
-            {{ sliceWithEllipsis(chat.name, 20) }}
+            {{ chat.name ? sliceWithEllipsis(chat.name, 20) : "" }}
           </div>
           <div class="recent_message_time">
             {{
@@ -103,6 +103,7 @@ export default {
         width: 100%;
         height: 100%;
         border-radius: 50px;
+        object-fit: cover;
       }
     }
     .chat_info_wrap {
