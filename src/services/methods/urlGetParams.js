@@ -1,4 +1,6 @@
-export const setGetParams = (params) => {
+import router from "@/router/router";
+
+export const setGetParams = async (params) => {
   if (params) {
     let url = window.location.pathname;
     let i = 0;
@@ -7,7 +9,8 @@ export const setGetParams = (params) => {
       else url += "&" + key + "=" + value;
       i++;
     }
-    window.history.pushState(null, document.title, url);
+    await router.push(url);
+    history.replaceState({ ...history.state }, document.title);
   }
 };
 
