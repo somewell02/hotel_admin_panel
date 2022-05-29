@@ -31,21 +31,17 @@ export const roomsRoutes = [
   //   meta: { title: i18n.global.t("user.add") },
   //   component: () => import("../views/users/UserAddView.vue"),
   // },
-  // {
-  //   path: "users/edit/:id",
-  //   name: "userEdit",
-  //   redirect: { name: "userInfo" },
-  //   component: () => import("../views/users/UserEditView.vue"),
-  //   children: [
-  //     {
-  //       path: "",
-  //       name: "userInfo",
-  //       component: () => import("../views/users/UserInfo.vue"),
-  //     },
-  //     {
-  //       path: "visits",
-  //       name: "userVisits",
-  //     },
-  //   ],
-  // },
+  {
+    path: "rooms/edit/:id",
+    name: "roomEdit",
+    redirect: { name: "roomInfo" },
+    component: () => import("../views/rooms/RoomEditView.vue"),
+    children: [
+      {
+        path: "",
+        name: "roomInfo",
+        component: () => import("../views/rooms/RoomInfo.vue"),
+      },
+    ],
+  },
 ];

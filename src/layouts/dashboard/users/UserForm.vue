@@ -1,38 +1,51 @@
 <template>
-  <div class="user_form" v-if="modelValue">
+  <form-layout class="user_form" v-if="modelValue">
     <div class="form_block">
       <h2>{{ $t("user.fields.role") }}</h2>
-      <div class="form_block_inputs column_3">
-        <bordered-select v-if="roles" v-model="user.role" :options="roles" />
+      <div class="form_block_inputs">
+        <bordered-select
+          class="input_item column_13"
+          v-if="roles"
+          v-model="user.role"
+          :options="roles"
+          :defaultTitle="$t('user.form.chooseRole')"
+        />
       </div>
     </div>
     <div class="form_block">
       <h2>{{ $t("user.form.info") }}</h2>
-      <div class="form_block_inputs column_3">
-        <text-input v-model="user.name" :placeholder="$t('user.fields.name')" />
+      <div class="form_block_inputs">
+        <text-input
+          class="input_item column_13"
+          v-model="user.name"
+          :placeholder="$t('user.fields.name')"
+        />
       </div>
     </div>
     <div class="form_block">
       <h2>{{ $t("user.form.contact") }}</h2>
-      <div class="form_block_inputs column_3">
+      <div class="form_block_inputs">
         <text-input
+          class="input_item column_13 margin"
           v-model="user.phone"
           :placeholder="$t('user.fields.phone')"
         />
         <text-input
+          class="input_item column_13"
           v-model="user.email"
           :placeholder="$t('user.fields.email')"
         />
       </div>
     </div>
     <message-alert ref="alert"></message-alert>
-  </div>
+  </form-layout>
 </template>
 
 <script>
 import { getUserRoles } from "@/data/firebase/userRolesApi";
 
 import BorderedSelect from "@/components/dropdowns/BorderedSelect";
+import FormLayout from "@/layouts/dashboard/FormLayout";
 
 export default {
   data() {
@@ -52,6 +65,7 @@ export default {
 
   components: {
     BorderedSelect,
+    FormLayout,
   },
 
   async created() {
@@ -103,22 +117,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.user_form {
-  .form_block {
-    &:not(:first-child) {
-      margin-top: 40px;
-    }
-    .form_block_inputs {
-      margin-top: 20px;
-      display: flex;
-      &.column_3 > * {
-        flex: 0 0 calc((100% - 40px) / 3);
-        &:not(:last-child) {
-          margin-right: 20px;
-        }
-      }
-    }
-  }
-}
-</style>
+<style lang="scss" scoped></style>

@@ -12,6 +12,10 @@ html {
   box-sizing: inherit;
 }
 
+textarea {
+  resize: none;
+}
+
 .container {
   margin: 0 40px;
   @include media-lg {

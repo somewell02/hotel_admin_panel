@@ -22,10 +22,12 @@ export default {
       this.isShow = true;
     },
     hide() {
-      this.$refs.preloader.classList.add("hide");
-      setTimeout(() => {
-        this.isShow = false;
-      }, 300);
+      if (this.isShow) {
+        this.$refs.preloader.classList.add("hide");
+        setTimeout(() => {
+          this.isShow = false;
+        }, 300);
+      }
     },
   },
 };

@@ -95,6 +95,7 @@ export default {
   bottom: 0;
   margin: 0 20px 20px 20px;
   @include flex-center;
+  pointer-events: none;
   .message_content {
     min-width: 300px;
     padding: 10px 20px;
@@ -102,6 +103,7 @@ export default {
     font-size: 14px;
     display: flex;
     align-items: center;
+    pointer-events: auto;
     &.information {
       background: var(--primary-color);
       color: white;

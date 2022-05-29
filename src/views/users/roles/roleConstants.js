@@ -18,7 +18,7 @@ export const table = {
     },
     {
       id: "color",
-      name: i18n.global.t("role.fields.color"),
+      name: i18n.global.t("color"),
       width: 12,
       type: "color",
     },

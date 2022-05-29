@@ -12,8 +12,12 @@
   "reset": "Clear",
   "sorting": "Sorting",
   "default": "Default",
+  "info": "Information",
   "noRecordsForFilters": "No records were found for the specified filters",
   "noRecords": "No records found",
+  "chooseValue": "Choose value",
+  "gallery": "Photogallery",
+  "color": "Color",
   "auth": {
     "title": "Authorization",
     "login": "Login",
@@ -54,7 +58,6 @@
     },
     "edit": {
       "nav": {
-        "info": "Information",
         "visits": "Visits",
         "goToChat": "Go to chat"
       },
@@ -62,7 +65,8 @@
     },
     "form": {
       "info": "Personal information",
-      "contact": "Contact details"
+      "contact": "Contact details",
+      "chooseRole": "Choose role"
     },
     "alerts": {
       "added": "User successfully added",
@@ -83,8 +87,7 @@
       "title": "Title",
       "id": "ID",
       "staff": "Staff",
-      "permissions": "Permissions",
-      "color": "Color"
+      "permissions": "Permissions"
     },
     "alerts": {
       "added": "Role successfully added",
@@ -98,8 +101,29 @@
   },
   "room": {
     "nav": "Rooms",
+    "title": "Room",
+    "rating": "Rating",
     "fields": {
-      "type": "Type"
+      "type": "Type",
+      "name": "Name",
+      "bedsCount": "Beds count",
+      "price": "Price",
+      "basicPrice": "Basic price",
+      "salePrice": "Sale price",
+      "checkIn": "Check in",
+      "eviction": "Eviction",
+      "tags": "Tags"
+    },
+    "form": {
+      "chooseType": "Choose class",
+      "tagSearch": "Search tag",
+      "noTags": "Tags not found"
+    },
+    "alerts": {
+      "added": "Room successfully added",
+      "deleted": "Room successfully deleted",
+      "updated": "Room successfully updated",
+      "notFound": "Room not found"
     }
   },
   "booking": {

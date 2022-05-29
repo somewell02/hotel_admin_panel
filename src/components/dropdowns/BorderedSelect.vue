@@ -54,6 +54,10 @@ export default {
       required: false,
       default: "left",
     },
+    defaultTitle: {
+      type: String,
+      required: false,
+    },
   },
 
   computed: {
@@ -62,7 +66,7 @@ export default {
         return this.options.find((option) => option.id === this.modelValue)
           .title;
       } else {
-        return "Выберете значение";
+        return this.defaultTitle ?? this.$t("chooseValue");
       }
     },
   },

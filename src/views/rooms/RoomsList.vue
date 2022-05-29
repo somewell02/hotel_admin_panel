@@ -21,6 +21,7 @@
       v-if="roomsList"
       :structure="structureInfo"
       :list="modifiedRoomsList()"
+      @edit="(room) => editRoom(room.id)"
     />
     <div class="pagination_wrap">
       <div class="count_title">
@@ -47,6 +48,8 @@ import { structureInfo, sortInfo, filters, searchInfo } from "./roomConstants";
 
 import { getRooms } from "@/data/firebase/roomsApi";
 import { getRoomTypes } from "@/data/firebase/roomTypesApi";
+
+import { sliceWithEllipsis } from "@/services/methods/string";
 
 import {
   search,
@@ -148,6 +151,10 @@ export default {
         filterTypes;
     },
 
+    editRoom(roomId) {
+      this.$router.push({ name: "roomEdit", params: { id: roomId } });
+    },
+
     modifiedRoomsList() {
       let rooms = this.roomsList.map((room) => {
         return {
@@ -161,6 +168,9 @@ export default {
             title: room.id,
             background: "ffffff",
           };
+          room.image = room.images ? room.images[0] ?? null : null;
+          room.name = sliceWithEllipsis(room.name, 24);
+
           const roomType = this.typesList.find((type) => type.id == room.type);
           if (roomType) {
             room.typeId = roomType.id;

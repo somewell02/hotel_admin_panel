@@ -2,7 +2,8 @@
   <div class="iamge_card_list">
     <div class="card_item" v-for="item in list" :key="item.id">
       <div class="img_wrap">
-        <img src="@/assets/img/room.png" alt="img" />
+        <img v-if="item.image" :src="item.image" alt="img" />
+        <default-photo v-else />
         <div class="info_side left_info">
           <div
             v-for="info in structure.imgInfo.left"
@@ -97,10 +98,15 @@
 
 <script>
 import StarsRating from "@/components/other/StarsRating.vue";
+import DefaultPhoto from "@/assets/img/DefaultPhoto";
+
 import { isDark } from "@/services/methods/color";
 
 export default {
-  components: { StarsRating },
+  components: {
+    StarsRating,
+    DefaultPhoto,
+  },
   props: {
     type: {
       type: Number,
@@ -145,7 +151,12 @@ export default {
       display: flex;
       position: relative;
       border-radius: 5px 5px 0 0;
+      width: 100%;
+      height: 150px;
       img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
         border-radius: 5px 5px 0 0;
       }
       .info_side {

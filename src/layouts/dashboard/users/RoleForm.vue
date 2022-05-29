@@ -26,7 +26,7 @@
     <color-input
       v-model="role.color"
       class="role_form_input"
-      :placeholder="$t('role.fields.color')"
+      :placeholder="$t('color')"
     />
     <message-alert ref="alert"></message-alert>
   </div>

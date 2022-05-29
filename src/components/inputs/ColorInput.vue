@@ -1,23 +1,33 @@
 <template>
-  <div class="color_input">
-    <bordered-input
-      type="text"
-      :placeholder="placeholder"
-      :value="modelValue"
-      @input="updateInput"
-    />
-    <div
-      class="color_btn"
-      :style="{ background: modelValue ? `#${modelValue}` : 'none' }"
-    ></div>
+  <div>
+    <div class="color_input">
+      <bordered-input
+        type="text"
+        :placeholder="placeholder ?? $t('color')"
+        :value="modelValue"
+        @input="updateInput"
+      />
+      <div
+        class="color_btn"
+        :style="{ background: modelValue ? `#${modelValue}` : 'none' }"
+      ></div>
+    </div>
+    <!-- <Chrome v-model="color" /> -->
   </div>
 </template>
 
 <script>
 import BorderedInput from "./BorderedInput";
+//import { Chrome } from "vue-color";
 
 export default {
   name: "text-input",
+
+  data() {
+    return {
+      color: { r: 255, g: 0, b: 0 },
+    };
+  },
   props: {
     modelValue: {
       type: String,
@@ -31,6 +41,7 @@ export default {
 
   components: {
     BorderedInput,
+    //Chrome,
   },
 
   methods: {

@@ -1,7 +1,7 @@
 <template>
   <main class="entity_edit_wrap">
     <preloader-spinner ref="preloader" />
-    <div v-if="user" class="entity_edit">
+    <div v-if="room" class="entity_edit">
       <div class="entity_edit_navbar">
         <div class="entity_edit_header">
           <filled-button color="primary-light" @click="backToList">
@@ -10,29 +10,25 @@
         </div>
         <div class="entity_edit_main">
           <div class="entity_main_info">
-            <div class="user_photo">
-              <img v-if="user.photoUrl" :src="user.photoUrl" alt="user-photo" />
-              <default-avatar v-else />
+            <div class="room_photo">
+              <img v-if="room.images" :src="room.images[0]" alt="room-photo" />
+              <default-photo v-else />
             </div>
-            <div class="entity_title">{{ user.name }}</div>
-            <div class="entity_info_item">{{ userId }}</div>
+            <div class="entity_title">{{ room.name }}</div>
+            <div class="entity_info_item">
+              {{ $t("room.title") + " - " + roomId }}
+            </div>
+            <div class="entity_info_item">
+              {{ $t("room.rating") + " - " }}
+              <stars-rating :rating="room.rating" />
+            </div>
           </div>
           <nav class="entity_edit_menu">
-            <router-link-icon :to="{ name: 'userInfo' }">
+            <router-link-icon :to="{ name: 'roomInfo' }">
               <info-icon />
               {{ $t("info") }}
             </router-link-icon>
-            <router-link-icon :to="{ name: 'userVisits' }">
-              <bookings-icon />
-              {{ $t("user.edit.nav.visits") }}
-            </router-link-icon>
-            <router-link-icon
-              :to="{ name: 'currentChat', params: { id: userId } }"
-            >
-              <chat-icon />
-              {{ $t("user.edit.nav.goToChat") }}
-            </router-link-icon>
-            <icon-button @click="deleteUser">
+            <icon-button @click="deleteRoom">
               <delete-icon />
               {{ $t("delete") }}
             </icon-button>
@@ -53,19 +49,19 @@ import FilledButton from "@/components/buttons/FilledButton.vue";
 import RouterLinkIcon from "@/components/buttons/RouterLinkIcon.vue";
 import IconButton from "@/components/buttons/IconButton.vue";
 import ConfirmationPopup from "@/components/popups/ConfirmationPopup";
-import DefaultAvatar from "@/assets/img/DefaultAvatar";
+import DefaultPhoto from "@/assets/img/DefaultPhoto";
+import StarsRating from "@/components/other/StarsRating.vue";
 
 import InfoIcon from "@/assets/img/icons/InfoIcon";
-import BookingsIcon from "@/assets/img/icons/BookingsIcon";
 import DeleteIcon from "@/assets/img/icons/DeleteIcon.vue";
 
-import { getUserById, deleteUser } from "@/data/firebase/usersApi";
+import { getRoomById, deleteRoom } from "@/data/firebase/roomsApi";
 
 export default {
   data() {
     return {
-      userId: this.$route.params.id,
-      user: null,
+      roomId: this.$route.params.id,
+      room: null,
     };
   },
 
@@ -78,53 +74,53 @@ export default {
     FilledButton,
     RouterLinkIcon,
     InfoIcon,
-    BookingsIcon,
     IconButton,
     DeleteIcon,
     ConfirmationPopup,
-    DefaultAvatar,
+    DefaultPhoto,
+    StarsRating,
   },
 
   methods: {
     initData() {
-      getUserById(this.userId)
+      getRoomById(this.roomId)
         .then((data) => {
           if (!data) {
             this.$router.push({
-              name: "users",
+              name: "rooms",
               params: {
                 messageType: "error",
-                messageText: this.$t("user.alerts.notFound"),
+                messageText: this.$t("room.alerts.notFound"),
               },
             });
           }
-          this.user = data;
+          this.room = data;
         })
         .finally(() => {
-          if (this.user) {
+          if (this.room) {
             this.$refs.preloader.hide();
           }
         });
     },
 
-    async deleteUser() {
+    async deleteRoom() {
       const popupResult = await this.$refs.deleteConfirmation.open(
-        this.$t("user.delete") + ": " + this.user.name + "?"
+        this.$t("room.delete") + ": " + this.room.name + "?"
       );
       if (popupResult) {
-        deleteUser(this.userId);
+        deleteRoom(this.roomId);
         this.$router.push({
-          name: "users",
+          name: "rooms",
           params: {
             messageType: "success",
-            messageText: this.$t("user.alerts.deleted"),
+            messageText: this.$t("room.alerts.deleted"),
           },
         });
       }
     },
 
     backToList() {
-      this.$router.push({ name: "users" });
+      this.$router.push({ name: "rooms" });
     },
 
     getRouterParams() {
@@ -159,13 +155,13 @@ export default {
           flex-direction: column;
           align-items: center;
           text-align: center;
-          .user_photo {
-            width: 100px;
-            height: 100px;
+          .room_photo {
+            width: 100%;
+            height: 120px;
             img {
               width: 100%;
               height: 100%;
-              border-radius: 50%;
+              border-radius: 5px;
               object-fit: cover;
             }
           }
@@ -176,10 +172,15 @@ export default {
             margin-top: 15px;
           }
           .entity_info_item {
+            display: flex;
+            align-items: center;
             font-size: 11px;
             font-weight: 500;
             color: var(--secondary-color);
             margin-top: 10px;
+            .stars {
+              margin-left: 5px;
+            }
           }
         }
         .entity_edit_menu {
