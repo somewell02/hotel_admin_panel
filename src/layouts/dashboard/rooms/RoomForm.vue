@@ -71,7 +71,7 @@
     <div class="form_block">
       <h2>{{ $t("gallery") }}</h2>
       <div class="form_block_inputs">
-        <gallery-input v-model="room.images" />
+        <gallery-input v-model="room.images" class="input_item gallery_input" />
       </div>
     </div>
     <message-alert ref="alert"></message-alert>
@@ -165,6 +165,9 @@ export default {
   .tags_select {
     width: 100%;
     height: 100px;
+  }
+  .gallery_input {
+    width: 100%;
   }
 }
 </style>

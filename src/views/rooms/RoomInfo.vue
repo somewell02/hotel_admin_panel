@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { getRoomById, updateRoom } from "@/data/firebase/roomsApi";
+import { getModifiedRoomById, updateRoom } from "@/data/firebase/roomsApi";
 
 import RoomForm from "@/layouts/dashboard/rooms/RoomForm";
 
@@ -36,7 +36,7 @@ export default {
 
   methods: {
     async initData() {
-      await getRoomById(this.roomId).then((data) => {
+      await getModifiedRoomById(this.roomId).then((data) => {
         this.room = data;
       });
     },

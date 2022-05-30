@@ -2,8 +2,8 @@ import i18n from "@/i18n";
 
 export const table = {
   titles: [
-    { id: "title", name: i18n.global.t("role.fields.title"), width: 25 },
-    { id: "id", name: i18n.global.t("role.fields.id"), width: 15 },
+    { id: "title", name: i18n.global.t("title"), width: 25 },
+    { id: "id", name: i18n.global.t("id"), width: 15 },
     {
       id: "staff",
       name: i18n.global.t("role.fields.staff"),

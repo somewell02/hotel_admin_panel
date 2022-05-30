@@ -58,6 +58,7 @@ import DefaultAvatar from "@/assets/img/DefaultAvatar";
 import InfoIcon from "@/assets/img/icons/InfoIcon";
 import BookingsIcon from "@/assets/img/icons/BookingsIcon";
 import DeleteIcon from "@/assets/img/icons/DeleteIcon.vue";
+import ChatIcon from "@/assets/img/icons/ChatIcon";
 
 import { getUserById, deleteUser } from "@/data/firebase/usersApi";
 
@@ -83,6 +84,7 @@ export default {
     DeleteIcon,
     ConfirmationPopup,
     DefaultAvatar,
+    ChatIcon,
   },
 
   methods: {

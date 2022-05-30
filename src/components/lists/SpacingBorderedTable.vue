@@ -73,6 +73,16 @@
               background: `#${row[title.id]}`,
             }"
           ></div>
+          <div
+            v-else-if="row[title.id] && title.type == 'image'"
+            class="content image"
+            :style="{
+              background: `url(${row[title.id]})`,
+              'background-size': 'cover',
+              'background-position': 'center center',
+              'background-repeat': 'no-repeat',
+            }"
+          ></div>
         </div>
         <div class="actions" v-if="actions">
           <eye-icon
@@ -185,12 +195,18 @@ export default {
           height: 20px;
           border-radius: 5px;
         }
+        &.image {
+          width: 60px;
+          height: 40px;
+          border-radius: 5px;
+        }
       }
     }
     .actions {
       flex-grow: 3;
       display: flex;
       justify-content: flex-end;
+      align-items: center;
       .action_btn {
         display: flex;
         align-items: center;

@@ -17,6 +17,12 @@ export default {
     };
   },
 
+  watch: {
+    modelValue(v) {
+      this.value = v.join("\n");
+    },
+  },
+
   props: {
     modelValue: {
       type: Array,

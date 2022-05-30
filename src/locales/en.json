@@ -16,8 +16,12 @@
   "noRecordsForFilters": "No records were found for the specified filters",
   "noRecords": "No records found",
   "chooseValue": "Choose value",
+  "title": "Title",
+  "description": "Description",
   "gallery": "Photogallery",
+  "image": "Image",
   "color": "Color",
+  "id": "ID",
   "auth": {
     "title": "Authorization",
     "login": "Login",
@@ -41,6 +45,9 @@
       "ok": "Yes",
       "cancel": "Cancel"
     }
+  },
+  "alerts": {
+    "imageTypeError": "The image is in the wrong format. Choose png, jpg or gif."
   },
   "dashboard": {
     "nav": "Dashboard",
@@ -84,8 +91,6 @@
     "edit": "Edit the role",
     "delete": "Delete the role",
     "fields": {
-      "title": "Title",
-      "id": "ID",
       "staff": "Staff",
       "permissions": "Permissions"
     },
@@ -153,6 +158,19 @@
       "all": "All",
       "active": "Active",
       "processing": "In processing"
+    }
+  },
+  "faq": {
+    "nav": "FAQ",
+    "title": "Frequently asked questions",
+    "add": "Add a question",
+    "edit": "Edit the question",
+    "delete": "Delete the question",
+    "alerts": {
+      "added": "Question successfully added",
+      "deleted": "Question successfully deleted",
+      "updated": "Question successfully updated",
+      "requiredFileds": "Title and description are required"
     }
   }
 }

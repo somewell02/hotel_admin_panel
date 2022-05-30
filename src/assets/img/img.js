@@ -1,21 +1,3 @@
-import MainLogo from "./MainLogo";
-
-import GraphIcon from "./icons/GraphIcon";
-import UsersIcon from "./icons/UsersIcon";
-import BookingsIcon from "./icons/BookingsIcon";
-import ChatIcon from "./icons/ChatIcon";
-import RoomsIcon from "./icons/RoomsIcon";
-import ServicesIcon from "./icons/ServicesIcon";
-
 import ArrowIcon from "./icons/ArrowIcon";
 
-export default [
-  MainLogo,
-  GraphIcon,
-  UsersIcon,
-  BookingsIcon,
-  ChatIcon,
-  RoomsIcon,
-  ServicesIcon,
-  ArrowIcon,
-];
+export default [ArrowIcon];

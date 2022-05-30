@@ -12,7 +12,7 @@
         :style="{ background: modelValue ? `#${modelValue}` : 'none' }"
       ></div>
     </div>
-    <!-- <Chrome v-model="color" /> -->
+    <!-- <chrome-picker v-model="color" /> -->
   </div>
 </template>
 
@@ -41,7 +41,7 @@ export default {
 
   components: {
     BorderedInput,
-    //Chrome,
+    //"chrome-picker": Chrome,
   },
 
   methods: {

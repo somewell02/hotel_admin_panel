@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: "bookings-icon",
+  name: "info-icon",
 };
 </script>
 

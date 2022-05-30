@@ -65,14 +65,7 @@ export default {
       rolesList: null,
       table: table,
       isEdit: false,
-      role: {
-        title: "",
-        id: "",
-        staff: false,
-        isDeleted: true,
-        permissions: [],
-        color: "000000",
-      },
+      role: {},
     };
   },
 
@@ -83,6 +76,7 @@ export default {
   },
 
   async created() {
+    this.resetRole();
     await this.initData();
   },
 
@@ -93,13 +87,8 @@ export default {
       });
 
       if (this.$route.params.id) {
-        this.isEdit = true;
         getUserRoleById(this.$route.params.id).then((data) => {
-          this.role.title = data.title;
-          this.role.id = data.id;
-          this.role.staff = data.staff;
-          this.role.permissions = data.permissions;
-          this.role.color = data.color;
+          this.setRole(data);
         });
       }
     },
@@ -150,18 +139,22 @@ export default {
     },
 
     pushToEdit(role) {
-      this.isEdit = true;
-      this.role.title = role.title;
-      this.role.id = role.id;
-      this.role.staff = role.staff;
-      this.role.permissions = role.permissions;
-      this.role.color = role.color;
+      this.setRole(role);
       this.$router.push({ name: "roleEdit", params: { id: role.id } });
     },
 
     backToAdd() {
       this.resetRole();
       this.$router.push({ name: "roles" });
+    },
+
+    setRole(role) {
+      this.isEdit = true;
+      this.role.title = role.title;
+      this.role.id = role.id;
+      this.role.staff = role.staff;
+      this.role.permissions = role.permissions;
+      this.role.color = role.color;
     },
 
     resetRole() {

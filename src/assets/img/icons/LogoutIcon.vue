@@ -31,7 +31,7 @@
 
 <script>
 export default {
-  name: "bookings-icon",
+  name: "logout-icon",
 };
 </script>
 

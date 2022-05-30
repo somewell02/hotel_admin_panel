@@ -97,7 +97,7 @@ export default {
           this.room = data;
         })
         .finally(() => {
-          if (this.room) {
+          if (this.room && this.$refs.preloader) {
             this.$refs.preloader.hide();
           }
         });

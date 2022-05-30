@@ -3,13 +3,13 @@
     <text-input
       v-model="role.title"
       class="role_form_input"
-      :placeholder="$t('role.fields.title')"
+      :placeholder="$t('title')"
     />
     <text-input
       v-if="!isEdit"
       v-model="role.id"
       class="role_form_input"
-      :placeholder="$t('role.fields.id')"
+      :placeholder="$t('id')"
     />
     <div class="role_form_input staff_input">
       {{ $t("role.fields.staff") }}
@@ -73,13 +73,7 @@ export default {
     CheckboxList,
   },
 
-  async created() {
-    await this.initData();
-  },
-
   methods: {
-    initData() {},
-
     updateRole() {
       this.$emit("update:modelValue", this.role);
     },
