@@ -1,16 +1,8 @@
 import { ref, onUnmounted } from "vue";
 import { firestore } from "./firebase.js";
-//import { addImageInStorage } from "./firestorage";
+import { addImageInStorage } from "./firestorage";
 
 const roomsCollection = firestore.collection("rooms");
-
-export const setGallery = (id, gallery) => {
-  //let urls = [];
-  console.log(id);
-  gallery.forEach((img) => {
-    console.log(typeof img);
-  });
-};
 
 export const getRooms = () => {
   const rooms = ref(null);
@@ -30,6 +22,17 @@ export const getRooms = () => {
 
 export const getRoomsByType = async (typeId) => {
   const res = await roomsCollection.where("type", "==", typeId).get();
+  const rooms = res.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+  return rooms;
+};
+
+export const getRoomsByTag = async (tagId) => {
+  const res = await roomsCollection
+    .where("tags", "array-contains", tagId)
+    .get();
   const rooms = res.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
@@ -59,7 +62,13 @@ export const getModifiedRoomById = async (id) => {
 };
 
 export const addRoom = async (room) => {
+  const images = [...room.images];
+  room.images = [];
   const res = await roomsCollection.add(room);
+  const urls = await setGallery(res.id, images);
+  await roomsCollection.doc(res.id).update({
+    images: urls,
+  });
   return res ?? null;
 };
 
@@ -74,4 +83,20 @@ export const updateRoom = async (id, room) => {
 export const deleteRoom = (id) => {
   const res = roomsCollection.doc(id).delete();
   if (res) return res;
+};
+
+export const setGallery = async (id, images) => {
+  let urls = [];
+
+  for (let i = 0; i < images.length; i++) {
+    await addImageInStorage(
+      images[i],
+      "photo" + (i + 1),
+      "img/rooms/" + id + "/"
+    ).then((url) => {
+      urls.push(url);
+    });
+  }
+
+  return urls;
 };

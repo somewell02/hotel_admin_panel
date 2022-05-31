@@ -142,10 +142,13 @@ export default {
   .card_item {
     display: flex;
     flex-direction: column;
-    flex: 0 0 calc(25% - 90px);
+    width: calc((100% - 90px) / 4);
     border-radius: 5px;
     &:not(:nth-child(4n)) {
       margin-right: 30px;
+    }
+    &:nth-child(n + 5) {
+      margin-top: 30px;
     }
     .img_wrap {
       display: flex;
@@ -189,6 +192,7 @@ export default {
     }
     .info_wrap {
       display: flex;
+      flex-grow: 3;
       justify-content: space-between;
       padding: 20px 15px;
       border: solid var(--border-color);

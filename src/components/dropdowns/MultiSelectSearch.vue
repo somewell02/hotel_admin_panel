@@ -170,6 +170,7 @@ export default {
   }
   .options {
     position: absolute;
+    z-index: 10;
     top: 130%;
     top: calc(100% + 7px);
     left: 0;

@@ -1,7 +1,7 @@
 <template>
   <div class="actions">
     <search-input v-model="search" />
-    <filled-button>{{ $t("add") }}</filled-button>
+    <filled-button @click="addRoom">{{ $t("add") }}</filled-button>
   </div>
   <div class="tabs_content_wrap">
     <preloader-spinner ref="preloader" />
@@ -22,6 +22,7 @@
       :structure="structureInfo"
       :list="modifiedRoomsList()"
       @edit="(room) => editRoom(room.id)"
+      @delete="(room) => deleteRoom(room)"
     />
     <div class="pagination_wrap">
       <div class="count_title">
@@ -46,7 +47,7 @@ import BorderedFilters from "@/components/filters/BorderedFilters.vue";
 
 import { structureInfo, sortInfo, filters, searchInfo } from "./roomConstants";
 
-import { getRooms } from "@/data/firebase/roomsApi";
+import { getRooms, deleteRoom } from "@/data/firebase/roomsApi";
 import { getRoomTypes } from "@/data/firebase/roomTypesApi";
 
 import { sliceWithEllipsis } from "@/services/methods/string";
@@ -151,8 +152,24 @@ export default {
         filterTypes;
     },
 
+    addRoom() {
+      this.$router.push({ name: "roomAdd" });
+    },
+
     editRoom(roomId) {
       this.$router.push({ name: "roomEdit", params: { id: roomId } });
+    },
+
+    async deleteRoom(room) {
+      const popupResult = await this.$refs.deleteConfirmation.open(
+        this.$t("room.delete") + ": " + room.name + "?"
+      );
+      if (popupResult) {
+        const res = deleteRoom(room.id);
+        if (res) {
+          this.$refs.alert.open("success", this.$t("room.alerts.deleted"));
+        }
+      }
     },
 
     modifiedRoomsList() {

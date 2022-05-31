@@ -12,8 +12,8 @@ export default {
     return {
       tabs: [
         { id: "rooms", title: this.$t("room.nav") },
-        // { id: "types", title: this.$t("role.nav") },
-        // { id: "tags", title: this.$t("role.nav") },
+        { id: "types", title: this.$t("roomType.nav") },
+        { id: "tags", title: this.$t("roomTag.nav") },
       ],
     };
   },

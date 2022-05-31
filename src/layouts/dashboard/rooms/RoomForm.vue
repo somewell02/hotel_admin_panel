@@ -1,5 +1,6 @@
 <template>
   <form-layout class="room_form" v-if="modelValue">
+    <preloader-spinner ref="preloader" />
     <div class="form_block">
       <h2>{{ $t("info") }}</h2>
       <div class="form_block_inputs">
@@ -19,23 +20,29 @@
           class="input_item column_12"
           v-model="room.bedsCount"
           :placeholder="$t('room.fields.bedsCount')"
-          min="0"
-          max="50"
+          :min="0"
+          :max="50"
         />
-        <text-input
+        <mask-input
           class="input_item column_12 margin"
           v-model="room.checkIn"
+          mask="#${:}*0"
+          :definitions="{ '#': /[0-2]/, $: /[0-9]/, '*': /[0-5]/ }"
+          :maxLength="5"
           :placeholder="$t('room.fields.checkIn')"
         />
-        <text-input
+        <mask-input
           class="input_item column_12"
           v-model="room.eviction"
+          mask="#${:}*0"
+          :definitions="{ '#': /[0-2]/, $: /[0-9]/, '*': /[0-5]/ }"
+          :maxLength="5"
           :placeholder="$t('room.fields.eviction')"
         />
       </div>
     </div>
     <div class="form_block">
-      <h2>{{ $t("room.fields.price") }}</h2>
+      <h2>{{ $t("price") }}</h2>
       <div class="form_block_inputs">
         <number-input
           class="input_item column_12"
@@ -71,7 +78,11 @@
     <div class="form_block">
       <h2>{{ $t("gallery") }}</h2>
       <div class="form_block_inputs">
-        <gallery-input v-model="room.images" class="input_item gallery_input" />
+        <gallery-input
+          v-model="room.images"
+          :active="isAdd"
+          class="input_item gallery_input"
+        />
       </div>
     </div>
     <message-alert ref="alert"></message-alert>
@@ -84,6 +95,7 @@ import { getRoomTags } from "@/data/firebase/roomTagsApi";
 
 import BorderedSelect from "@/components/dropdowns/BorderedSelect";
 import NumberInput from "@/components/inputs/NumberInput";
+import MaskInput from "@/components/inputs/MaskInput";
 import MultiSelectSearch from "@/components/dropdowns/MultiSelectSearch";
 import ArrayTextarea from "@/components/inputs/ArrayTextarea";
 import FormLayout from "@/layouts/dashboard/FormLayout";
@@ -103,6 +115,11 @@ export default {
       type: Object,
       required: true,
     },
+    isAdd: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
 
   components: {
@@ -112,6 +129,7 @@ export default {
     FormLayout,
     MultiSelectSearch,
     GalleryInput,
+    MaskInput,
   },
 
   async created() {
@@ -120,9 +138,13 @@ export default {
 
   methods: {
     initData() {
-      getRoomTypes().then((data) => {
-        this.types = data;
-      });
+      getRoomTypes()
+        .then((data) => {
+          this.types = data;
+        })
+        .finally(() => {
+          this.$refs.preloader.hide();
+        });
       getRoomTags().then((data) => {
         this.tags = data;
       });
@@ -133,24 +155,18 @@ export default {
     },
 
     validate() {
-      // if (!this.room.phone.trim() && !this.room.email.trim()) {
-      //   this.$refs.alert.open("error", this.$t("room.alerts.needPhoneOrEmail"));
-      //   return false;
-      // }
-      // if (
-      //   this.room.phone.trim() &&
-      //   !this.room.phone.trim().match(phonePattern)
-      // ) {
-      //   this.$refs.alert.open("error", this.$t("room.alerts.incorrectPhone"));
-      //   return false;
-      // }
-      // if (
-      //   this.room.email.trim() &&
-      //   !this.room.email.trim().match(emailPattern)
-      // ) {
-      //   this.$refs.alert.open("error", this.$t("room.alerts.incorrectGmail"));
-      //   return false;
-      // }
+      if (
+        !this.room.name.trim() ||
+        !this.room.type.trim() ||
+        isNaN(this.room.price)
+      ) {
+        this.$refs.alert.open("error", this.$t("room.alerts.requiredFileds"));
+        return false;
+      }
+      if (this.room.images.length < 1) {
+        this.$refs.alert.open("error", this.$t("room.alerts.requiredImage"));
+        return false;
+      }
       return true;
     },
   },
@@ -159,6 +175,7 @@ export default {
 
 <style lang="scss" scoped>
 .room_form {
+  position: relative;
   textarea {
     height: 150px;
   }

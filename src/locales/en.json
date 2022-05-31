@@ -21,11 +21,14 @@
   "gallery": "Photogallery",
   "image": "Image",
   "color": "Color",
+  "rating": "Rating",
+  "price": "Price",
   "id": "ID",
   "auth": {
     "title": "Authorization",
     "login": "Login",
     "logout": "Logout",
+    "confirmLogout": "Are you sure you want to log out?",
     "errors": {
       "emptyFields": "Enter your email and password",
       "invalidEmail": "Email entered incorrectly",
@@ -107,12 +110,12 @@
   "room": {
     "nav": "Rooms",
     "title": "Room",
-    "rating": "Rating",
+    "add": "Add a room",
+    "delete": "Delete the room",
     "fields": {
       "type": "Type",
       "name": "Name",
       "bedsCount": "Beds count",
-      "price": "Price",
       "basicPrice": "Basic price",
       "salePrice": "Sale price",
       "checkIn": "Check in",

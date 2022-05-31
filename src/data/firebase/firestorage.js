@@ -30,7 +30,7 @@ export const addImageInStorage = async (image, name, path) => {
   return imageUrl;
 };
 
-export const deleteFolder = (path) => {
+export const deleteFile = (path) => {
   const desertRef = ref(storage, path);
 
   deleteObject(desertRef).then(() => {

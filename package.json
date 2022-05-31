@@ -20,6 +20,7 @@
     "vue-color": "^2.8.1",
     "vue-gpickr": "^0.4.2",
     "vue-i18n": "^9.1.10",
+    "vue-imask": "^6.4.2",
     "vue-router": "^4.0.13",
     "vue-tailwind-color-picker": "^1.0.6",
     "vuex": "^4.0.0"

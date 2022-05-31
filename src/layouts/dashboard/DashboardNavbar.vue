@@ -35,6 +35,7 @@
         {{ $t("auth.logout") }}
       </icon-button>
     </nav>
+    <confirmation-popup ref="confirmation" />
   </div>
 </template>
 
@@ -50,6 +51,7 @@ import GraphIcon from "@/assets/img/icons/GraphIcon";
 import BookingsIcon from "@/assets/img/icons/BookingsIcon";
 import ChatIcon from "@/assets/img/icons/ChatIcon";
 import FaqIcon from "@/assets/img/icons/FaqIcon";
+import ConfirmationPopup from "@/components/popups/ConfirmationPopup.vue";
 
 import { logout } from "@/data/firebase/auth";
 
@@ -65,11 +67,17 @@ export default {
     BookingsIcon,
     ChatIcon,
     FaqIcon,
+    ConfirmationPopup,
   },
 
   methods: {
-    logout() {
-      logout();
+    async logout() {
+      const popupResult = await this.$refs.confirmation.open(
+        this.$t("auth.confirmLogout")
+      );
+      if (popupResult) {
+        logout();
+      }
     },
   },
 };

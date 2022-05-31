@@ -1,6 +1,6 @@
 import { ref, onUnmounted } from "vue";
 import { firestore } from "./firebase.js";
-import { addImageInStorage } from "./firestorage";
+import { addImageInStorage, deleteFile } from "./firestorage";
 
 const faqCollection = firestore.collection("FAQ");
 
@@ -57,18 +57,16 @@ export const updateFaq = async (id, faq) => {
 
 export const deleteFaq = (faq) => {
   const res = faqCollection.doc(faq.id).delete();
-  //if (res) {
-  //deleteFolder("img/hotel/faq/" + faq.id + ".jpg");
-  //}
+  if (res) {
+    const path = faq.image.split("/");
+    const params = path[path.length - 1].split("?")[0].split("%2F");
+    const img = params[params.length - 1];
+    deleteFile("img/hotel/faq/" + img);
+  }
   return res ?? null;
 };
 
 const setFaqImage = async (id, img) => {
-  const url = await addImageInStorage(
-    img,
-    "photo",
-    "img/hotel/faq/" + id + "/"
-  );
-
+  const url = await addImageInStorage(img, id, "img/hotel/faq/");
   return url;
 };

@@ -88,7 +88,11 @@ export default {
 
       if (this.$route.params.id) {
         getUserRoleById(this.$route.params.id).then((data) => {
-          this.setRole(data);
+          if (data) {
+            this.setRole(data);
+          } else {
+            this.backToAdd();
+          }
         });
       }
     },
@@ -132,6 +136,9 @@ export default {
             const res = deleteUserRole(role.id);
             if (res) {
               this.$refs.alert.open("success", this.$t("role.alerts.deleted"));
+              if (this.isEdit) {
+                this.backToAdd();
+              }
             }
           }
         }

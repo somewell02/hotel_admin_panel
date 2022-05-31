@@ -11,18 +11,18 @@
         </div>
       </div>
     </div>
-    <input
-      @change="uploadImage"
-      type="file"
-      accept="image/*"
-      class="gallery_input"
-      multiple
-    />
+    <label class="gallery_input">
+      <close-icon class="plus_icon" />
+      <input @change="uploadImage" type="file" accept="image/*" multiple />
+    </label>
   </div>
 </template>
 
 <script>
+import CloseIcon from "@/assets/img/icons/CloseIcon.vue";
+
 export default {
+  components: { CloseIcon },
   data() {
     return {
       items: [...this.modelValue],
@@ -33,6 +33,11 @@ export default {
     modelValue: {
       type: Array,
       required: true,
+    },
+    active: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
 
@@ -58,7 +63,7 @@ export default {
           if (allowed_extensions.includes(files[i].type)) {
             //console.log(files[i]);
             this.items.push(files[i]);
-            //this.update();
+            if (this.active) this.update();
           } //else this.uploadText = "Type error, select again";
         }
       }
@@ -69,7 +74,7 @@ export default {
       if (index !== -1) {
         this.items.splice(index, 1);
       }
-      //this.update();
+      if (this.active) this.update();
     },
 
     getUrl(file) {
@@ -133,6 +138,26 @@ export default {
   }
   .gallery_input {
     margin-bottom: 15px;
+    width: 75px;
+    height: 75px;
+    background: var(--secondary-color);
+    border-radius: 5px;
+    @include flex-center;
+    cursor: pointer;
+    .plus_icon {
+      width: 25px;
+      height: 25px;
+      transform: rotate(45deg);
+    }
+    input {
+      display: none;
+    }
   }
+}
+</style>
+
+<style lang="scss">
+.gallery_input .plus_icon svg * {
+  stroke: white !important;
 }
 </style>

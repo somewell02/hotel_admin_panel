@@ -11,7 +11,11 @@
         <div class="entity_edit_main">
           <div class="entity_main_info">
             <div class="room_photo">
-              <img v-if="room.images" :src="room.images[0]" alt="room-photo" />
+              <img
+                v-if="room.images && room.images.length > 0"
+                :src="room.images[0]"
+                alt="room-photo"
+              />
               <default-photo v-else />
             </div>
             <div class="entity_title">{{ room.name }}</div>
@@ -19,7 +23,7 @@
               {{ $t("room.title") + " - " + roomId }}
             </div>
             <div class="entity_info_item">
-              {{ $t("room.rating") + " - " }}
+              {{ $t("rating") + " - " }}
               <stars-rating :rating="room.rating" />
             </div>
           </div>
