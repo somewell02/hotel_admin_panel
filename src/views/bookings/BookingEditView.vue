@@ -1,7 +1,7 @@
 <template>
   <main class="entity_edit_wrap">
     <preloader-spinner ref="preloader" />
-    <div v-if="room" class="entity_edit">
+    <div v-if="booking" class="entity_edit">
       <div class="entity_edit_navbar">
         <div class="entity_edit_header">
           <filled-button color="primary-light" @click="backToList">
@@ -10,33 +10,21 @@
         </div>
         <div class="entity_edit_main">
           <div class="entity_main_info">
-            <div class="room_photo">
-              <img
-                v-if="room.images && room.images.length > 0"
-                :src="room.images[0]"
-                alt="room-photo"
-              />
-              <default-photo v-else />
-            </div>
-            <div class="entity_title">{{ room.name }}</div>
+            <div class="entity_title">{{ booking.roomName }}</div>
             <div class="entity_info_item">
-              {{ $t("room.title") + " - " + roomId }}
-            </div>
-            <div class="entity_info_item">
-              {{ $t("rating") + " - " }}
-              <stars-rating :rating="room.rating" />
+              {{ bookingId }}
             </div>
           </div>
           <nav class="entity_edit_menu">
-            <router-link-icon :to="{ name: 'roomInfo' }">
+            <router-link-icon :to="{ name: 'bookingInfo' }">
               <info-icon />
               {{ $t("info") }}
             </router-link-icon>
-            <router-link-icon :to="{ name: 'roomVisits' }">
-              <bookings-icon />
-              {{ $t("user.edit.nav.visits") }}
+            <router-link-icon :to="{ name: 'bookingServices' }">
+              <services-icon />
+              {{ $t("booking.edit.nav.services") }}
             </router-link-icon>
-            <icon-button @click="deleteRoom">
+            <icon-button @click="deleteBooking">
               <delete-icon />
               {{ $t("delete") }}
             </icon-button>
@@ -57,20 +45,18 @@ import FilledButton from "@/components/buttons/FilledButton.vue";
 import RouterLinkIcon from "@/components/buttons/RouterLinkIcon.vue";
 import IconButton from "@/components/buttons/IconButton.vue";
 import ConfirmationPopup from "@/components/popups/ConfirmationPopup";
-import DefaultPhoto from "@/assets/img/DefaultPhoto";
-import StarsRating from "@/components/other/StarsRating.vue";
 
 import InfoIcon from "@/assets/img/icons/InfoIcon";
 import DeleteIcon from "@/assets/img/icons/DeleteIcon.vue";
-import BookingsIcon from "@/assets/img/icons/BookingsIcon";
+import ServicesIcon from "@/assets/img/icons/ServicesIcon.vue";
 
-import { getRoomById, deleteRoom } from "@/data/firebase/roomsApi";
+import { getBookingById, deleteBooking } from "@/data/firebase/bookingsApi";
 
 export default {
   data() {
     return {
-      roomId: this.$route.params.id,
-      room: null,
+      bookingId: this.$route.params.id,
+      booking: null,
     };
   },
 
@@ -85,52 +71,50 @@ export default {
     InfoIcon,
     IconButton,
     DeleteIcon,
-    BookingsIcon,
+    ServicesIcon,
     ConfirmationPopup,
-    DefaultPhoto,
-    StarsRating,
   },
 
   methods: {
     initData() {
-      getRoomById(this.roomId)
+      getBookingById(this.bookingId)
         .then((data) => {
           if (!data) {
             this.$router.push({
-              name: "rooms",
+              name: "bookings",
               params: {
                 messageType: "error",
-                messageText: this.$t("room.alerts.notFound"),
+                messageText: this.$t("booking.alerts.notFound"),
               },
             });
           }
-          this.room = data;
+          this.booking = data;
         })
         .finally(() => {
-          if (this.room && this.$refs.preloader) {
+          if (this.booking && this.$refs.preloader) {
             this.$refs.preloader.hide();
           }
         });
     },
 
-    async deleteRoom() {
+    async deleteBooking() {
       const popupResult = await this.$refs.deleteConfirmation.open(
-        this.$t("room.delete") + ": " + this.room.name + "?"
+        this.$t("booking.delete") + "?"
       );
       if (popupResult) {
-        deleteRoom(this.roomId);
+        deleteBooking(this.bookingId);
         this.$router.push({
-          name: "rooms",
+          name: "bookings",
           params: {
             messageType: "success",
-            messageText: this.$t("room.alerts.deleted"),
+            messageText: this.$t("booking.alerts.deleted"),
           },
         });
       }
     },
 
     backToList() {
-      this.$router.push({ name: "rooms" });
+      this.$router.push({ name: "bookings" });
     },
 
     getRouterParams() {
@@ -165,7 +149,7 @@ export default {
           flex-direction: column;
           align-items: center;
           text-align: center;
-          .room_photo {
+          .booking_photo {
             width: 100%;
             height: 120px;
             img {

@@ -14,7 +14,7 @@
       </div>
     </header>
     <div class="user_add_content">
-      <user-form ref="userAddForm" v-model="user" />
+      <user-form ref="userAddForm" v-model="user" :isAdd="true" />
     </div>
     <message-alert ref="alert"></message-alert>
   </main>

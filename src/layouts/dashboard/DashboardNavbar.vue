@@ -21,6 +21,15 @@
         {{ $t("booking.nav") }}
       </router-link-icon>
       <div class="hr"></div>
+      <router-link-icon :to="{ name: 'rents' }">
+        <rents-icon />
+        {{ $t("rent.nav") }}
+      </router-link-icon>
+      <router-link-icon :to="{ name: 'events' }">
+        <events-icon />
+        {{ $t("event.nav") }}
+      </router-link-icon>
+      <div class="hr"></div>
       <router-link-icon :to="{ name: 'faq' }">
         <faq-icon />
         {{ $t("faq.nav") }}
@@ -51,6 +60,8 @@ import GraphIcon from "@/assets/img/icons/GraphIcon";
 import BookingsIcon from "@/assets/img/icons/BookingsIcon";
 import ChatIcon from "@/assets/img/icons/ChatIcon";
 import FaqIcon from "@/assets/img/icons/FaqIcon";
+import EventsIcon from "@/assets/img/icons/EventsIcon";
+import RentsIcon from "@/assets/img/icons/RentsIcon";
 import ConfirmationPopup from "@/components/popups/ConfirmationPopup.vue";
 
 import { logout } from "@/data/firebase/auth";
@@ -67,6 +78,8 @@ export default {
     BookingsIcon,
     ChatIcon,
     FaqIcon,
+    EventsIcon,
+    RentsIcon,
     ConfirmationPopup,
   },
 

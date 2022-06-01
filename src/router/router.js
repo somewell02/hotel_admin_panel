@@ -7,6 +7,8 @@ import { roomsRoutes } from "./roomsRoutes";
 import { chatRoutes } from "./chatRoutes";
 import { bookingsRoutes } from "./bookingsRoutes";
 import { faqRoutes } from "./faqRoutes";
+import { eventsRoutes } from "./eventsRoutes";
+import { rentsRoutes } from "./rentsRoutes";
 
 const routes = [
   {
@@ -40,6 +42,8 @@ const routes = [
       ...chatRoutes,
       ...bookingsRoutes,
       ...faqRoutes,
+      ...eventsRoutes,
+      ...rentsRoutes,
     ],
   },
 ];

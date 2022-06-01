@@ -5,7 +5,7 @@ export const tableInfo = {
     { id: "dates", name: i18n.global.t("booking.fields.dates"), width: 22 },
     {
       id: "status",
-      name: i18n.global.t("booking.fields.status"),
+      name: i18n.global.t("status"),
       width: 20,
       type: "background",
     },
@@ -31,7 +31,7 @@ export const tableInfo = {
   actions: ["edit", "delete"],
 };
 
-export const userTableInfo = {
+export const shortTableInfo = {
   titles: tableInfo.titles,
   actions: ["view"],
 };
@@ -48,7 +48,7 @@ export const filters = [
   {
     id: "statusId",
     type: "checkbox",
-    title: i18n.global.t("booking.fields.status"),
+    title: i18n.global.t("status"),
     options: [],
     values: [],
   },
@@ -62,5 +62,5 @@ export const filters = [
 ];
 
 export const searchInfo = {
-  fields: ["dates", "roomId", "roomType.title"],
+  fields: ["id", "dates", "roomId", "roomType.title"],
 };

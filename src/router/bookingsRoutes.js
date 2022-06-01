@@ -15,37 +15,38 @@ export const bookingsRoutes = [
       //   path: "roles",
       //   name: "roles",
       //   meta: { title: i18n.global.t("role.nav") },
-      //   component: () => import("../views/users/RolesList.vue"),
+      //   component: () => import("../views/bookings/RolesList.vue"),
       // },
       // {
       //   path: "roles/edit/:id",
       //   name: "roleEdit",
       //   meta: { title: i18n.global.t("role.nav") },
-      //   component: () => import("../views/users/RolesList.vue"),
+      //   component: () => import("../views/bookings/RolesList.vue"),
       // },
     ],
   },
-  // {
-  //   path: "users/add",
-  //   name: "userAdd",
-  //   meta: { title: i18n.global.t("user.add") },
-  //   component: () => import("../views/users/UserAddView.vue"),
-  // },
-  // {
-  //   path: "users/edit/:id",
-  //   name: "userEdit",
-  //   redirect: { name: "userInfo" },
-  //   component: () => import("../views/users/UserEditView.vue"),
-  //   children: [
-  //     {
-  //       path: "",
-  //       name: "userInfo",
-  //       component: () => import("../views/users/UserInfo.vue"),
-  //     },
-  //     {
-  //       path: "visits",
-  //       name: "userVisits",
-  //     },
-  //   ],
-  // },
+  {
+    path: "bookings/add",
+    name: "bookingAdd",
+    meta: { title: i18n.global.t("booking.add") },
+    component: () => import("../views/bookings/BookingAddView.vue"),
+  },
+  {
+    path: "bookings/edit/:id",
+    name: "bookingEdit",
+    redirect: { name: "bookingInfo" },
+    component: () => import("../views/bookings/BookingEditView.vue"),
+    children: [
+      {
+        path: "",
+        name: "bookingInfo",
+        component: () => import("../views/bookings/BookingInfo.vue"),
+      },
+      {
+        path: "services",
+        name: "bookingServices",
+        component: () => import("../views/bookings/BookingServices.vue"),
+      },
+    ],
+  },
 ];

@@ -23,20 +23,14 @@
           :min="0"
           :max="50"
         />
-        <mask-input
+        <time-input
           class="input_item column_12 margin"
           v-model="room.checkIn"
-          mask="#${:}*0"
-          :definitions="{ '#': /[0-2]/, $: /[0-9]/, '*': /[0-5]/ }"
-          :maxLength="5"
           :placeholder="$t('room.fields.checkIn')"
         />
-        <mask-input
+        <time-input
           class="input_item column_12"
           v-model="room.eviction"
-          mask="#${:}*0"
-          :definitions="{ '#': /[0-2]/, $: /[0-9]/, '*': /[0-5]/ }"
-          :maxLength="5"
           :placeholder="$t('room.fields.eviction')"
         />
       </div>
@@ -95,7 +89,7 @@ import { getRoomTags } from "@/data/firebase/roomTagsApi";
 
 import BorderedSelect from "@/components/dropdowns/BorderedSelect";
 import NumberInput from "@/components/inputs/NumberInput";
-import MaskInput from "@/components/inputs/MaskInput";
+import TimeInput from "@/components/inputs/TimeInput";
 import MultiSelectSearch from "@/components/dropdowns/MultiSelectSearch";
 import ArrayTextarea from "@/components/inputs/ArrayTextarea";
 import FormLayout from "@/layouts/dashboard/FormLayout";
@@ -129,7 +123,7 @@ export default {
     FormLayout,
     MultiSelectSearch,
     GalleryInput,
-    MaskInput,
+    TimeInput,
   },
 
   async created() {

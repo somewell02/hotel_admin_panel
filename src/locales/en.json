@@ -23,6 +23,7 @@
   "color": "Color",
   "rating": "Rating",
   "price": "Price",
+  "status": "Status",
   "id": "ID",
   "auth": {
     "title": "Authorization",
@@ -58,13 +59,15 @@
   },
   "user": {
     "nav": "Users",
+    "title": "User",
     "add": "Add a user",
     "delete": "Delete the user",
     "fields": {
       "name": "Full name",
       "role": "Role",
       "phone": "Phone",
-      "email": "Email"
+      "email": "Email",
+      "password": "Password"
     },
     "edit": {
       "nav": {
@@ -76,7 +79,8 @@
     "form": {
       "info": "Personal information",
       "contact": "Contact details",
-      "chooseRole": "Choose role"
+      "chooseRole": "Choose role",
+      "repeatPassword": "Repeat the password"
     },
     "alerts": {
       "added": "User successfully added",
@@ -113,6 +117,7 @@
     "add": "Add a room",
     "delete": "Delete the room",
     "fields": {
+      "id": "Number",
       "type": "Type",
       "name": "Name",
       "bedsCount": "Beds count",
@@ -127,21 +132,72 @@
       "tagSearch": "Search tag",
       "noTags": "Tags not found"
     },
+    "edit": {
+      "noVisits": "The room had no visits"
+    },
     "alerts": {
       "added": "Room successfully added",
       "deleted": "Room successfully deleted",
       "updated": "Room successfully updated",
-      "notFound": "Room not found"
+      "notFound": "Room not found",
+      "requiredFileds": "The name, class and price of the room are mandatory",
+      "requiredImage": "Add at least one image of the number"
+    }
+  },
+  "roomType": {
+    "nav": "Types",
+    "add": "Add a type",
+    "edit": "Edit the type",
+    "delete": "Delete the type",
+    "alerts": {
+      "added": "Type successfully added",
+      "deleted": "Type successfully deleted",
+      "updated": "Type successfully updated",
+      "requiredFileds": "ID and title are required",
+      "alreadyExists": "The type with the entered ID already exists",
+      "roomsExist": "There are rooms with the selected type. Before deleting, change their type or delete them."
+    }
+  },
+  "roomTag": {
+    "nav": "Tags",
+    "add": "Add a tag",
+    "edit": "Edit the tag",
+    "delete": "Delete the tag",
+    "alerts": {
+      "added": "Tag successfully added",
+      "deleted": "Tag successfully deleted",
+      "updated": "Tag successfully updated",
+      "requiredFileds": "Title is required",
+      "roomsExist": "There are numbers with the selected tag. Before deleting, delete this tag from them."
     }
   },
   "booking": {
     "nav": "Bookings",
+    "add": "Add a booking",
+    "delete": "Delete the booking",
     "fields": {
       "dates": "Dates",
-      "status": "Status",
+      "dateStart": "Start date",
+      "dateEnd": "End date",
       "roomId": "Room",
       "roomType": "Room type",
       "totalPrice": "Total price"
+    },
+    "form": {
+      "chooseStatus": "Shoose the status"
+    },
+    "edit": {
+      "nav": {
+        "services": "Services"
+      },
+      "noServices": "The reservation does not contain used services"
+    },
+    "alerts": {
+      "added": "Booking successfully added",
+      "deleted": "Booking successfully deleted",
+      "updated": "Booking successfully updated",
+      "notFound": "Booking not found",
+      "requiredFileds": "-------------------------------------------------------------------"
     }
   },
   "chat": {
@@ -175,5 +231,15 @@
       "updated": "Question successfully updated",
       "requiredFileds": "Title and description are required"
     }
+  },
+  "rent": {
+    "nav": "Services",
+    "add": "Add a service",
+    "delete": "Delete the service"
+  },
+  "event": {
+    "nav": "Events",
+    "add": "Add an event",
+    "delete": "Delete the event"
   }
 }

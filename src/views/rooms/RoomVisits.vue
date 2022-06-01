@@ -1,5 +1,5 @@
 <template>
-  <div class="user_visits_wrap">
+  <div class="room_visits_wrap">
     <preloader-spinner ref="preloader" />
     <spacing-bordered-table
       class="bookings_table"
@@ -9,14 +9,14 @@
       :actions="shortTableInfo.actions"
       @view="(booking) => viewBooking(booking.id)"
     />
-    <div v-else>{{ $t("user.edit.noVisits") }}</div>
+    <div v-else>{{ $t("room.edit.noVisits") }}</div>
   </div>
 </template>
 
 <script>
 import SpacingBorderedTable from "@/components/lists/SpacingBorderedTable";
 
-import { getBookingsByUser } from "@/data/firebase/bookingsApi";
+import { getBookingsByRoom } from "@/data/firebase/bookingsApi";
 import { getBookingStatuses } from "@/data/firebase/bookingStatusesApi";
 import { getRoomTypes } from "@/data/firebase/roomTypesApi";
 
@@ -27,7 +27,7 @@ import { msToDayMonthYear } from "@/services/methods/datetime";
 export default {
   data() {
     return {
-      userId: this.$route.params.id,
+      roomId: this.$route.params.id,
       bookingsList: null,
       statusesList: null,
       roomTypesList: null,
@@ -56,7 +56,7 @@ export default {
 
   methods: {
     async initData() {
-      await getBookingsByUser(this.userId).then((data) => {
+      await getBookingsByRoom(this.roomId).then((data) => {
         this.bookingsList = data;
       });
       await getBookingStatuses().then((statuses) => {
@@ -116,13 +116,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.user_visits_wrap {
+.room_visits_wrap {
   position: relative;
   padding-top: 90px;
   .bookings_table {
     padding-bottom: 20px;
     height: calc(100vh - 210px);
-    overflow-y: auto;
     @include custom-scroll;
   }
 }

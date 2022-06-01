@@ -54,6 +54,11 @@ export const roomsRoutes = [
         name: "roomInfo",
         component: () => import("../views/rooms/RoomInfo.vue"),
       },
+      {
+        path: "visits",
+        name: "roomVisits",
+        component: () => import("../views/rooms/RoomVisits.vue"),
+      },
     ],
   },
 ];

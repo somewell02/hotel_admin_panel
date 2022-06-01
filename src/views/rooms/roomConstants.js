@@ -16,6 +16,27 @@ export const structureInfo = {
   actions: ["edit", "delete"],
 };
 
+export const bookingTableInfo = {
+  titles: [
+    { id: "id", name: i18n.global.t("room.fields.id"), width: 15 },
+    { id: "name", name: i18n.global.t("room.fields.name"), width: 35 },
+    {
+      id: "type",
+      name: i18n.global.t("room.fields.type"),
+      width: 22,
+      type: "background",
+    },
+    {
+      id: "price",
+      name: i18n.global.t("price"),
+      width: 16,
+      type: "price",
+      unit: "₽/ночь",
+    },
+  ],
+  actions: ["view"],
+};
+
 export const sortInfo = {
   options: [
     { id: "default", title: i18n.global.t("default") },

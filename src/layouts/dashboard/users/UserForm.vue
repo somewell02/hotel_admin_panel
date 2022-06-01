@@ -37,6 +37,20 @@
         />
       </div>
     </div>
+    <div class="form_block" v-if="isAdd && userRole.staff">
+      <h2>{{ $t("user.fields.password") }}</h2>
+      <div class="form_block_inputs">
+        <text-input
+          class="input_item column_13 margin"
+          v-model="user.password"
+          :placeholder="$t('user.fields.password')"
+        />
+        <text-input
+          class="input_item column_13"
+          :placeholder="$t('user.form.repeatPassword')"
+        />
+      </div>
+    </div>
     <message-alert ref="alert"></message-alert>
   </form-layout>
 </template>
@@ -61,6 +75,11 @@ export default {
       type: Object,
       required: true,
     },
+    isAdd: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
 
   components: {
@@ -71,6 +90,14 @@ export default {
   async created() {
     await this.initData();
     this.role = this.user.role ? this.user.role.toString() : "";
+  },
+
+  computed: {
+    userRole() {
+      if (this.roles) {
+        return this.roles.find((role) => role.id == this.user.role);
+      } else return {};
+    },
   },
 
   methods: {

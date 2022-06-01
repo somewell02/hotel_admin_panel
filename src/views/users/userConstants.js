@@ -15,6 +15,11 @@ export const tableInfo = {
   actions: ["edit", "delete"],
 };
 
+export const bookingTableInfo = {
+  titles: tableInfo.titles,
+  actions: ["view"],
+};
+
 export const sortInfo = {
   options: [
     { id: "default", title: i18n.global.t("default") },

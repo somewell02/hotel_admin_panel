@@ -236,7 +236,7 @@ export default {
 
     async deleteBooking(booking) {
       const popupResult = await this.$refs.deleteConfirmation.open(
-        this.$t("booking.delete") + ": " + booking.name + "?"
+        this.$t("booking.delete") + "?"
       );
       if (popupResult) {
         const res = deleteBooking(booking.id);

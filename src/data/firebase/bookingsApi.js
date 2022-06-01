@@ -37,6 +37,24 @@ export const getBookingsByUser = (id) => {
   });
 };
 
+export const getBookingsByRoom = (id) => {
+  const bookings = ref(null);
+
+  const close = bookingsCollection
+    .where("roomId", "==", id)
+    .onSnapshot((snapshot) => {
+      bookings.value = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+    });
+  onUnmounted(close);
+
+  return new Promise((resolve) => {
+    resolve(bookings);
+  });
+};
+
 export const getBookingsByStatus = async (statusId) => {
   const res = await bookingsCollection.where("status", "==", statusId).get();
   const bookings = res.docs.map((doc) => ({
