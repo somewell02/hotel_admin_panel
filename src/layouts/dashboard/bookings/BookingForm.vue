@@ -1,14 +1,14 @@
 <template>
   <form-layout class="booking_form" v-if="modelValue">
     <preloader-spinner ref="preloader" />
-    <div class="form_block">
+    <div class="form_block" v-if="!isAdd">
       <h2>{{ $t("status") }}</h2>
       <div class="form_block_inputs">
         <bordered-select
           class="input_item column_12 margin"
-          v-if="types"
+          v-if="statuses"
           v-model="booking.status"
-          :options="types"
+          :options="statuses"
           :defaultTitle="$t('booking.form.chooseStatus')"
         />
       </div>
@@ -31,7 +31,15 @@
     <div class="form_block">
       <h2>{{ $t("user.title") }}</h2>
       <div class="form_block_inputs">
-        <div v-if="isAdd"></div>
+        <table-search-select
+          v-if="isAdd && usersList"
+          class="user_table input_item"
+          v-model="booking.uid"
+          :options="modifiedUsersList"
+          :table="{ titles: userTable.titles, actions: ['select'] }"
+          :defaultTitle="$t('booking.form.chooseUser')"
+          :searchInfo="userSearchInfo"
+        />
         <spacing-bordered-table
           v-else
           class="user_table input_item"
@@ -45,14 +53,14 @@
     <div class="form_block">
       <h2>{{ $t("room.title") }}</h2>
       <div class="form_block_inputs">
-        <div v-if="isAdd"></div>
-        <spacing-bordered-table
-          v-else
+        <table-search-select
+          v-if="roomsList"
           class="room_table input_item"
-          :titles="roomTable.titles"
-          :rows="booking.room"
-          :actions="roomTable.actions"
-          @view="(room) => viewRoom(room.id)"
+          v-model="booking.roomId"
+          :options="modifiedRoomsList"
+          :table="{ titles: roomTable.titles, actions: ['select'] }"
+          :defaultTitle="$t('booking.form.chooseRoom')"
+          :searchInfo="roomSearchInfo"
         />
       </div>
     </div>
@@ -62,21 +70,31 @@
 
 <script>
 import { getBookingStatuses } from "@/data/firebase/bookingStatusesApi";
+import { getUsers } from "@/data/firebase/usersApi";
+import { getRooms } from "@/data/firebase/roomsApi";
+import { getUserRoles } from "@/data/firebase/userRolesApi";
+import { getRoomTypes } from "@/data/firebase/roomTypesApi";
 
 import BorderedSelect from "@/components/dropdowns/BorderedSelect";
+import TableSearchSelect from "@/components/dropdowns/TableSearchSelect";
 import SpacingBorderedTable from "@/components/lists/SpacingBorderedTable";
 import DateInput from "@/components/inputs/DateInput";
 import FormLayout from "@/layouts/dashboard/FormLayout";
 
 import { bookingTableInfo as userTable } from "@/views/users/userConstants";
 import { bookingTableInfo as roomTable } from "@/views/rooms/roomConstants";
+import { searchInfo as userSearchInfo } from "@/views/users/userConstants";
+import { searchInfo as roomSearchInfo } from "@/views/rooms/roomConstants";
 
 export default {
   data() {
     return {
       booking: this.modelValue,
-      types: null,
-      tags: null,
+      statuses: null,
+      usersList: null,
+      roomsList: null,
+      rolesList: null,
+      typesList: null,
     };
   },
 
@@ -97,6 +115,7 @@ export default {
     FormLayout,
     DateInput,
     SpacingBorderedTable,
+    TableSearchSelect,
   },
 
   async created() {
@@ -110,20 +129,88 @@ export default {
     roomTable() {
       return roomTable;
     },
+    userSearchInfo() {
+      return userSearchInfo;
+    },
+    roomSearchInfo() {
+      return roomSearchInfo;
+    },
+    modifiedUsersList() {
+      let users = this.usersList.map((user) => {
+        return {
+          ...user,
+        };
+      });
+
+      if (users && users.length > 0 && this.rolesList) {
+        users.forEach((user) => {
+          const userRole = this.rolesList.find((role) => role.id == user.role);
+          if (userRole) {
+            user.role = {
+              title: userRole.title,
+              background: userRole.color,
+            };
+          }
+        });
+      }
+
+      return users;
+    },
+    modifiedRoomsList() {
+      let rooms = this.roomsList.map((room) => {
+        return {
+          ...room,
+        };
+      });
+
+      if (rooms && rooms.length > 0 && this.typesList) {
+        rooms.forEach((room) => {
+          const roomType = this.typesList.find((type) => type.id == room.type);
+          if (roomType) {
+            room.typeId = roomType.id;
+            room.type = {
+              title: roomType.title,
+              background: roomType.color,
+            };
+          }
+        });
+      }
+
+      return rooms;
+    },
   },
 
   methods: {
     initData() {
-      getBookingStatuses()
-        .then((data) => {
-          this.types = data;
-        })
-        .finally(() => {
-          this.$refs.preloader.hide();
+      if (this.isAdd) {
+        getUsers().then((users) => {
+          this.usersList = users;
         });
+        getUserRoles()
+          .then((roles) => {
+            this.rolesList = roles;
+          })
+          .finally(() => {
+            this.$refs.preloader.hide();
+          });
+      } else {
+        getRooms().then((rooms) => {
+          this.roomsList = rooms;
+        });
+        getRoomTypes().then((types) => {
+          this.typesList = types;
+        });
+        getBookingStatuses()
+          .then((data) => {
+            this.statuses = data;
+          })
+          .finally(() => {
+            this.$refs.preloader.hide();
+          });
+      }
     },
 
-    updateUser() {
+    updateBooking() {
       this.$emit("update:modelValue", this.booking);
     },
 
@@ -136,21 +223,22 @@ export default {
     },
 
     validate() {
-      if (
-        !this.booking.name.trim() ||
-        !this.booking.type.trim() ||
-        isNaN(this.booking.price)
-      ) {
+      if (!this.booking.uid || !this.booking.roomId) {
         this.$refs.alert.open(
           "error",
           this.$t("booking.alerts.requiredFileds")
         );
         return false;
       }
-      if (this.booking.images.length < 1) {
-        this.$refs.alert.open("error", this.$t("booking.alerts.requiredImage"));
-        return false;
-      }
+      this.booking.roomName = this.roomsList.find(
+        (room) => room.id == this.booking.roomId
+      ).name;
+      this.booking.roomType = this.roomsList.find(
+        (room) => room.id == this.booking.roomId
+      ).type;
+      this.booking.dateStart = new Date(this.booking.dateStart);
+      this.booking.dateEnd = new Date(this.booking.dateEnd);
+      this.updateBooking();
       return true;
     },
   },
@@ -160,16 +248,6 @@ export default {
 <style lang="scss" scoped>
 .booking_form {
   position: relative;
-  textarea {
-    height: 150px;
-  }
-  .tags_select {
-    width: 100%;
-    height: 100px;
-  }
-  .gallery_input {
-    width: 100%;
-  }
   .user_table,
   .room_table {
     width: 100%;

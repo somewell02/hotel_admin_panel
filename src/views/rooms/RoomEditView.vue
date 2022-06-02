@@ -36,6 +36,12 @@
               <bookings-icon />
               {{ $t("user.edit.nav.visits") }}
             </router-link-icon>
+            <router-link-icon
+              :to="{ name: 'bookingAdd', params: { roomId: roomId } }"
+            >
+              <bookings-icon />
+              {{ $t("booking.edit.nav.goToAddBooking") }}
+            </router-link-icon>
             <icon-button @click="deleteRoom">
               <delete-icon />
               {{ $t("delete") }}

@@ -11,18 +11,18 @@ export const bookingsRoutes = [
         meta: { title: i18n.global.t("booking.nav") },
         component: () => import("../views/bookings/BookingsList.vue"),
       },
-      // {
-      //   path: "roles",
-      //   name: "roles",
-      //   meta: { title: i18n.global.t("role.nav") },
-      //   component: () => import("../views/bookings/RolesList.vue"),
-      // },
-      // {
-      //   path: "roles/edit/:id",
-      //   name: "roleEdit",
-      //   meta: { title: i18n.global.t("role.nav") },
-      //   component: () => import("../views/bookings/RolesList.vue"),
-      // },
+      {
+        path: "statuses",
+        name: "statuses",
+        meta: { title: i18n.global.t("bookingStatus.nav") },
+        component: () => import("../views/bookings/statuses/StatusesList.vue"),
+      },
+      {
+        path: "statuses/edit/:id",
+        name: "statusEdit",
+        meta: { title: i18n.global.t("bookingStatus.nav") },
+        component: () => import("../views/bookings/statuses/StatusesList.vue"),
+      },
     ],
   },
   {

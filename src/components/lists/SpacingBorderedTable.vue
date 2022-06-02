@@ -1,6 +1,6 @@
 <template>
   <div class="spacing_bordered_table">
-    <div class="titles">
+    <div class="titles" v-if="showTitles">
       <div
         v-for="title in titles"
         :key="title.id"
@@ -19,7 +19,9 @@
         :class="{
           spaced: this.type == 1,
           compressed: this.type == 2,
+          pointer: this.actions.includes('select'),
         }"
+        @click="this.$emit('select', row)"
       >
         <div
           v-for="title in titles"
@@ -49,10 +51,10 @@
             {{ row[title.id] ? row[title.id].title : "-" }}
           </div>
           <div
-            v-else-if="row[title.id] && title.type == 'price'"
+            v-else-if="row[title.id] != null && title.type == 'price'"
             class="content string"
           >
-            {{ row[title.id] ? row[title.id] + " " + title.unit : "-" }}
+            {{ row[title.id] != null ? row[title.id] + " " + title.unit : "-" }}
           </div>
           <div
             v-else-if="row[title.id] && title.type == 'bool'"
@@ -114,6 +116,7 @@ import EyeIcon from "@/assets/img/icons/EyeIcon";
 import { isDark } from "@/services/methods/color";
 
 export default {
+  name: "spacing-bordered-table",
   components: {
     EditIcon,
     DeleteIcon,
@@ -137,12 +140,18 @@ export default {
       type: Array,
       requried: true,
     },
+    showTitles: {
+      type: Boolean,
+      requried: false,
+      default: true,
+    },
   },
 
   emits: {
     view: null,
     edit: null,
     delete: null,
+    select: null,
   },
 
   methods: {
@@ -175,6 +184,9 @@ export default {
     }
     &.compressed:not(:last-child) {
       border-bottom: 1px solid var(--border-color);
+    }
+    &.pointer {
+      cursor: pointer;
     }
     .column {
       padding-right: 15px;

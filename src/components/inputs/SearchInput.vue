@@ -58,6 +58,7 @@ export default {
     top: calc(50% - 8px);
     width: 16px;
     height: 16px;
+    pointer-events: none;
   }
 }
 </style>

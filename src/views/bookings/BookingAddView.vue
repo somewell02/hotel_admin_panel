@@ -33,7 +33,7 @@ export default {
         roomId: "",
         roomName: "",
         roomType: "",
-        status: "",
+        status: "booked",
         totalPrice: 0,
         uid: "",
       },
@@ -42,6 +42,10 @@ export default {
 
   components: {
     BookingForm,
+  },
+
+  created() {
+    this.getRouterParams();
   },
 
   methods: {
@@ -59,6 +63,15 @@ export default {
             });
           }
         });
+      }
+    },
+
+    getRouterParams() {
+      if (this.$route.params.userId) {
+        this.booking.uid = this.$route.params.userId;
+      }
+      if (this.$route.params.roomId) {
+        this.booking.roomId = this.$route.params.roomId;
       }
     },
   },

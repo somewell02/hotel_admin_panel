@@ -48,7 +48,7 @@ import BorderedFilters from "@/components/filters/BorderedFilters.vue";
 
 import { tableInfo, sortInfo, filters, searchInfo } from "./userConstants";
 
-import { getUsers, deleteUser } from "@/data/firebase/usersApi";
+import { subscribeUsers, deleteUser } from "@/data/firebase/usersApi";
 import { getUserRoles } from "@/data/firebase/userRolesApi";
 
 import {
@@ -134,7 +134,7 @@ export default {
 
   methods: {
     async initData() {
-      await getUsers().then((data) => {
+      await subscribeUsers().then((data) => {
         this.usersList = data;
       });
       await getUserRoles().then((roles) => {

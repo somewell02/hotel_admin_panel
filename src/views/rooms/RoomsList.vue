@@ -47,7 +47,7 @@ import BorderedFilters from "@/components/filters/BorderedFilters.vue";
 
 import { structureInfo, sortInfo, filters, searchInfo } from "./roomConstants";
 
-import { getRooms, deleteRoom } from "@/data/firebase/roomsApi";
+import { subscribeRooms, deleteRoom } from "@/data/firebase/roomsApi";
 import { getRoomTypes } from "@/data/firebase/roomTypesApi";
 
 import { sliceWithEllipsis } from "@/services/methods/string";
@@ -135,7 +135,7 @@ export default {
 
   methods: {
     async initData() {
-      await getRooms().then((data) => {
+      await subscribeRooms().then((data) => {
         this.roomsList = data;
       });
       await getRoomTypes().then((types) => {

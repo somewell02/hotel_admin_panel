@@ -4,7 +4,7 @@ import { addChat, deleteChat } from "./chatsApi";
 
 const usersCollection = firestore.collection("users");
 
-export const getUsers = () => {
+export const subscribeUsers = () => {
   const users = ref(null);
   let modifiedUsers = usersCollection;
 
@@ -41,6 +41,15 @@ export const getUsers = () => {
   return new Promise((resolve) => {
     resolve(users);
   });
+};
+
+export const getUsers = async () => {
+  const res = await usersCollection.get();
+  const users = res.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+  return users;
 };
 
 export const getUsersByRole = async (roleId) => {

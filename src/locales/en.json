@@ -184,11 +184,14 @@
       "totalPrice": "Total price"
     },
     "form": {
-      "chooseStatus": "Shoose the status"
+      "chooseStatus": "Shoose the status",
+      "chooseUser": "Shoose the user",
+      "chooseRoom": "Shoose the room"
     },
     "edit": {
       "nav": {
-        "services": "Services"
+        "services": "Services",
+        "goToAddBooking": "Create a booking"
       },
       "noServices": "The reservation does not contain used services"
     },
@@ -199,6 +202,21 @@
       "notFound": "Booking not found",
       "requiredFileds": "-------------------------------------------------------------------"
     }
+  },
+  "bookingStatus": {
+    "nav": "Statuses",
+    "add": "Add a status",
+    "edit": "Edit the status",
+    "delete": "Delete the status",
+    "alerts": {
+      "added": "Status successfully added",
+      "deleted": "Status successfully deleted",
+      "updated": "Status successfully updated",
+      "requiredFileds": "ID and title are required",
+      "alreadyExists": "The status with the entered ID already exists",
+      "cannotBeDeleted": "The selected status is not available for deletion",
+      "usersExist": "There are bookings with the selected status. Before deleting, change their status or delete them."
+    } 
   },
   "chat": {
     "nav": "Messages",

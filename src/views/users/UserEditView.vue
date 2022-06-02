@@ -27,6 +27,12 @@
               {{ $t("user.edit.nav.visits") }}
             </router-link-icon>
             <router-link-icon
+              :to="{ name: 'bookingAdd', params: { userId: userId } }"
+            >
+              <bookings-icon />
+              {{ $t("booking.edit.nav.goToAddBooking") }}
+            </router-link-icon>
+            <router-link-icon
               :to="{ name: 'currentChat', params: { id: userId } }"
             >
               <chat-icon />

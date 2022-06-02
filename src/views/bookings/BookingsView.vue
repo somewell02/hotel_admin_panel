@@ -12,7 +12,7 @@ export default {
     return {
       tabs: [
         { id: "bookings", title: this.$t("booking.nav") },
-        //{ id: "statuses", title: this.$t("role.nav") },
+        { id: "statuses", title: this.$t("bookingStatus.nav") },
       ],
     };
   },

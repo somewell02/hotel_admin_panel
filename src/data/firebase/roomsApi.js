@@ -4,7 +4,7 @@ import { addImageInStorage } from "./firestorage";
 
 const roomsCollection = firestore.collection("rooms");
 
-export const getRooms = () => {
+export const subscribeRooms = () => {
   const rooms = ref(null);
 
   const close = roomsCollection.onSnapshot((snapshot) => {
@@ -18,6 +18,15 @@ export const getRooms = () => {
   return new Promise((resolve) => {
     resolve(rooms);
   });
+};
+
+export const getRooms = async () => {
+  const res = await roomsCollection.get();
+  const rooms = res.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+  return rooms;
 };
 
 export const getRoomsByType = async (typeId) => {
