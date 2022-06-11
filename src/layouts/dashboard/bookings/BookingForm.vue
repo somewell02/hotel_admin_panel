@@ -44,7 +44,7 @@
           v-else
           class="user_table input_item"
           :titles="userTable.titles"
-          :rows="booking.user"
+          :rows="bookingUser"
           :actions="userTable.actions"
           @view="(user) => viewUser(user.id)"
         />
@@ -61,6 +61,13 @@
           :table="{ titles: roomTable.titles, actions: ['select'] }"
           :defaultTitle="$t('booking.form.chooseRoom')"
           :searchInfo="roomSearchInfo"
+        />
+        <bordered-select
+          class="input_item column_13"
+          v-if="selectedRoomNumbers"
+          v-model="booking.roomNumber"
+          :options="selectedRoomNumbers"
+          :defaultTitle="$t('booking.form.chooseNumber')"
         />
       </div>
     </div>
@@ -81,10 +88,14 @@ import SpacingBorderedTable from "@/components/lists/SpacingBorderedTable";
 import DateInput from "@/components/inputs/DateInput";
 import FormLayout from "@/layouts/dashboard/FormLayout";
 
-import { bookingTableInfo as userTable } from "@/views/users/userConstants";
-import { bookingTableInfo as roomTable } from "@/views/rooms/roomConstants";
-import { searchInfo as userSearchInfo } from "@/views/users/userConstants";
-import { searchInfo as roomSearchInfo } from "@/views/rooms/roomConstants";
+import {
+  bookingTableInfo as userTable,
+  searchInfo as userSearchInfo,
+} from "@/views/users/userConstants";
+import {
+  bookingTableInfo as roomTable,
+  searchInfo as roomSearchInfo,
+} from "@/views/rooms/roomConstants";
 
 export default {
   data() {
@@ -135,26 +146,52 @@ export default {
     roomSearchInfo() {
       return roomSearchInfo;
     },
+    selectedRoomNumbers() {
+      if (this.roomsList && this.booking.roomId) {
+        let numbers = [];
+        const data = this.roomsList.find(
+          (room) => room.id == this.booking.roomId
+        ).numbers;
+        if (data) {
+          data.forEach((number) => {
+            numbers.push({
+              id: number,
+              title: number.toString(),
+            });
+          });
+        }
+        return numbers;
+      } else return null;
+    },
+    bookingUser() {
+      if (this.booking && this.usersList) {
+        return [this.usersList.find((user) => user.id == this.booking.uid)];
+      } else return null;
+    },
     modifiedUsersList() {
-      let users = this.usersList.map((user) => {
-        return {
-          ...user,
-        };
-      });
-
-      if (users && users.length > 0 && this.rolesList) {
-        users.forEach((user) => {
-          const userRole = this.rolesList.find((role) => role.id == user.role);
-          if (userRole) {
-            user.role = {
-              title: userRole.title,
-              background: userRole.color,
-            };
-          }
+      if (this.usersList) {
+        let users = this.usersList.map((user) => {
+          return {
+            ...user,
+          };
         });
-      }
 
-      return users;
+        if (users && users.length > 0 && this.rolesList) {
+          users.forEach((user) => {
+            const userRole = this.rolesList.find(
+              (role) => role.id == user.role
+            );
+            if (userRole) {
+              user.role = {
+                title: userRole.title,
+                background: userRole.color,
+              };
+            }
+          });
+        }
+
+        return users;
+      } else return null;
     },
     modifiedRoomsList() {
       let rooms = this.roomsList.map((room) => {
@@ -182,24 +219,23 @@ export default {
 
   methods: {
     initData() {
-      if (this.isAdd) {
-        getUsers().then((users) => {
-          this.usersList = users;
+      getRooms().then((rooms) => {
+        this.roomsList = rooms;
+      });
+      getRoomTypes().then((types) => {
+        this.typesList = types;
+      });
+      getUsers().then((users) => {
+        this.usersList = users;
+      });
+      getUserRoles()
+        .then((roles) => {
+          this.rolesList = roles;
+        })
+        .finally(() => {
+          this.$refs.preloader.hide();
         });
-        getUserRoles()
-          .then((roles) => {
-            this.rolesList = roles;
-          })
-          .finally(() => {
-            this.$refs.preloader.hide();
-          });
-      } else {
-        getRooms().then((rooms) => {
-          this.roomsList = rooms;
-        });
-        getRoomTypes().then((types) => {
-          this.typesList = types;
-        });
+      if (!this.isAdd) {
         getBookingStatuses()
           .then((data) => {
             this.statuses = data;
@@ -230,6 +266,13 @@ export default {
         );
         return false;
       }
+      if (!this.booking.roomNumber) {
+        this.$refs.alert.open(
+          "error",
+          this.$t("booking.alerts.requiredRoomNumber")
+        );
+        return false;
+      }
       this.booking.roomName = this.roomsList.find(
         (room) => room.id == this.booking.roomId
       ).name;
@@ -238,8 +281,17 @@ export default {
       ).type;
       this.booking.dateStart = new Date(this.booking.dateStart);
       this.booking.dateEnd = new Date(this.booking.dateEnd);
+      this.booking.totalPrice =
+        Math.floor((this.booking.dateEnd - this.booking.dateStart) / 86400000) *
+        this.roomsList.find((room) => room.id == this.booking.roomId).price;
       this.updateBooking();
       return true;
+    },
+  },
+
+  watch: {
+    "booking.roomId"() {
+      this.booking.roomNumber = 0;
     },
   },
 };

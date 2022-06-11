@@ -81,11 +81,10 @@ export const addBooking = async (booking) => {
 
 export const updateBooking = async (id, booking) => {
   const res = await bookingsCollection.doc(id).update(booking);
-  if (res) return true;
-  else return false;
+  return res ?? null;
 };
 
 export const deleteBooking = (id) => {
   const res = bookingsCollection.doc(id).delete();
-  if (res) return res;
+  return res ?? null;
 };

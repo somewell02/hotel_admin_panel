@@ -3,23 +3,23 @@ import i18n from "@/i18n";
 export const eventsRoutes = [
   {
     path: "events",
-    //component: () => import("../views/events/EventsView.vue"),
+    component: () => import("../views/events/EventsView.vue"),
     children: [
       {
         path: "",
         name: "events",
         meta: { title: i18n.global.t("event.nav") },
-        //component: () => import("../views/events/EventsList.vue"),
+        component: () => import("../views/events/EventsList.vue"),
       },
       // {
       //   path: "types",
-      //   name: "types",
+      //   name: "eventTypes",
       //   meta: { title: i18n.global.t("eventType.nav") },
       //   component: () => import("../views/events/types/TypesList.vue"),
       // },
       // {
       //   path: "types/edit/:id",
-      //   name: "typeEdit",
+      //   name: "eventTypeEdit",
       //   meta: { title: i18n.global.t("eventType.nav") },
       //   component: () => import("../views/events/types/TypesList.vue"),
       // },

@@ -32,6 +32,8 @@ export default {
         name: "",
         email: "",
         phone: "",
+        photoUrl: "",
+        isNotifications: true,
       },
     };
   },

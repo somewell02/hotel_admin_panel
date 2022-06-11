@@ -2,6 +2,17 @@
   <form-layout class="room_form" v-if="modelValue">
     <preloader-spinner ref="preloader" />
     <div class="form_block">
+      <h2>{{ $t("room.fields.numbers") }}</h2>
+      <div class="form_block_inputs">
+        <array-with-add-input
+          class="input_item column_1"
+          type="number"
+          v-model="room.numbers"
+          :validate="numbersValidate"
+        />
+      </div>
+    </div>
+    <div class="form_block">
       <h2>{{ $t("info") }}</h2>
       <div class="form_block_inputs">
         <text-input
@@ -84,6 +95,7 @@
 </template>
 
 <script>
+import { getRoomsByNumber } from "@/data/firebase/roomsApi";
 import { getRoomTypes } from "@/data/firebase/roomTypesApi";
 import { getRoomTags } from "@/data/firebase/roomTagsApi";
 
@@ -94,6 +106,7 @@ import MultiSelectSearch from "@/components/dropdowns/MultiSelectSearch";
 import ArrayTextarea from "@/components/inputs/ArrayTextarea";
 import FormLayout from "@/layouts/dashboard/FormLayout";
 import GalleryInput from "@/components/inputs/GalleryInput";
+import ArrayWithAddInput from "@/components/inputs/ArrayWithAddInput";
 
 export default {
   data() {
@@ -124,6 +137,7 @@ export default {
     MultiSelectSearch,
     GalleryInput,
     TimeInput,
+    ArrayWithAddInput,
   },
 
   async created() {
@@ -146,6 +160,14 @@ export default {
 
     updateUser() {
       this.$emit("update:modelValue", this.room);
+    },
+
+    async numbersValidate(number) {
+      let v = false;
+      await getRoomsByNumber(number).then((data) => {
+        v = !(data.length > 0);
+      });
+      return v;
     },
 
     validate() {

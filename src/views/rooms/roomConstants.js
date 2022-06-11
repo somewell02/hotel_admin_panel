@@ -18,7 +18,12 @@ export const structureInfo = {
 
 export const bookingTableInfo = {
   titles: [
-    { id: "id", name: i18n.global.t("room.fields.id"), width: 15 },
+    {
+      id: "numbers",
+      name: i18n.global.t("booking.fields.number"),
+      width: 15,
+      type: "array",
+    },
     { id: "name", name: i18n.global.t("room.fields.name"), width: 35 },
     {
       id: "type",

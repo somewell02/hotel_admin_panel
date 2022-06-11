@@ -88,7 +88,7 @@
       "updated": "User successfully updated",
       "notFound": "User not found",
       "needPhoneOrEmail": "Enter user phone or gmail address",
-      "incorrectGmail": "The email address is entered incorrectly or is not registered on gmail",
+      "incorrectGmail": "The email address is entered incorrectly",
       "incorrectPhone": "Phone number entered incorrectly"
     }
   },
@@ -117,7 +117,7 @@
     "add": "Add a room",
     "delete": "Delete the room",
     "fields": {
-      "id": "Number",
+      "numbers": "Numbers",
       "type": "Type",
       "name": "Name",
       "bedsCount": "Beds count",
@@ -141,7 +141,8 @@
       "updated": "Room successfully updated",
       "notFound": "Room not found",
       "requiredFileds": "The name, class and price of the room are mandatory",
-      "requiredImage": "Add at least one image of the number"
+      "requiredImage": "Add at least one image of the number",
+      "numberExists": "The entered number has already been used"
     }
   },
   "roomType": {
@@ -179,14 +180,15 @@
       "dates": "Dates",
       "dateStart": "Start date",
       "dateEnd": "End date",
-      "roomId": "Room",
+      "number": "Room number",
       "roomType": "Room type",
       "totalPrice": "Total price"
     },
     "form": {
       "chooseStatus": "Shoose the status",
       "chooseUser": "Shoose the user",
-      "chooseRoom": "Shoose the room"
+      "chooseRoom": "Shoose the room",
+      "chooseNumber": "Choose a room number"
     },
     "edit": {
       "nav": {
@@ -200,7 +202,8 @@
       "deleted": "Booking successfully deleted",
       "updated": "Booking successfully updated",
       "notFound": "Booking not found",
-      "requiredFileds": "-------------------------------------------------------------------"
+      "requiredFileds": "User and number are required",
+      "requiredRoomNumber": "The room number is required"
     }
   },
   "bookingStatus": {
@@ -253,11 +256,17 @@
   "rent": {
     "nav": "Services",
     "add": "Add a service",
-    "delete": "Delete the service"
+    "delete": "Delete the service",
+    "fields": {
+      "category": "Category"
+    }
   },
   "event": {
     "nav": "Events",
     "add": "Add an event",
-    "delete": "Delete the event"
+    "delete": "Delete the event",
+    "fields": {
+      "type": "Category"
+    }
   }
 }

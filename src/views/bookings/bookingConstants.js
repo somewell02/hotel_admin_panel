@@ -10,8 +10,8 @@ export const tableInfo = {
       type: "background",
     },
     {
-      id: "roomId",
-      name: i18n.global.t("booking.fields.roomId"),
+      id: "roomNumber",
+      name: i18n.global.t("booking.fields.number"),
       width: 15,
     },
     {

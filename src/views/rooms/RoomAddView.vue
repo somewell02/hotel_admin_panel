@@ -39,6 +39,7 @@ export default {
         tags: [],
         type: "",
         rating: 0,
+        numbers: [],
       },
     };
   },

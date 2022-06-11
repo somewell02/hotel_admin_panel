@@ -1,5 +1,5 @@
 <template>
-  <bordered-input type="text" :value="modelValue" @input="updateInput" />
+  <bordered-input type="text" :value="modelValue ?? ''" @input="updateInput" />
 </template>
 
 <script>

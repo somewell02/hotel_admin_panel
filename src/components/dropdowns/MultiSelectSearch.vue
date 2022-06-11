@@ -39,7 +39,7 @@ export default {
   name: "multi-select-search",
   data() {
     return {
-      items: this.modelValue,
+      items: this.modelValue ?? [],
       isActive: false,
       search: "",
     };

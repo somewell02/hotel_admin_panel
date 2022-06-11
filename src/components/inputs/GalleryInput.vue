@@ -25,7 +25,7 @@ export default {
   components: { CloseIcon },
   data() {
     return {
-      items: [...this.modelValue],
+      items: this.modelValue ? [...this.modelValue] : [],
     };
   },
 

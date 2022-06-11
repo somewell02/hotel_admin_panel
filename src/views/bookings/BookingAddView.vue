@@ -28,11 +28,12 @@ export default {
   data() {
     return {
       booking: {
-        dateEnd: Date.now(),
+        dateEnd: Date.now() + 86400000 * 2,
         dateStart: Date.now(),
         roomId: "",
         roomName: "",
         roomType: "",
+        roomNumber: 0,
         status: "booked",
         totalPrice: 0,
         uid: "",

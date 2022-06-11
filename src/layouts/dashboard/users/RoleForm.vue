@@ -43,10 +43,12 @@ export default {
       role: this.modelValue,
       type: null,
       permissions: [
-        { id: "admin" },
-        { id: "guest" },
+        { id: "create" },
+        { id: "read" },
+        { id: "update" },
+        { id: "delete" },
+        { id: "stats" },
         { id: "chat" },
-        { id: "stat" },
       ],
     };
   },

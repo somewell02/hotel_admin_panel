@@ -13,13 +13,13 @@ export default {
 
   data() {
     return {
-      value: this.modelValue.join("\n"),
+      value: this.modelValue ? this.modelValue.join("\n") : "",
     };
   },
 
   watch: {
     modelValue(v) {
-      this.value = v.join("\n");
+      this.value = v ? v.join("\n") : "";
     },
   },
 

@@ -1,7 +1,7 @@
 <template>
   <div class="actions">
     <search-input v-model="search" />
-    <filled-button @click="addRoom">{{ $t("add") }}</filled-button>
+    <filled-button @click="addRent">{{ $t("add") }}</filled-button>
   </div>
   <div class="tabs_content_wrap">
     <preloader-spinner ref="preloader" />
@@ -17,12 +17,12 @@
       </div>
     </div>
     <image-card-list
-      class="rooms_list"
-      v-if="roomsList"
+      class="rents_list"
+      v-if="rentsList"
       :structure="structureInfo"
-      :list="modifiedRoomsList()"
-      @edit="(room) => editRoom(room.id)"
-      @delete="(room) => deleteRoom(room)"
+      :list="modifiedRentsList()"
+      @edit="(rent) => editRent(rent.id)"
+      @delete="(rent) => deleteRent(rent)"
     />
     <div class="pagination_wrap">
       <div class="count_title">
@@ -45,10 +45,13 @@ import BorderedSelect from "@/components/dropdowns/BorderedSelect";
 import FilledPagination from "@/components/paginations/FilledPagination";
 import BorderedFilters from "@/components/filters/BorderedFilters.vue";
 
-import { structureInfo, sortInfo, filters, searchInfo } from "./roomConstants";
+import { structureInfo, sortInfo, filters, searchInfo } from "./rentConstants";
 
-import { subscribeRooms, deleteRoom } from "@/data/firebase/roomsApi";
-import { getRoomTypes } from "@/data/firebase/roomTypesApi";
+import {
+  subscribeRentItems,
+  deleteRentItem,
+} from "@/data/firebase/rentItemsApi";
+import { getAllRentCategories } from "@/data/firebase/rentCategoriesApi";
 
 import { sliceWithEllipsis } from "@/services/methods/string";
 
@@ -71,8 +74,8 @@ export default {
 
   data() {
     return {
-      roomsList: null,
-      typesList: null,
+      rentsList: null,
+      categoriesList: null,
       search: "",
       sort: "default",
       filters: filters,
@@ -93,7 +96,7 @@ export default {
   },
 
   watch: {
-    roomsList(newValue) {
+    rentsList(newValue) {
       if (newValue) {
         this.$refs.preloader.hide();
         if (newValue.length == 0) {
@@ -135,91 +138,90 @@ export default {
 
   methods: {
     async initData() {
-      await subscribeRooms().then((data) => {
-        this.roomsList = data;
+      await subscribeRentItems().then((data) => {
+        this.rentsList = data;
       });
-      await getRoomTypes().then((types) => {
-        this.typesList = types;
+      await getAllRentCategories().then((categories) => {
+        this.categoriesList = categories;
       });
     },
 
     initFilters() {
-      const filterTypes = [];
-      this.typesList.forEach((type) => {
-        filterTypes.push({ id: type.id, title: type.title });
+      let filterCategories = [];
+      console.log(this.categoriesList);
+      this.categoriesList.forEach((category) => {
+        filterCategories.push({ id: category.id, title: category.title ?? "" });
       });
-      this.filters.find((filter) => filter.id == "typeId").options =
-        filterTypes;
+      this.filters.find((filter) => filter.id == "categoryId").options =
+        filterCategories;
     },
 
-    addRoom() {
-      this.$router.push({ name: "roomAdd" });
+    addRent() {
+      this.$router.push({ name: "rentAdd" });
     },
 
-    editRoom(roomId) {
-      this.$router.push({ name: "roomEdit", params: { id: roomId } });
+    editRent(rentId) {
+      this.$router.push({ name: "rentEdit", params: { id: rentId } });
     },
 
-    async deleteRoom(room) {
+    async deleteRent(rent) {
       const popupResult = await this.$refs.deleteConfirmation.open(
-        this.$t("room.delete") + ": " + room.name + "?"
+        this.$t("rent.delete") + ": " + rent.name + "?"
       );
       if (popupResult) {
-        const res = deleteRoom(room.id);
+        const res = deleteRentItem(rent.id);
         if (res) {
-          this.$refs.alert.open("success", this.$t("room.alerts.deleted"));
+          this.$refs.alert.open("success", this.$t("rent.alerts.deleted"));
         }
       }
     },
 
-    modifiedRoomsList() {
-      let rooms = this.roomsList.map((room) => {
+    modifiedRentsList() {
+      let rents = this.rentsList.map((rent) => {
         return {
-          ...room,
+          ...rent,
         };
       });
 
-      if (rooms && rooms.length > 0 && this.typesList) {
-        rooms.forEach((room) => {
-          room.num = {
-            title: sliceWithEllipsis(room.numbers.join(", "), 10),
-            background: "ffffff",
-          };
-          room.image = room.images ? room.images[0] ?? null : null;
-          room.name = sliceWithEllipsis(room.name, 24);
+      if (rents && rents.length > 0 && this.categoriesList) {
+        rents.forEach((rent) => {
+          rent.image = rent.images ? rent.images[0] ?? null : null;
+          rent.title = sliceWithEllipsis(rent.title, 24);
 
-          const roomType = this.typesList.find((type) => type.id == room.type);
-          if (roomType) {
-            room.typeId = roomType.id;
-            room.type = {
-              title: roomType.title,
-              background: roomType.color,
+          const rentCategory = this.categoriesList.find(
+            (category) => category.id == rent.category
+          );
+          if (rentCategory) {
+            rent.categoryId = rentCategory.id;
+            rent.category = {
+              title: rentCategory.title,
+              background: rentCategory.color,
             };
           }
         });
 
-        if (this.search) rooms = search(rooms, this.searchInfo, this.search);
+        if (this.search) rents = search(rents, this.searchInfo, this.search);
 
-        if (this.sort !== "default") rooms = sort(rooms, this.sort);
+        if (this.sort !== "default") rents = sort(rents, this.sort);
 
-        rooms = filter(rooms, this.filters);
+        rents = filter(rents, this.filters);
 
-        const l = rooms.length;
+        const l = rents.length;
 
         const p = this.pagination;
-        this.pagination.length = Math.ceil(rooms.length / p.limit);
-        rooms = paginate(rooms, p);
+        this.pagination.length = Math.ceil(rents.length / p.limit);
+        rents = paginate(rents, p);
 
         this.dataCount = recordsCount(p, l);
       }
 
-      return rooms;
+      return rents;
     },
 
     getRouterParams() {
       if (this.$route.params.messageText) {
         this.$refs.alert.open(
-          this.$route.params.messageType,
+          this.$route.params.messageCategory,
           this.$route.params.messageText
         );
       }

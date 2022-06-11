@@ -15,10 +15,6 @@
 
 <script>
 import { getBookingById, updateBooking } from "@/data/firebase/bookingsApi";
-import { getUserById } from "@/data/firebase/usersApi";
-import { getUserRoleById } from "@/data/firebase/userRolesApi";
-import { getRoomById } from "@/data/firebase/roomsApi";
-import { getRoomTypeById } from "@/data/firebase/roomTypesApi";
 
 import BookingForm from "@/layouts/dashboard/bookings/BookingForm";
 
@@ -43,28 +39,7 @@ export default {
       await getBookingById(this.bookingId).then((data) => {
         data.dateStart = data.dateStart.seconds * 1000;
         data.dateEnd = data.dateEnd.seconds * 1000;
-        getUserById(data.uid).then((user) => {
-          getUserRoleById(user.role).then((role) => {
-            user.roleId = role.id;
-            user.role = {
-              title: role.title,
-              background: role.color,
-            };
-            data.user = [user];
-
-            getRoomById(data.roomId).then((room) => {
-              getRoomTypeById(room.type).then((type) => {
-                room.type = {
-                  title: type.title,
-                  background: type.color,
-                };
-                room.id = data.roomId;
-                data.room = [room];
-                this.booking = data;
-              });
-            });
-          });
-        });
+        this.booking = data;
       });
     },
 

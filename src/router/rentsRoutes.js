@@ -3,25 +3,25 @@ import i18n from "@/i18n";
 export const rentsRoutes = [
   {
     path: "rents",
-    //component: () => import("../views/rents/RentsView.vue"),
+    component: () => import("../views/rents/RentsView.vue"),
     children: [
       {
         path: "",
         name: "rents",
         meta: { title: i18n.global.t("rent.nav") },
-        //component: () => import("../views/rents/RentsList.vue"),
+        component: () => import("../views/rents/RentsList.vue"),
       },
       // {
-      //   path: "types",
-      //   name: "types",
-      //   meta: { title: i18n.global.t("rentType.nav") },
-      //   component: () => import("../views/rents/types/TypesList.vue"),
+      //   path: "categories",
+      //   name: "categories",
+      //   meta: { title: i18n.global.t("rentCategory.nav") },
+      //   component: () => import("../views/rents/categories/CategoriesList.vue"),
       // },
       // {
-      //   path: "types/edit/:id",
-      //   name: "typeEdit",
-      //   meta: { title: i18n.global.t("rentType.nav") },
-      //   component: () => import("../views/rents/types/TypesList.vue"),
+      //   path: "categories/edit/:id",
+      //   name: "categoryEdit",
+      //   meta: { title: i18n.global.t("rentCategory.nav") },
+      //   component: () => import("../views/rents/categories/CategoriesList.vue"),
       // },
     ],
   },

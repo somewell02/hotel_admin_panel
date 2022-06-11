@@ -192,7 +192,7 @@ export default {
     }
     .info_wrap {
       display: flex;
-      flex-grow: 3;
+      width: 100%;
       justify-content: space-between;
       padding: 20px 15px;
       border: solid var(--border-color);
@@ -205,11 +205,11 @@ export default {
         margin-left: 20px;
       }
       .info_side {
+        font-size: 14px;
         & > *:not(:last-child) {
           margin-bottom: 7px;
         }
         .title {
-          font-size: 14px;
           font-weight: 500;
           line-height: 1.3;
         }

@@ -49,6 +49,17 @@ export const getRoomsByTag = async (tagId) => {
   return rooms;
 };
 
+export const getRoomsByNumber = async (number) => {
+  const res = await roomsCollection
+    .where("numbers", "array-contains", number)
+    .get();
+  const rooms = res.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+  return rooms;
+};
+
 export const getRoomById = async (id) => {
   const res = await roomsCollection.doc(id).get();
   return res.exists ? res.data() : null;
@@ -74,11 +85,15 @@ export const addRoom = async (room) => {
   const images = [...room.images];
   room.images = [];
   const res = await roomsCollection.add(room);
-  const urls = await setGallery(res.id, images);
-  await roomsCollection.doc(res.id).update({
-    images: urls,
-  });
-  return res ?? null;
+  if (res) {
+    const urls = await setGallery(res.id, images);
+    await roomsCollection.doc(res.id).update({
+      images: urls,
+    });
+    return res;
+  } else {
+    return null;
+  }
 };
 
 export const updateRoom = async (id, room) => {

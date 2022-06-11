@@ -93,10 +93,7 @@ export default {
       });
 
       types.forEach((type) => {
-        type.shortDesc = sliceWithEllipsis(
-          type.description ? type.description.join(" ") : "-",
-          15
-        );
+        type.shortDesc = sliceWithEllipsis(type.description ?? "-", 15);
       });
 
       return types;

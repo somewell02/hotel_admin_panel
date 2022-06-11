@@ -11,7 +11,7 @@
       class="type_form_input"
       :placeholder="$t('id')"
     />
-    <array-textarea
+    <bordered-textarea
       v-model="type.description"
       class="type_form_input"
       :placeholder="$t('description')"
@@ -27,7 +27,7 @@
 
 <script>
 import ColorInput from "@/components/inputs/ColorInput";
-import ArrayTextarea from "@/components/inputs/ArrayTextarea.vue";
+import BorderedTextarea from "@/components/inputs/BorderedTextarea.vue";
 
 export default {
   data() {
@@ -54,7 +54,7 @@ export default {
 
   components: {
     ColorInput,
-    ArrayTextarea,
+    BorderedTextarea,
   },
 
   methods: {

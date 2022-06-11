@@ -42,7 +42,7 @@ export default {
       required: true,
     },
     modelValue: {
-      type: String,
+      type: [String, Number],
       required: true,
     },
     prefix: {
@@ -131,6 +131,7 @@ export default {
     border-radius: 5px;
     max-height: 250px;
     min-width: 100%;
+    z-index: 10;
     @include custom-scroll;
     .option_item {
       cursor: pointer;
