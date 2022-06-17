@@ -1,7 +1,7 @@
 <template>
-  <div class="chart_item column_23">
+  <div class="chart_item border column_23">
     <div class="chart_item_header">
-      <div class="title">Продажи</div>
+      <div class="title">{{ $t("dashboard.stat.sales.title") }}</div>
     </div>
     <div class="chart">
       <line-chart :chartData="chartData" />
@@ -33,7 +33,7 @@ export default {
         labels: [],
         datasets: [
           {
-            label: "Оборот",
+            label: this.$t("dashboard.stat.sales.turnover"),
             backgroundColor: "#506DAA",
             data: [],
           },

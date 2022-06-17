@@ -18,7 +18,7 @@
 <script>
 import SpacingBorderedTable from "@/components/lists/SpacingBorderedTable";
 
-import { getBookingRents } from "@/data/firebase/bookingRentsApi";
+import { subscribeBookingRents } from "@/data/firebase/bookingRentsApi";
 import { getRentItems } from "@/data/firebase/rentItemsApi";
 import { getAllRentCategories } from "@/data/firebase/rentCategoriesApi";
 
@@ -92,7 +92,7 @@ export default {
 
   methods: {
     initData() {
-      getBookingRents(this.bookingId).then((data) => {
+      subscribeBookingRents(this.bookingId).then((data) => {
         this.rentsList = data;
       });
       getRentItems().then((data) => {

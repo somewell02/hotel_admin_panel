@@ -1,33 +1,45 @@
 <template>
-  <div>
-    <div class="color_input">
-      <bordered-input
-        type="text"
-        :placeholder="placeholder ?? $t('color')"
-        :value="modelValue"
-        @input="updateInput"
-      />
-      <div
-        class="color_btn"
-        :style="{ background: modelValue ? `#${modelValue}` : 'none' }"
-      ></div>
-    </div>
-    <!-- <chrome-picker v-model="color" /> -->
+  <div class="color_input">
+    <bordered-input
+      type="text"
+      :placeholder="placeholder ?? $t('color')"
+      :value="modelValue"
+      @input="updateInput"
+    />
+    <div
+      class="color_btn"
+      :style="{ background: modelValue ? `#${modelValue}` : 'none' }"
+      @click="isPickerShow = !isPickerShow"
+    ></div>
+    <color-picker
+      v-if="isPickerShow"
+      class="color_picker"
+      theme="light"
+      :color="color"
+      :colors-default="null"
+      @changeColor="changeColor"
+    />
   </div>
 </template>
 
 <script>
 import BorderedInput from "./BorderedInput";
-//import { Chrome } from "vue-color";
+import { ColorPicker } from "vue-color-kit";
 
 export default {
-  name: "text-input",
+  name: "color-input",
+  components: {
+    BorderedInput,
+    ColorPicker,
+  },
 
   data() {
     return {
-      color: { r: 255, g: 0, b: 0 },
+      color: "#" + this.modelValue,
+      isPickerShow: false,
     };
   },
+
   props: {
     modelValue: {
       type: String,
@@ -39,14 +51,19 @@ export default {
     },
   },
 
-  components: {
-    BorderedInput,
-    //"chrome-picker": Chrome,
-  },
-
   methods: {
+    changeColor(color) {
+      this.color = color.hex;
+      const c = color.hex.replace("#", "");
+      this.updateColor(c);
+    },
+
     updateInput(event) {
-      this.$emit("update:modelValue", event.target.value);
+      this.updateColor(event.target.value);
+    },
+
+    updateColor(color) {
+      this.$emit("update:modelValue", color);
     },
   },
 };
@@ -80,6 +97,23 @@ export default {
     top: 10px;
     top: calc(50% - 10px);
     border-radius: 5px;
+    cursor: pointer;
+  }
+  .color_picker {
+    position: absolute;
+    bottom: 120%;
+    right: -10%;
+  }
+}
+</style>
+
+<style lang="scss">
+@import "vue-color-kit/dist/vue-color-kit.css";
+.hu-color-picker {
+  .color-set .color-alpha,
+  .color-show,
+  .color-type {
+    display: none;
   }
 }
 </style>

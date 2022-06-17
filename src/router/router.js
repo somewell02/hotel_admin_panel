@@ -32,11 +32,6 @@ const routes = [
         meta: { title: i18n.global.t("dashboard.title") },
         component: () => import("../views/main/MainView.vue"),
       },
-      {
-        path: "test",
-        name: "test",
-        component: () => import("@/components/inputs/ColorPicker.vue"),
-      },
       ...usersRoutes,
       ...roomsRoutes,
       ...chatRoutes,

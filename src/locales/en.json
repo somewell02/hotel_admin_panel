@@ -55,7 +55,24 @@
   },
   "dashboard": {
     "nav": "Dashboard",
-    "title": "Dashboard"
+    "title": "Dashboard",
+    "stat": {
+      "sales": {
+        "title": "Sales",
+        "turnover": "Turnover"
+      },
+      "roomTypes": {
+        "title": "Booked rooms"
+      },
+      "bookings": {
+        "all": "Total bookings",
+        "booked": "Rooms booked",
+        "active": "Active bookings"
+      },
+      "services": {
+        "title": "Ordered services"
+      }
+    }
   },
   "user": {
     "nav": "Users",

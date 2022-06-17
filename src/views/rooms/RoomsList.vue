@@ -179,6 +179,8 @@ export default {
         };
       });
 
+      sort(rooms, "price:desc");
+
       if (rooms && rooms.length > 0 && this.typesList) {
         rooms.forEach((room) => {
           room.num = {

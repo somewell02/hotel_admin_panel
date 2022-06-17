@@ -1,12 +1,6 @@
 <template>
   <div class="icon fill">
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 20 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path
         d="M8.125 0H0.625C0.279805 0 0 0.279805 0 0.625V8.125C0 8.4702 0.279805 8.75 0.625 8.75H8.125C8.4702 8.75 8.75 8.4702 8.75 8.125V0.625C8.75 0.279805 8.4702 0 8.125 0ZM7.5 7.5H1.25V1.25H7.5V7.5Z"
         fill="#C7C7C7"
@@ -32,3 +26,14 @@ export default {
   name: "services-icon",
 };
 </script>
+
+<style lang="scss" scoped>
+.icon {
+  @include flex-center;
+  width: 20px;
+  height: 20px;
+}
+.fill svg * {
+  fill: var(--secondary-color);
+}
+</style>

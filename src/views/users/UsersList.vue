@@ -1,7 +1,11 @@
 <template>
   <div class="actions">
     <search-input v-model="search" />
-    <filled-button @click="addUser">{{ $t("add") }}</filled-button>
+    <filled-button
+      v-if="$store.state.user.user.role.permissions.includes('create')"
+      @click="addUser"
+      >{{ $t("add") }}</filled-button
+    >
   </div>
   <div class="tabs_content_wrap">
     <preloader-spinner ref="preloader" />
@@ -94,7 +98,7 @@ export default {
   watch: {
     usersList(newValue) {
       if (newValue) {
-        this.$refs.preloader.hide();
+        if (this.$refs.preloader) this.$refs.preloader.hide();
         if (newValue.length == 0) {
           this.dataCount = this.$t("noRecords");
         }

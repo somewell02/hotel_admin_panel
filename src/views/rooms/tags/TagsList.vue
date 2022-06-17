@@ -224,6 +224,10 @@ export default {
     padding-top: 15px;
     position: relative;
     min-height: 70px;
+    .tags_table {
+      max-height: calc(100vh - 250px);
+      @include custom-scroll;
+    }
   }
   .no_records {
     padding: 0 20px;

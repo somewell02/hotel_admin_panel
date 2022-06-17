@@ -88,12 +88,19 @@
         </div>
         <div class="actions" v-if="actions">
           <eye-icon
-            v-if="actions.includes('view')"
+            v-if="
+              actions.includes('view') ||
+              (actions.includes('edit') &&
+                !$store.state.user.user.role.permissions.includes('update'))
+            "
             class="action_btn"
             @click="this.$emit('view', row)"
           />
           <edit-icon
-            v-if="actions.includes('edit')"
+            v-if="
+              actions.includes('edit') &&
+              $store.state.user.user.role.permissions.includes('update')
+            "
             class="action_btn"
             @click="this.$emit('edit', row)"
           />

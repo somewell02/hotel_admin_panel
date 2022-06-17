@@ -37,19 +37,14 @@ import ColorInput from "@/components/inputs/ColorInput";
 import TrueFalseSwitch from "@/components/inputs/TrueFalseSwitch.vue";
 import CheckboxList from "@/components/inputs/CheckboxList";
 
+import { permissions } from "@/services/permissions";
+
 export default {
   data() {
     return {
       role: this.modelValue,
       type: null,
-      permissions: [
-        { id: "create" },
-        { id: "read" },
-        { id: "update" },
-        { id: "delete" },
-        { id: "stats" },
-        { id: "chat" },
-      ],
+      permissions: permissions,
     };
   },
 

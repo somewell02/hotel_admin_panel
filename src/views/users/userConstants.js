@@ -9,7 +9,7 @@ export const tableInfo = {
       width: 18,
       type: "background",
     },
-    { id: "phone", name: i18n.global.t("user.fields.phone"), width: 16 },
+    { id: "phone", name: i18n.global.t("user.fields.phone"), width: 22 },
     { id: "email", name: i18n.global.t("user.fields.email"), width: 20 },
   ],
   actions: ["edit", "delete"],

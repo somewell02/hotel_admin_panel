@@ -148,7 +148,6 @@ export default {
 
     initFilters() {
       let filterCategories = [];
-      console.log(this.categoriesList);
       this.categoriesList.forEach((category) => {
         filterCategories.push({ id: category.id, title: category.title ?? "" });
       });
@@ -183,9 +182,14 @@ export default {
         };
       });
 
+      sort(rents, "price:asc");
+
       if (rents && rents.length > 0 && this.categoriesList) {
         rents.forEach((rent) => {
           rent.image = rent.images ? rent.images[0] ?? null : null;
+          if (rent.category == "roomService") {
+            rent.image = null;
+          }
           rent.title = sliceWithEllipsis(rent.title, 24);
 
           const rentCategory = this.categoriesList.find(

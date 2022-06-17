@@ -193,6 +193,7 @@ export default {
     .info_wrap {
       display: flex;
       width: 100%;
+      flex-grow: 3;
       justify-content: space-between;
       padding: 20px 15px;
       border: solid var(--border-color);

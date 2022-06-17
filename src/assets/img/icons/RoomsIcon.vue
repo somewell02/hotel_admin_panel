@@ -1,19 +1,6 @@
 <template>
   <div class="icon fill">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      version="1.1"
-      xmlns:xlink="http://www.w3.org/1999/xlink"
-      xmlns:svgjs="http://svgjs.com/svgjs"
-      width="512"
-      height="512"
-      x="0"
-      y="0"
-      viewBox="0 0 512 512"
-      style="enable-background: new 0 0 512 512"
-      xml:space="preserve"
-      class=""
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
       <g>
         <g xmlns="http://www.w3.org/2000/svg">
           <path
@@ -32,3 +19,14 @@ export default {
   name: "rooms-icon",
 };
 </script>
+
+<style lang="scss" scoped>
+.icon {
+  @include flex-center;
+  width: 20px;
+  height: 20px;
+}
+.fill svg * {
+  fill: var(--secondary-color);
+}
+</style>

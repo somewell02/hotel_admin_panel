@@ -34,6 +34,11 @@ export default {
       chartOptions: {
         responsive: true,
         maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
         plugins: {
           legend: {
             display: false,

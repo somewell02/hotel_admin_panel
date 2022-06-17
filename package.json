@@ -9,20 +9,17 @@
     "i18n:report": "vue-cli-service i18n:report --src \"./src/**/*.?(js|vue)\" --locales \"./src/locales/**/*.json\""
   },
   "dependencies": {
-    "chart.js": "^3.8.0",
     "core-js": "^3.8.3",
     "firebase": "^9.7.0",
     "firebase-admin": "^10.2.0",
     "firebase-functions": "^3.21.2",
     "firebase-tools": "^10.8.0",
-    "vue": "^3.2.13",
+    "vue": "^3.2.37",
     "vue-chartjs": "^4.1.1",
-    "vue-color": "^2.8.1",
-    "vue-gpickr": "^0.4.2",
+    "vue-color-kit": "^1.0.5",
     "vue-i18n": "^9.1.10",
     "vue-imask": "^6.4.2",
     "vue-router": "^4.0.13",
-    "vue-tailwind-color-picker": "^1.0.6",
     "vuex": "^4.0.0"
   },
   "devDependencies": {

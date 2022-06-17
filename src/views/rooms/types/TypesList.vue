@@ -184,7 +184,7 @@ export default {
       this.isEdit = false;
       this.type.title = "";
       this.type.id = "";
-      this.type.description = [];
+      this.type.description = "";
       this.type.color = "000000";
     },
   },

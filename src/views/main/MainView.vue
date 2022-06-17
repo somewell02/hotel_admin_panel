@@ -3,21 +3,27 @@
     <preloader-spinner ref="preloader" />
     <div class="charts_wrap">
       <sales-chart v-if="bookingsList" :bookings="bookingsList" />
-      <some-chart />
+      <room-types-chart v-if="bookingsList" :bookings="bookingsList" />
+      <bookings-chart v-if="bookingsList" :bookings="bookingsList" />
+      <services-chart v-if="bookingsList" :bookings="bookingsList" />
     </div>
   </main>
 </template>
 
 <script>
 import SalesChart from "@/layouts/dashboard/main/SalesChart";
-import SomeChart from "@/layouts/dashboard/main/SomeChart";
+import RoomTypesChart from "@/layouts/dashboard/main/RoomTypesChart";
+import ServicesChart from "@/layouts/dashboard/main/ServicesChart";
+import BookingsChart from "@/layouts/dashboard/main/BookingsChart";
 
 import { getBookings } from "@/data/firebase/bookingsApi";
 
 export default {
   components: {
     SalesChart,
-    SomeChart,
+    RoomTypesChart,
+    ServicesChart,
+    BookingsChart,
   },
 
   data() {
@@ -34,9 +40,6 @@ export default {
     bookingsList(newValue) {
       if (newValue) this.$refs.preloader.hide();
     },
-    // roomTypesList(newValue) {
-    //   if (newValue) this.$refs.preloader.hide();
-    // },
   },
 
   methods: {
@@ -61,12 +64,15 @@ export default {
       flex-grow: 0;
       flex-shrink: 0;
       margin-bottom: 30px;
-      height: 300px;
+      height: 280px;
       display: flex;
       flex-direction: column;
-      border: 1px solid var(--border-color);
-      border-radius: 5px;
-      padding: 20px 30px;
+      &.border,
+      .border {
+        border: 1px solid var(--border-color);
+        border-radius: 5px;
+        padding: 20px 30px;
+      }
       &.column_1 {
         width: 100%;
       }

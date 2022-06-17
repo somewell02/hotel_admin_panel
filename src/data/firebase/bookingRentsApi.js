@@ -3,7 +3,16 @@ import { firestore } from "./firebase.js";
 
 const bookingsCollection = firestore.collection("bookings");
 
-export const getBookingRents = (bookingId) => {
+export const getBookingRents = async (bookingId) => {
+  const res = await bookingsCollection.doc(bookingId).collection("rents").get();
+  const rents = res.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+  return rents;
+};
+
+export const subscribeBookingRents = (bookingId) => {
   const rents = ref(null);
 
   const close = bookingsCollection
@@ -21,6 +30,7 @@ export const getBookingRents = (bookingId) => {
     resolve(rents);
   });
 };
+
 export const getBookingRentById = async (bookingId, id) => {
   const res = await bookingsCollection
     .doc(bookingId)

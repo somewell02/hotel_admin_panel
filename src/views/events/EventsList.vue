@@ -146,7 +146,6 @@ export default {
 
     initFilters() {
       let filterTypes = [];
-      console.log(this.typesList);
       this.typesList.forEach((type) => {
         filterTypes.push({ id: type.id, title: type.title ?? "" });
       });
