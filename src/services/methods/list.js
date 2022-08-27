@@ -1,34 +1,41 @@
 import i18n from "@/i18n";
 
-export const search = (users, searchInfo, search) => {
+export const search = (list, searchInfo, search) => {
   const fields = searchInfo.fields;
-  return users.filter((user) => {
+  return list.filter((item) => {
     let t = false;
     fields.forEach((field) => {
-      const f = field.split(".");
-      if (f.length == 2) {
-        if (
-          user[f[0]][f[1]] &&
-          user[f[0]][f[1]]
-            .toString()
-            .trim()
-            .toLowerCase()
-            .includes(search.trim().toLowerCase())
-        ) {
+      if (field.type && field.type == "numberIncludes") {
+        if (item[field.id] && item[field.id].includes(parseInt(search))) {
           t = true;
           return;
         }
       } else {
-        if (
-          user[field] &&
-          user[field]
-            .toString()
-            .trim()
-            .toLowerCase()
-            .includes(search.trim().toLowerCase())
-        ) {
-          t = true;
-          return;
+        const f = field.id ? field.id.split(".") : "";
+        if (f.length == 2) {
+          if (
+            item[f[0]][f[1]] &&
+            item[f[0]][f[1]]
+              .toString()
+              .trim()
+              .toLowerCase()
+              .includes(search.trim().toLowerCase())
+          ) {
+            t = true;
+            return;
+          }
+        } else {
+          if (
+            item[field.id] &&
+            item[field.id]
+              .toString()
+              .trim()
+              .toLowerCase()
+              .includes(search.trim().toLowerCase())
+          ) {
+            t = true;
+            return;
+          }
         }
       }
     });

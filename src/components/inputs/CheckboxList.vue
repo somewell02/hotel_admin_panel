@@ -4,7 +4,7 @@
       class="checkbox_item"
       v-for="option in options"
       :key="option.id"
-      @click="selectOption(option)"
+      @click="disabled ? null : selectOption(option)"
     >
       <div class="checkbox">
         <check-icon v-if="this.modelValue.includes(option.id)" />
@@ -25,6 +25,11 @@ export default {
     modelValue: {
       type: Array,
       required: true,
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   components: {

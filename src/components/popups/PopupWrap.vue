@@ -29,7 +29,7 @@ export default {
       this.$emit("update:modelValue", false);
     },
     handleKeydown(e) {
-      if (e.key == "Escape") {
+      if (e.key === "Escape") {
         this.$emit("update:modelValue", false);
       }
     },

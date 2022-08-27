@@ -1,6 +1,9 @@
 <template>
   <div class="tabs_content_wrap roles_tab_wrap">
-    <div class="roles_form_wrap">
+    <div
+      class="roles_form_wrap"
+      v-if="isEdit || $store.getters['user/includesCreate']"
+    >
       <h2>
         {{
           this.isEdit ? $t("role.edit") + ": " + this.role.id : $t("role.add")
@@ -18,7 +21,10 @@
         <filled-button v-if="this.isEdit" @click="backToAdd">
           {{ $t("back") }}
         </filled-button>
-        <filled-button @click="this.isEdit ? editRole() : addRole()">
+        <filled-button
+          v-if="$store.getters['user/includesUpdate']"
+          @click="this.isEdit ? editRole() : addRole()"
+        >
           {{ this.isEdit ? $t("save") : $t("add") }}
         </filled-button>
       </div>
@@ -34,6 +40,7 @@
         :actions="table.actions"
         @delete="(role) => deleteRole(role)"
         @edit="(role) => pushToEdit(role)"
+        @view="(role) => pushToEdit(role)"
       />
       <div v-else class="no_records">{{ $t("noRecords") }}</div>
     </bordered-div>
@@ -208,7 +215,7 @@ export default {
     }
   }
   .roles_list_wrap {
-    width: 65%;
+    flex-grow: 3;
     padding-top: 15px;
     position: relative;
     min-height: 70px;

@@ -37,12 +37,16 @@
               {{ $t("user.edit.nav.visits") }}
             </router-link-icon>
             <router-link-icon
+              v-if="$store.getters['user/includesCreate']"
               :to="{ name: 'bookingAdd', params: { roomId: roomId } }"
             >
               <bookings-icon />
               {{ $t("booking.edit.nav.goToAddBooking") }}
             </router-link-icon>
-            <icon-button @click="deleteRoom">
+            <icon-button
+              v-if="$store.getters['user/includesDelete']"
+              @click="deleteRoom"
+            >
               <delete-icon />
               {{ $t("delete") }}
             </icon-button>

@@ -1,7 +1,12 @@
 <template>
   <div class="user_info_wrap">
     <div class="user_edit_header">
-      <filled-button @click="editUser"> {{ $t("save") }} </filled-button>
+      <filled-button
+        @click="editUser"
+        :disabled="!$store.getters['user/includesUpdate']"
+      >
+        {{ $t("save") }}
+      </filled-button>
     </div>
     <user-form
       class="user_edit_main"

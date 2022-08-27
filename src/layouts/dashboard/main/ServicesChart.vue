@@ -14,7 +14,7 @@ import BarChart from "@/components/charts/BarChart.vue";
 
 import { getRentItems } from "@/data/firebase/rentItemsApi";
 import { getAllRentCategories } from "@/data/firebase/rentCategoriesApi";
-import { getBookingRents } from "@/data/firebase/bookingRentsApi";
+//import { getBookingRents } from "@/data/firebase/bookingRentsApi";
 
 export default {
   name: "services-chart",
@@ -33,8 +33,13 @@ export default {
       categoriesList: null,
       templist: null,
       chartData: {
-        labels: [],
-        datasets: [],
+        labels: ["Самокат", "Автомобили", "Проживание", "Скутеры"],
+        datasets: [
+          {
+            backgroundColor: ["#FFC961", "#E47B00", "#506DAA", "#FF2CD1"],
+            data: [2, 7, 4, 3],
+          },
+        ],
       },
     };
   },
@@ -47,37 +52,37 @@ export default {
       this.categoriesList = data;
     });
 
-    let chart = {
-      backgroundColor: [],
-      data: [1, 1, 1, 1, 1],
-      id: [],
-    };
+    // let chart = {
+    //   backgroundColor: [],
+    //   data: [2, 5, 3, 3, 1, 1, 1],
+    //   id: [],
+    // };
 
-    this.bookings.forEach((booking) => {
-      getBookingRents(booking.id).then((rents) => {
-        rents.forEach((rent) => {
-          const item = this.rentsList.find(
-            (rentItem) => rentItem.id == rent.rentItemId
-          );
-          let existCategory = chart.id.indexOf(item.category);
-          if (existCategory != -1) {
-            chart.data[existCategory] += 1;
-          } else {
-            const category = this.categoriesList.find(
-              (cat) => cat.id == item.category
-            );
-            this.chartData.labels.push(category.title);
+    // this.bookings.forEach((booking) => {
+    //   getBookingRents(booking.id).then((rents) => {
+    //     rents.forEach((rent) => {
+    //       const item = this.rentsList.find(
+    //         (rentItem) => rentItem.id == rent.rentItemId
+    //       );
+    //       let existCategory = chart.id.indexOf(item.category);
+    //       if (existCategory != -1) {
+    //         chart.data[existCategory] += 1;
+    //       } else {
+    //         const category = this.categoriesList.find(
+    //           (cat) => cat.id == item.category
+    //         );
+    //         this.chartData.labels.push(category.title);
 
-            chart.id.push(item.category);
-            chart.backgroundColor.push("#" + category.color);
-          }
-        });
-      });
-    });
-    this.chartData.datasets.push({
-      backgroundColor: chart.backgroundColor,
-      data: chart.data,
-    });
+    //         chart.id.push(item.category);
+    //         chart.backgroundColor.push("#" + category.color);
+    //       }
+    //     });
+    //   });
+    // });
+    // this.chartData.datasets.push({
+    //   backgroundColor: chart.backgroundColor,
+    //   data: chart.data,
+    // });
   },
 };
 </script>

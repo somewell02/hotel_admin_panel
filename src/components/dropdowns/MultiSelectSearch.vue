@@ -18,14 +18,14 @@
     <div class="options" v-if="isActive">
       <button
         class="option_item"
-        v-for="option in midifiedOptions"
+        v-for="option in modifiedOptions"
         :key="option.id"
         @click="selectItem(option)"
         :class="{ active: option.id === modelValue }"
       >
         {{ option.title }}
       </button>
-      <div class="no_records" v-if="midifiedOptions.length == 0">
+      <div class="no_records" v-if="modifiedOptions.length === 0">
         {{ noRecords ?? $t("noRecords") }}
       </div>
     </div>
@@ -69,7 +69,7 @@ export default {
   },
 
   computed: {
-    midifiedOptions() {
+    modifiedOptions() {
       let options = this.options.map((option) => {
         return {
           ...option,

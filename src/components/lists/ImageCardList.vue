@@ -1,5 +1,5 @@
 <template>
-  <div class="iamge_card_list">
+  <div class="image_card_list">
     <div class="card_item" v-for="item in list" :key="item.id">
       <div class="img_wrap">
         <img v-if="item.image" :src="item.image" alt="img" />
@@ -53,7 +53,7 @@
             class="info_item"
             :class="info.type ?? 'string'"
           >
-            <template v-if="!info.type || info.type == 'title'">
+            <template v-if="!info.type || info.type === 'title'">
               {{ item[info.id] }}
             </template>
           </div>
@@ -68,10 +68,10 @@
             <template v-if="!info.type">
               {{ item[info.id] }}
             </template>
-            <template v-else-if="info.type == 'price'">
+            <template v-else-if="info.type === 'price'">
               {{ item[info.id] + " " + info.unit }}
             </template>
-            <template v-else-if="info.type == 'rating'">
+            <template v-else-if="info.type === 'rating'">
               <stars-rating :rating="item[info.id]" />
             </template>
           </div>
@@ -79,13 +79,29 @@
       </div>
       <div class="card_actions">
         <filled-button
-          v-if="structure.actions.includes('edit')"
+          v-if="
+            structure.actions.includes('view') ||
+            (structure.actions.includes('edit') &&
+              !$store.getters['user/includesUpdate'])
+          "
+          @click="this.$emit('view', item)"
+        >
+          {{ $t("view") }}
+        </filled-button>
+        <filled-button
+          v-if="
+            structure.actions.includes('edit') &&
+            $store.getters['user/includesUpdate']
+          "
           @click="this.$emit('edit', item)"
         >
           {{ $t("edit") }}
         </filled-button>
         <filled-button
-          v-if="structure.actions.includes('delete')"
+          v-if="
+            structure.actions.includes('delete') &&
+            $store.getters['user/includesDelete']
+          "
           @click="this.$emit('delete', item)"
           color="secondary"
         >
@@ -110,20 +126,20 @@ export default {
   props: {
     type: {
       type: Number,
-      requried: false,
+      required: false,
       default: 1,
     },
     structure: {
       type: Object,
-      requried: false,
+      required: false,
     },
     actions: {
       type: Array,
-      requried: false,
+      required: false,
     },
     list: {
       type: Array,
-      requried: true,
+      required: true,
     },
   },
 
@@ -136,7 +152,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.iamge_card_list {
+.image_card_list {
   display: flex;
   flex-wrap: wrap;
   .card_item {

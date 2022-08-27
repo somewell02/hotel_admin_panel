@@ -1,5 +1,9 @@
 <template>
-  <div class="switch_wrap" @click="toggle" @keydown.space.prevent="toggle">
+  <div
+    class="switch_wrap"
+    @click="disabled ? null : toggle()"
+    @keydown.space.prevent="toggle"
+  >
     <span class="toggle_background" :class="backgroundStyles">
       {{ modelValue ? $t("yes") : $t("no") }}
     </span>
@@ -13,6 +17,11 @@ export default {
     modelValue: {
       type: Boolean,
       required: true,
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
   computed: {

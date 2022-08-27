@@ -4,16 +4,18 @@
       v-model="role.title"
       class="role_form_input"
       :placeholder="$t('title')"
+      :disabled="disabled"
     />
     <text-input
       v-if="!isEdit"
       v-model="role.id"
       class="role_form_input"
       :placeholder="$t('id')"
+      :disabled="disabled"
     />
     <div class="role_form_input staff_input">
       {{ $t("role.fields.staff") }}
-      <true-false-switch v-model="role.staff" />
+      <true-false-switch v-model="role.staff" :disabled="disabled" />
     </div>
     <div class="role_form_input permissions_input">
       {{ $t("role.fields.permissions") }}
@@ -21,12 +23,14 @@
         class="permissions_list"
         v-model="role.permissions"
         :options="permissions"
+        :disabled="disabled"
       />
     </div>
     <color-input
       v-model="role.color"
       class="role_form_input"
       :placeholder="$t('color')"
+      :disabled="disabled"
     />
     <message-alert ref="alert"></message-alert>
   </div>
@@ -68,6 +72,18 @@ export default {
     ColorInput,
     TrueFalseSwitch,
     CheckboxList,
+  },
+
+  computed: {
+    disabled() {
+      return !this.isEdit
+        ? this.$store.getters["user/includesCreate"]
+          ? false
+          : true
+        : this.$store.getters["user/includesUpdate"]
+        ? false
+        : true;
+    },
   },
 
   methods: {

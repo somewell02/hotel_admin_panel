@@ -39,5 +39,5 @@ export const filters = [
 ];
 
 export const searchInfo = {
-  fields: ["name", "email", "phone"],
+  fields: [{ id: "name" }, { id: "email" }, { id: "phone" }],
 };

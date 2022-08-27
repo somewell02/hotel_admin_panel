@@ -27,18 +27,23 @@
               {{ $t("user.edit.nav.visits") }}
             </router-link-icon>
             <router-link-icon
+              v-if="$store.getters['user/includesCreate']"
               :to="{ name: 'bookingAdd', params: { userId: userId } }"
             >
               <bookings-icon />
               {{ $t("booking.edit.nav.goToAddBooking") }}
             </router-link-icon>
             <router-link-icon
+              v-if="$store.getters['user/includesChat']"
               :to="{ name: 'currentChat', params: { id: userId } }"
             >
               <chat-icon />
               {{ $t("user.edit.nav.goToChat") }}
             </router-link-icon>
-            <icon-button @click="deleteUser">
+            <icon-button
+              v-if="$store.getters['user/includesDelete']"
+              @click="deleteUser"
+            >
               <delete-icon />
               {{ $t("delete") }}
             </icon-button>

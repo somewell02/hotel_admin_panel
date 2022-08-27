@@ -27,6 +27,7 @@
       :rows="modifiedUsersList()"
       :actions="tableInfo.actions"
       @edit="(user) => editUser(user.id)"
+      @view="(user) => editUser(user.id)"
       @delete="(user) => deleteUser(user)"
     />
     <div class="pagination_wrap">

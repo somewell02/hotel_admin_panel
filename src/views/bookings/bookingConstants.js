@@ -2,7 +2,7 @@ import i18n from "@/i18n";
 
 export const tableInfo = {
   titles: [
-    { id: "dates", name: i18n.global.t("booking.fields.dates"), width: 22 },
+    { id: "dates", name: i18n.global.t("booking.fields.dates"), width: 25 },
     {
       id: "status",
       name: i18n.global.t("status"),
@@ -12,7 +12,7 @@ export const tableInfo = {
     {
       id: "roomNumber",
       name: i18n.global.t("booking.fields.number"),
-      width: 15,
+      width: 13,
     },
     {
       id: "roomType",
@@ -62,5 +62,10 @@ export const filters = [
 ];
 
 export const searchInfo = {
-  fields: ["id", "dates", "roomId", "roomType.title"],
+  fields: [
+    { id: "id" },
+    { id: "dates" },
+    { id: "roomId" },
+    { id: "roomType.title" },
+  ],
 };

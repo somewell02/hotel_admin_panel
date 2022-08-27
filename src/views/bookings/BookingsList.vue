@@ -23,6 +23,7 @@
       :rows="modifiedBookingsList()"
       :actions="tableInfo.actions"
       @edit="(booking) => editBooking(booking.id)"
+      @view="(booking) => editBooking(booking.id)"
       @delete="(booking) => deleteBooking(booking)"
     />
     <div class="pagination_wrap">
@@ -97,7 +98,7 @@ export default {
 
   watch: {
     bookingsList(newValue) {
-      if (newValue && newValue.length == 0) {
+      if (newValue && newValue.length === 0) {
         this.dataCount = this.$t("noRecords");
       }
     },
@@ -154,14 +155,14 @@ export default {
       this.statusesList.forEach((status) => {
         filterStatuses.push({ id: status.id, title: status.title });
       });
-      this.filters.find((filter) => filter.id == "statusId").options =
+      this.filters.find((filter) => filter.id === "statusId").options =
         filterStatuses;
 
       const filterRoomTypes = [];
       this.roomTypesList.forEach((type) => {
         filterRoomTypes.push({ id: type.id, title: type.title });
       });
-      this.filters.find((filter) => filter.id == "roomTypeId").options =
+      this.filters.find((filter) => filter.id === "roomTypeId").options =
         filterRoomTypes;
     },
 
@@ -185,7 +186,7 @@ export default {
             msToDayMonthYear(booking.dateEnd.seconds * 1000);
 
           const bookingStatus = this.statusesList.find(
-            (status) => status.id == booking.status
+            (status) => status.id === booking.status
           );
           if (bookingStatus) {
             booking.statusId = bookingStatus.id;
@@ -196,7 +197,7 @@ export default {
           }
 
           const roomType = this.roomTypesList.find(
-            (type) => type.id == booking.roomType
+            (type) => type.id === booking.roomType
           );
           if (roomType) {
             booking.roomTypeId = roomType.id;

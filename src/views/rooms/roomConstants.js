@@ -63,5 +63,9 @@ export const filters = [
 ];
 
 export const searchInfo = {
-  fields: ["name", "type.title"],
+  fields: [
+    { id: "name" },
+    { id: "type.title" },
+    { id: "numbers", type: "numberIncludes" },
+  ],
 };

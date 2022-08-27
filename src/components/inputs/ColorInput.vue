@@ -3,13 +3,14 @@
     <bordered-input
       type="text"
       :placeholder="placeholder ?? $t('color')"
+      :disabled="disabled"
       :value="modelValue"
       @input="updateInput"
     />
     <div
       class="color_btn"
       :style="{ background: modelValue ? `#${modelValue}` : 'none' }"
-      @click="isPickerShow = !isPickerShow"
+      @click="disabled ? null : (isPickerShow = !isPickerShow)"
     ></div>
     <color-picker
       v-if="isPickerShow"
@@ -48,6 +49,11 @@ export default {
     placeholder: {
       type: String,
       required: false,
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
 

@@ -1,10 +1,13 @@
 <template>
-  <div class="wrapper">
-    <dashboard-navbar class="dashboard_navbar" />
-    <div class="dashboard_wrapper">
-      <dashboard-header class="dashboard_layout_header" />
-      <router-view />
+  <div class="app_wrapper preloader_wrap">
+    <div v-if="$store.state.user.user" class="app_content">
+      <dashboard-navbar class="dashboard_navbar" />
+      <div class="dashboard_wrapper">
+        <dashboard-header class="dashboard_layout_header" />
+        <router-view />
+      </div>
     </div>
+    <preloader-spinner v-else ref="preloader" />
   </div>
 </template>
 
@@ -26,7 +29,13 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-.wrapper {
+.app_wrapper {
+  position: relative;
+  .preloader {
+    top: calc(50vh - 30px);
+  }
+}
+.app_content {
   display: flex;
   width: 100%;
   min-height: 100vh;

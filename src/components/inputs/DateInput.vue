@@ -2,7 +2,7 @@
   <mask-input
     :modelValue="date"
     @input="updateInput"
-    mask="#0{.}*0{.}$*00"
+    mask="00{.}00{.}0000"
     :definitions="{ '#': /[0-3]/, '*': /[0-1]/, $: /[0-2]/ }"
     :maxLength="10"
   />

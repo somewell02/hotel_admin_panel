@@ -64,16 +64,16 @@ export default {
             rent.rentItemName = sliceWithEllipsis(rent.rentItemName, 20);
 
             const rentItem = this.rentItemsList.find(
-              (item) => item.id == rent.rentItemId
+              (item) => item.id === rent.rentItemId
             );
             if (rentItem) {
-              const rentCatgory = this.rentCategoriesList.find(
-                (category) => category.id == rentItem.category
+              const rentCategory = this.rentCategoriesList.find(
+                (category) => category.id === rentItem.category
               );
-              if (rentCatgory) {
+              if (rentCategory) {
                 rent.itemCategory = {
-                  title: sliceWithEllipsis(rentCatgory.title, 12),
-                  background: rentCatgory.color,
+                  title: sliceWithEllipsis(rentCategory.title, 12),
+                  background: rentCategory.color,
                 };
               }
             }
@@ -111,6 +111,9 @@ export default {
         );
       }
     },
+
+    editRent() {},
+    deleteRent() {},
   },
 
   watch: {

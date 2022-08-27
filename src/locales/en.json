@@ -3,6 +3,7 @@
   "no": "No",
   "add": "Add",
   "edit": "Edit",
+  "view": "Watch",
   "save": "Save",
   "delete": "Delete",
   "back": "Back",
@@ -197,7 +198,7 @@
       "dates": "Dates",
       "dateStart": "Start date",
       "dateEnd": "End date",
-      "number": "Room number",
+      "number": "Room",
       "roomType": "Room type",
       "totalPrice": "Total price"
     },

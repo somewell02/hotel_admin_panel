@@ -24,7 +24,7 @@ export default {
   props: {
     filters: {
       type: Array,
-      requried: true,
+      required: true,
     },
   },
 

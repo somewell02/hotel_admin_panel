@@ -97,6 +97,8 @@ import {
   searchInfo as roomSearchInfo,
 } from "@/views/rooms/roomConstants";
 
+import { sliceWithEllipsis } from "@/services/methods/string";
+
 export default {
   data() {
     return {
@@ -165,7 +167,9 @@ export default {
     },
     bookingUser() {
       if (this.booking && this.usersList) {
-        return [this.usersList.find((user) => user.id == this.booking.uid)];
+        return [
+          this.modifiedUsersList.find((user) => user.id == this.booking.uid),
+        ];
       } else return null;
     },
     modifiedUsersList() {
@@ -202,6 +206,7 @@ export default {
 
       if (rooms && rooms.length > 0 && this.typesList) {
         rooms.forEach((room) => {
+          room.name = sliceWithEllipsis(room.name, 25);
           const roomType = this.typesList.find((type) => type.id == room.type);
           if (roomType) {
             room.typeId = roomType.id;

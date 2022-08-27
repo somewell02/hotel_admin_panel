@@ -9,6 +9,7 @@
           type="number"
           v-model="room.numbers"
           :validate="numbersValidate"
+          :disabled="disabled"
         />
       </div>
     </div>
@@ -19,6 +20,7 @@
           class="input_item column_1"
           v-model="room.name"
           :placeholder="$t('room.fields.name')"
+          :disabled="disabled"
         />
         <bordered-select
           class="input_item column_12 margin"
@@ -26,6 +28,7 @@
           v-model="room.type"
           :options="types"
           :defaultTitle="$t('room.form.chooseType')"
+          :disabled="disabled"
         />
         <number-input
           class="input_item column_12"
@@ -33,16 +36,19 @@
           :placeholder="$t('room.fields.bedsCount')"
           :min="0"
           :max="50"
+          :disabled="disabled"
         />
         <time-input
           class="input_item column_12 margin"
           v-model="room.checkIn"
           :placeholder="$t('room.fields.checkIn')"
+          :disabled="disabled"
         />
         <time-input
           class="input_item column_12"
           v-model="room.eviction"
           :placeholder="$t('room.fields.eviction')"
+          :disabled="disabled"
         />
       </div>
     </div>
@@ -54,6 +60,7 @@
           v-model="room.price"
           :placeholder="$t('room.fields.name')"
           min="0"
+          :disabled="disabled"
         />
       </div>
     </div>
@@ -64,6 +71,7 @@
           class="input_item column_1"
           v-model="room.description"
           :placeholder="$t('description')"
+          :disabled="disabled"
         />
       </div>
     </div>
@@ -142,6 +150,14 @@ export default {
 
   async created() {
     await this.initData();
+  },
+
+  computed: {
+    disabled() {
+      return this.isAdd
+        ? !this.$store.getters["user/includesCreate"]
+        : !this.$store.getters["user/includesUpdate"];
+    },
   },
 
   methods: {

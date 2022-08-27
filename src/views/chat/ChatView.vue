@@ -96,7 +96,7 @@ export default {
             break;
         }
 
-        const searchInfo = { fields: ["name", "id"] };
+        const searchInfo = { fields: [{ id: "name" }, { id: "id" }] };
         if (this.search) chats = search(chats, searchInfo, this.search);
 
         return chats;

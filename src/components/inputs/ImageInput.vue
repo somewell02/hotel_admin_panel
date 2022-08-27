@@ -12,6 +12,7 @@
         v-if="modelValue"
         :src="typeof modelValue == 'string' ? modelValue : getUrl(modelValue)"
         class="image_preview"
+        alt="preview"
       />
       <default-photo class="image_preview" v-else />
       <div class="edit">
@@ -51,11 +52,7 @@ export default {
   methods: {
     uploadImage(event) {
       const file = event.target.files[0];
-      var allowed_extensions = new Array(
-        "image/jpeg",
-        "image/png",
-        "image/gif"
-      );
+      let allowed_extensions = ["image/jpeg", "image/png", "image/gif"];
 
       if (file) {
         if (allowed_extensions.includes(file.type)) {

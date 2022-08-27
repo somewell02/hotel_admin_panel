@@ -22,6 +22,7 @@
       :structure="structureInfo"
       :list="modifiedRoomsList()"
       @edit="(room) => editRoom(room.id)"
+      @view="(room) => editRoom(room.id)"
       @delete="(room) => deleteRoom(room)"
     />
     <div class="pagination_wrap">

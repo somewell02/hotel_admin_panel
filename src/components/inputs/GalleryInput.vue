@@ -5,6 +5,7 @@
         <img
           :src="typeof img == 'string' ? img : getUrl(img)"
           class="gallery_img"
+          alt="gallery"
         />
         <div class="img_delete" @click="deleteImage(img)">
           {{ $t("delete") }}
@@ -43,7 +44,7 @@ export default {
 
   created() {
     this.items.forEach((item) => {
-      var img = new Image();
+      let img = new Image();
       img.src = item;
       //console.log(item);
     });
@@ -52,11 +53,7 @@ export default {
   methods: {
     uploadImage(event) {
       const files = event.target.files;
-      var allowed_extensions = new Array(
-        "image/jpeg",
-        "image/png",
-        "image/gif"
-      );
+      let allowed_extensions = ["image/jpeg", "image/png", "image/gif"];
 
       if (files.length > 0) {
         for (let i = 0; i < files.length; i++) {

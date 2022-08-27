@@ -99,7 +99,7 @@ export default {
     rentsList(newValue) {
       if (newValue) {
         this.$refs.preloader.hide();
-        if (newValue.length == 0) {
+        if (newValue.length === 0) {
           this.dataCount = this.$t("noRecords");
         }
       }
@@ -151,7 +151,7 @@ export default {
       this.categoriesList.forEach((category) => {
         filterCategories.push({ id: category.id, title: category.title ?? "" });
       });
-      this.filters.find((filter) => filter.id == "categoryId").options =
+      this.filters.find((filter) => filter.id === "categoryId").options =
         filterCategories;
     },
 
@@ -187,13 +187,13 @@ export default {
       if (rents && rents.length > 0 && this.categoriesList) {
         rents.forEach((rent) => {
           rent.image = rent.images ? rent.images[0] ?? null : null;
-          if (rent.category == "roomService") {
+          if (rent.category === "roomService") {
             rent.image = null;
           }
           rent.title = sliceWithEllipsis(rent.title, 24);
 
           const rentCategory = this.categoriesList.find(
-            (category) => category.id == rent.category
+            (category) => category.id === rent.category
           );
           if (rentCategory) {
             rent.categoryId = rentCategory.id;

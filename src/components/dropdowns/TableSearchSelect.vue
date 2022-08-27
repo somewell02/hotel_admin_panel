@@ -40,7 +40,7 @@ import SpacingBorderedTable from "@/components/lists/SpacingBorderedTable";
 import { search } from "@/services/methods/list.js";
 
 export default {
-  name: "table-search-seelct",
+  name: "table-search-select",
   data() {
     return {
       isActive: false,

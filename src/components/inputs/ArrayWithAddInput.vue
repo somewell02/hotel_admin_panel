@@ -2,13 +2,21 @@
   <div class="array_with_add_wrap">
     <div class="array_with_add_wrap">
       <div v-for="item in items" :key="item" class="array_with_add_item">
-        <button class="close_icon_btn" @click="deleteItem(item)">
+        <button
+          class="close_icon_btn"
+          @click="deleteItem(item)"
+          v-if="!disabled"
+        >
           <close-icon />
         </button>
         {{ item }}
       </div>
     </div>
-    <div class="array_with_add_form" :class="{ margin: items.length > 0 }">
+    <div
+      class="array_with_add_form"
+      :class="{ margin: items.length > 0 }"
+      v-if="!disabled"
+    >
       <number-input v-if="type == 'number'" v-model="adding" />
       <text-input v-else v-model="adding" />
       <filled-button @click="addItem">
@@ -38,7 +46,7 @@ export default {
   data() {
     return {
       items: [...this.modelValue],
-      adding: this.type == "number" ? 0 : "",
+      adding: this.type === "number" ? 0 : "",
     };
   },
 
@@ -56,6 +64,11 @@ export default {
       type: Function,
       required: false,
     },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
   },
 
   methods: {
@@ -63,7 +76,7 @@ export default {
       const v = await this.validate(this.adding);
       if (v && !this.items.includes(this.adding)) {
         this.items.push(this.adding);
-        this.adding = this.type == "number" ? 0 : "";
+        this.adding = this.type === "number" ? 0 : "";
         this.update();
       } else {
         this.$refs.alert.open("error", this.$t("room.alerts.numberExists"));

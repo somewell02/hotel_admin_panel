@@ -9,6 +9,7 @@
           v-model="user.role"
           :options="roles"
           :defaultTitle="$t('user.form.chooseRole')"
+          :disabled="disabled"
         />
       </div>
     </div>
@@ -19,6 +20,7 @@
           class="input_item column_13"
           v-model="user.name"
           :placeholder="$t('user.fields.name')"
+          :disabled="disabled"
         />
       </div>
     </div>
@@ -29,11 +31,13 @@
           class="input_item column_13 margin"
           v-model="user.phone"
           :placeholder="$t('user.fields.phone')"
+          :disabled="disabled"
         />
         <text-input
           class="input_item column_13"
           v-model="user.email"
           :placeholder="$t('user.fields.email')"
+          :disabled="disabled"
         />
       </div>
     </div>
@@ -98,6 +102,11 @@ export default {
         return this.roles.find((role) => role.id == this.user.role);
       } else return {};
     },
+    disabled() {
+      return this.isAdd
+        ? !this.$store.getters["user/includesCreate"]
+        : !this.$store.getters["user/includesUpdate"];
+    },
   },
 
   methods: {
@@ -112,7 +121,6 @@ export default {
     },
 
     validate() {
-      //const emailPattern = /^[^ ]+@gmail.com$/;
       const emailPattern = /\S+@\S+\.\S+/;
       const phonePattern =
         /^(\+7|7|8)?[\s-]?\(?[489][0-9]{2}\)?[\s-]?[0-9]{3}[\s-]?[0-9]{2}[\s-]?[0-9]{2}$/;

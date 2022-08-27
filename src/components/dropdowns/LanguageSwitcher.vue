@@ -18,7 +18,7 @@
         :key="language.id"
         @click="selectLanguage(language)"
       >
-        <button v-if="language.id != currentLanguage.id">
+        <button v-if="language.id !== currentLanguage.id">
           <component :is="language.flag" class="flag" />
           {{ language.title }}
         </button>
@@ -103,7 +103,6 @@ export default {
     font-size: 14px;
     font-weight: 500;
     color: var(--text-color);
-    padding: 0;
     border: 0;
     outline: 0;
     padding: 0 10px;

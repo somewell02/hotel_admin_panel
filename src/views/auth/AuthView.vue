@@ -50,18 +50,27 @@ export default {
         this.$refs.alert.open("error", this.$t("auth.errors.emptyFields"));
       } else {
         const res = await getAuth(this.login, this.password);
-        if (res === "auth/invalid-email") {
-          this.$refs.alert.open("error", this.$t("auth.errors.invalidEmail"));
-        } else if (res === "auth/user-not-found") {
-          this.$refs.alert.open("error", this.$t("auth.errors.userNotFound"));
-        } else if (res === "auth/wrong-password") {
-          this.$refs.alert.open("error", this.$t("auth.errors.wrongPassword"));
-        } else if (res === "no-access") {
-          this.$refs.alert.open("error", this.$t("auth.errors.noAccess"));
-        } else if (res == "access") {
-          this.$router.push({ name: "dashboard" });
-        } else {
-          this.$refs.alert.open("error", this.$t("auth.errors.authError"));
+        switch (res) {
+          case "auth/invalid-email":
+            this.$refs.alert.open("error", this.$t("auth.errors.invalidEmail"));
+            break;
+          case "auth/user-not-found":
+            this.$refs.alert.open("error", this.$t("auth.errors.userNotFound"));
+            break;
+          case "auth/wrong-password":
+            this.$refs.alert.open(
+              "error",
+              this.$t("auth.errors.wrongPassword")
+            );
+            break;
+          case "no-access":
+            this.$refs.alert.open("error", this.$t("auth.errors.noAccess"));
+            break;
+          case "access":
+            this.$router.push({ name: "dashboard" });
+            break;
+          default:
+            this.$refs.alert.open("error", this.$t("auth.errors.authError"));
         }
       }
     },

@@ -2,7 +2,7 @@
   <div class="bordered_select">
     <bordered-button
       class="selected_item"
-      @click="isActive = !isActive"
+      @click="disabled ? null : (isActive = !isActive)"
       :class="{ active: isActive }"
     >
       {{ prefix ? prefix + " " + selectedTitle.toLowerCase() : selectedTitle }}
@@ -57,6 +57,11 @@ export default {
     defaultTitle: {
       type: String,
       required: false,
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
   },
 
