@@ -5,7 +5,7 @@ export const setGetParams = async (params) => {
     let url = window.location.pathname;
     let i = 0;
     for (const [key, value] of Object.entries(params)) {
-      if (i == 0) url += "?" + key + "=" + value;
+      if (i === 0) url += "?" + key + "=" + value;
       else url += "&" + key + "=" + value;
       i++;
     }
@@ -15,8 +15,5 @@ export const setGetParams = async (params) => {
 };
 
 export const getGetParams = () => {
-  const windowData = Object.fromEntries(
-    new URL(window.location).searchParams.entries()
-  );
-  return windowData;
+  return Object.fromEntries(new URL(window.location).searchParams.entries());
 };

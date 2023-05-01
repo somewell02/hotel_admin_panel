@@ -86,7 +86,7 @@ export default {
             msToDayMonthYear(booking.dateEnd.seconds * 1000);
 
           const bookingStatus = this.statusesList.find(
-            (status) => status.id == booking.status
+            (status) => status.id === booking.status
           );
           if (bookingStatus) {
             booking.statusId = bookingStatus.id;
@@ -97,7 +97,7 @@ export default {
           }
 
           const roomType = this.roomTypesList.find(
-            (type) => type.id == booking.roomType
+            (type) => type.id === booking.roomType
           );
           if (roomType) {
             booking.roomTypeId = roomType.id;

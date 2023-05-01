@@ -93,8 +93,8 @@ export const getChatMessages = (id) => {
 };
 
 export const sendMessage = async (id, message) => {
-  const res = chatsCollection.doc(id).collection("messages").add(message);
-  chatsCollection.doc(id).update({
+  const res = await chatsCollection.doc(id).collection("messages").add(message);
+  await chatsCollection.doc(id).update({
     recentMessage: message,
   });
   return res ?? null;

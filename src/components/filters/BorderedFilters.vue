@@ -3,7 +3,7 @@
     <div class="filters_icon"><filter-icon /></div>
     <div class="filter_item_wrap" v-for="filter in filters" :key="filter.id">
       <checkbox-filter-item
-        v-if="filter.type == 'checkbox'"
+        v-if="filter.type === 'checkbox'"
         v-model="filter.values"
         :filter="filter"
       />

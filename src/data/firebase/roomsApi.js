@@ -1,4 +1,4 @@
-import { ref, onUnmounted } from "vue";
+import { onUnmounted, ref } from "vue";
 import { firestore } from "./firebase.js";
 import { addImageInStorage } from "./firestorage";
 
@@ -22,42 +22,38 @@ export const subscribeRooms = () => {
 
 export const getRooms = async () => {
   const res = await roomsCollection.get();
-  const rooms = res.docs.map((doc) => ({
+  return res.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
   }));
-  return rooms;
 };
 
 export const getRoomsByType = async (typeId) => {
   const res = await roomsCollection.where("type", "==", typeId).get();
-  const rooms = res.docs.map((doc) => ({
+  return res.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
   }));
-  return rooms;
 };
 
 export const getRoomsByTag = async (tagId) => {
   const res = await roomsCollection
     .where("tags", "array-contains", tagId)
     .get();
-  const rooms = res.docs.map((doc) => ({
+  return res.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
   }));
-  return rooms;
 };
 
 export const getRoomsByNumber = async (number) => {
   const res = await roomsCollection
     .where("numbers", "array-contains", number)
     .get();
-  const rooms = res.docs.map((doc) => ({
+  return res.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
   }));
-  return rooms;
 };
 
 export const getRoomById = async (id) => {
@@ -99,9 +95,7 @@ export const addRoom = async (room) => {
 export const updateRoom = async (id, room) => {
   //setGallery(id, room.images);
   const res = await roomsCollection.doc(id).update(room);
-
-  if (res) return true;
-  else return false;
+  return !!res;
 };
 
 export const deleteRoom = (id) => {

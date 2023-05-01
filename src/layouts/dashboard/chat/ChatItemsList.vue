@@ -17,14 +17,7 @@
             {{ chat.name ? sliceWithEllipsis(chat.name, 20) : "" }}
           </div>
           <div class="recent_message_time">
-            {{
-              msToYear(chat.recentMessage.sendAt) == msToYear(Date.now())
-                ? msToDayMonthLong(chat.recentMessage.sendAt) ==
-                  msToDayMonthLong(Date.now())
-                  ? msToHourMin(chat.recentMessage.sendAt)
-                  : msToDayMonthLong(chat.recentMessage.sendAt)
-                : msToDayMonthYearLong(chat.recentMessage.sendAt)
-            }}
+            {{ recentMessageTime(chat) }}
           </div>
         </div>
         <div class="recent_message">
@@ -76,6 +69,14 @@ export default {
     msToDayMonthLong,
     msToDayMonthYearLong,
     sliceWithEllipsis,
+    recentMessageTime(chat) {
+      return msToYear(chat.recentMessage.sendAt) === msToYear(Date.now())
+        ? msToDayMonthLong(chat.recentMessage.sendAt) ===
+          msToDayMonthLong(Date.now())
+          ? msToHourMin(chat.recentMessage.sendAt)
+          : msToDayMonthLong(chat.recentMessage.sendAt)
+        : msToDayMonthYearLong(chat.recentMessage.sendAt);
+    },
   },
 };
 </script>

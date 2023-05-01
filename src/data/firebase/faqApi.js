@@ -1,4 +1,4 @@
-import { ref, onUnmounted } from "vue";
+import { onUnmounted, ref } from "vue";
 import { firestore } from "./firebase.js";
 import { addImageInStorage, deleteFile } from "./firestorage";
 
@@ -6,11 +6,10 @@ const faqCollection = firestore.collection("FAQ");
 
 export const getFaq = async () => {
   const res = await faqCollection.get();
-  const faq = res.docs.map((doc) => ({
+  return res.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
   }));
-  return faq;
 };
 
 export const subscribeFaq = async () => {
@@ -41,7 +40,7 @@ export const addFaq = async (faq) => {
   const res = await faqCollection.add(faq);
   const url = await setFaqImage(res.id, img);
   if (url) {
-    faqCollection.doc(res.id).update({
+    await faqCollection.doc(res.id).update({
       image: url,
     });
   }
@@ -67,6 +66,5 @@ export const deleteFaq = (faq) => {
 };
 
 const setFaqImage = async (id, img) => {
-  const url = await addImageInStorage(img, id, "img/hotel/faq/");
-  return url;
+  return await addImageInStorage(img, id, "img/hotel/faq/");
 };

@@ -50,8 +50,8 @@ export default {
     },
 
     validate() {
-      if (!this.faq.title || this.faq.description.length == 0) {
-        this.$refs.alert.open("error", this.$t("faq.alerts.requiredFileds"));
+      if (!this.faq.title || this.faq.description.length === 0) {
+        this.$refs.alert.open("error", this.$t("faq.alerts.requiredFields"));
         return false;
       }
       return true;

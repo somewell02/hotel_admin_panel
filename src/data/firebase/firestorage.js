@@ -10,7 +10,7 @@ import {
 export const storage = getStorage(firebaseApp);
 
 export const addImageInStorage = async (image, name, path) => {
-  var blob = image.slice(0, image.size, image.type);
+  const blob = image.slice(0, image.size, image.type);
   const modifiedImage = new File(
     [blob],
     name + "." + image.name.split(".")[1],

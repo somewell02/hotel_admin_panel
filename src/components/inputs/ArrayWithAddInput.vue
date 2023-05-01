@@ -17,7 +17,7 @@
       :class="{ margin: items.length > 0 }"
       v-if="!disabled"
     >
-      <number-input v-if="type == 'number'" v-model="adding" />
+      <number-input v-if="type === 'number'" v-model="adding" />
       <text-input v-else v-model="adding" />
       <filled-button @click="addItem">
         <close-icon />

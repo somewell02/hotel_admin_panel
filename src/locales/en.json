@@ -123,8 +123,8 @@
       "added": "Role successfully added",
       "deleted": "Role successfully deleted",
       "updated": "Role successfully updated",
-      "requiredFileds": "ID and title are required",
-      "alreadyExists": "The roole with the entered ID already exists",
+      "requiredFields": "ID and title are required",
+      "alreadyExists": "The role with the entered ID already exists",
       "cannotBeDeleted": "The selected role is not available for deletion",
       "usersExist": "There are users with the selected role. Before deleting, change their role or delete them."
     } 
@@ -158,7 +158,7 @@
       "deleted": "Room successfully deleted",
       "updated": "Room successfully updated",
       "notFound": "Room not found",
-      "requiredFileds": "The name, class and price of the room are mandatory",
+      "requiredFields": "The name, class and price of the room are mandatory",
       "requiredImage": "Add at least one image of the number",
       "numberExists": "The entered number has already been used"
     }
@@ -172,7 +172,7 @@
       "added": "Type successfully added",
       "deleted": "Type successfully deleted",
       "updated": "Type successfully updated",
-      "requiredFileds": "ID and title are required",
+      "requiredFields": "ID and title are required",
       "alreadyExists": "The type with the entered ID already exists",
       "roomsExist": "There are rooms with the selected type. Before deleting, change their type or delete them."
     }
@@ -186,7 +186,7 @@
       "added": "Tag successfully added",
       "deleted": "Tag successfully deleted",
       "updated": "Tag successfully updated",
-      "requiredFileds": "Title is required",
+      "requiredFields": "Title is required",
       "roomsExist": "There are numbers with the selected tag. Before deleting, delete this tag from them."
     }
   },
@@ -220,7 +220,7 @@
       "deleted": "Booking successfully deleted",
       "updated": "Booking successfully updated",
       "notFound": "Booking not found",
-      "requiredFileds": "User and number are required",
+      "requiredFields": "User and number are required",
       "requiredRoomNumber": "The room number is required"
     }
   },
@@ -233,7 +233,7 @@
       "added": "Status successfully added",
       "deleted": "Status successfully deleted",
       "updated": "Status successfully updated",
-      "requiredFileds": "ID and title are required",
+      "requiredFields": "ID and title are required",
       "alreadyExists": "The status with the entered ID already exists",
       "cannotBeDeleted": "The selected status is not available for deletion",
       "usersExist": "There are bookings with the selected status. Before deleting, change their status or delete them."
@@ -268,7 +268,7 @@
       "added": "Question successfully added",
       "deleted": "Question successfully deleted",
       "updated": "Question successfully updated",
-      "requiredFileds": "Title and description are required"
+      "requiredFields": "Title and description are required"
     }
   },
   "rent": {

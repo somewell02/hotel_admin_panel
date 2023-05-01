@@ -1,15 +1,14 @@
-import { ref, onUnmounted } from "vue";
+import { onUnmounted, ref } from "vue";
 import { firestore } from "./firebase.js";
 
 const bookingsCollection = firestore.collection("bookings");
 
 export const getBookingRents = async (bookingId) => {
   const res = await bookingsCollection.doc(bookingId).collection("rents").get();
-  const rents = res.docs.map((doc) => ({
+  return res.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
   }));
-  return rents;
 };
 
 export const subscribeBookingRents = (bookingId) => {

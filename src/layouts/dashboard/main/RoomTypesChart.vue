@@ -41,12 +41,12 @@ export default {
 
     let types = [];
     this.bookings.forEach((booking) => {
-      let existType = types.find((type) => type.id == booking.roomType);
+      let existType = types.find((type) => type.id === booking.roomType);
       if (existType) {
         existType.count += 1;
       } else {
         const t = this.roomTypesList.find(
-          (type) => type.id == booking.roomType
+          (type) => type.id === booking.roomType
         );
         types.push({
           id: booking.roomType,

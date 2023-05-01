@@ -1,15 +1,14 @@
-import { ref, onUnmounted } from "vue";
+import { onUnmounted, ref } from "vue";
 import { firestore } from "./firebase.js";
 
 const rolesCollection = firestore.collection("userRoles");
 
 export const getUserRoles = async () => {
   const res = await rolesCollection.get();
-  const users = res.docs.map((doc) => ({
+  return res.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
   }));
-  return users;
 };
 
 export const subscribeUserRoles = async () => {

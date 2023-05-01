@@ -1,4 +1,4 @@
-import { ref, onUnmounted } from "vue";
+import { onUnmounted, ref } from "vue";
 import { firestore } from "./firebase.js";
 import { addImageInStorage } from "./firestorage";
 
@@ -6,11 +6,10 @@ const rentItemsCollection = firestore.collection("rent");
 
 export const getRentItems = async () => {
   const res = await rentItemsCollection.get();
-  const rentItems = res.docs.map((doc) => ({
+  return res.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
   }));
-  return rentItems;
 };
 
 export const subscribeRentItems = () => {
@@ -33,11 +32,10 @@ export const getRentItemsByCategory = async (categoryId) => {
   const res = await rentItemsCollection
     .where("category", "==", categoryId)
     .get();
-  const rentItems = res.docs.map((doc) => ({
+  return res.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
   }));
-  return rentItems;
 };
 
 export const addRentItem = async (rent) => {

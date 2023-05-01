@@ -34,7 +34,7 @@ export default {
 
   methods: {
     updateInput(event) {
-      if (event.target.value.length == 10) {
+      if (event.target.value.length === 10) {
         const d = Date.parse(event.target.value);
         if (d && d >= 0) {
           this.$emit("update:modelValue", d);

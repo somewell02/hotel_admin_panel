@@ -1,4 +1,4 @@
-import { ref, onUnmounted } from "vue";
+import { onUnmounted, ref } from "vue";
 import { firestore } from "./firebase.js";
 import { addImageInStorage, deleteFile } from "./firestorage";
 
@@ -6,11 +6,10 @@ const eventsCollection = firestore.collection("events");
 
 export const getEvents = async () => {
   const res = await eventsCollection.get();
-  const events = res.docs.map((doc) => ({
+  return res.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
   }));
-  return events;
 };
 
 export const subscribeEvents = async () => {
@@ -40,7 +39,7 @@ export const addEvent = async (event) => {
   const res = await eventsCollection.add(event);
   const url = await setEventImage(res.id, img);
   if (url) {
-    eventsCollection.doc(res.id).update({
+    await eventsCollection.doc(res.id).update({
       image: url,
     });
   }
@@ -66,6 +65,5 @@ export const deleteEvent = (event) => {
 };
 
 const setEventImage = async (id, img) => {
-  const url = await addImageInStorage(img, id, "img/events/");
-  return url;
+  return await addImageInStorage(img, id, "img/events/");
 };

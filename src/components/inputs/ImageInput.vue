@@ -10,7 +10,7 @@
       <input @change="uploadImage" type="file" accept="image/*" />
       <img
         v-if="modelValue"
-        :src="typeof modelValue == 'string' ? modelValue : getUrl(modelValue)"
+        :src="typeof modelValue === 'string' ? modelValue : getUrl(modelValue)"
         class="image_preview"
         alt="preview"
       />

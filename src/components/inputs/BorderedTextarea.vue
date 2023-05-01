@@ -25,7 +25,7 @@ export default {
   computed: {
     inputClass() {
       const colors = ["gray"];
-      if (this.color == null || !colors.includes(this.color)) return "gray";
+      if (!this.color || !colors.includes(this.color)) return "gray";
       else return this.color;
     },
   },

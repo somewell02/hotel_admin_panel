@@ -49,7 +49,7 @@ export default {
       if (!this.tag.title) {
         this.$refs.alert.open(
           "error",
-          this.$t("roomTag.alerts.requiredFileds")
+          this.$t("roomTag.alerts.requiredFields")
         );
         return false;
       }

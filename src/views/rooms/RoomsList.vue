@@ -97,7 +97,7 @@ export default {
     roomsList(newValue) {
       if (newValue) {
         this.$refs.preloader.hide();
-        if (newValue.length == 0) {
+        if (newValue.length === 0) {
           this.dataCount = this.$t("noRecords");
         }
       }
@@ -149,7 +149,7 @@ export default {
       this.typesList.forEach((type) => {
         filterTypes.push({ id: type.id, title: type.title });
       });
-      this.filters.find((filter) => filter.id == "typeId").options =
+      this.filters.find((filter) => filter.id === "typeId").options =
         filterTypes;
     },
 
@@ -191,7 +191,7 @@ export default {
           room.image = room.images ? room.images[0] ?? null : null;
           room.name = sliceWithEllipsis(room.name, 24);
 
-          const roomType = this.typesList.find((type) => type.id == room.type);
+          const roomType = this.typesList.find((type) => type.id === room.type);
           if (roomType) {
             room.typeId = roomType.id;
             room.type = {

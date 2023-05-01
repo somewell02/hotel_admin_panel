@@ -51,10 +51,10 @@ export default {
   async created() {
     this.all = this.bookings.length;
     this.booked = this.bookings.filter(
-      (booking) => booking.status == "booked"
+      (booking) => booking.status === "booked"
     ).length;
     this.active = this.bookings.filter(
-      (booking) => booking.status == "active"
+      (booking) => booking.status === "active"
     ).length;
   },
 };

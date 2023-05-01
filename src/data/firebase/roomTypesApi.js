@@ -1,15 +1,14 @@
-import { ref, onUnmounted } from "vue";
+import { onUnmounted, ref } from "vue";
 import { firestore } from "./firebase.js";
 
 const typesCollection = firestore.collection("roomTypes");
 
 export const getRoomTypes = async () => {
   const res = await typesCollection.get();
-  const types = res.docs.map((doc) => ({
+  return res.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
   }));
-  return types;
 };
 
 export const subscribeRoomTypes = async () => {

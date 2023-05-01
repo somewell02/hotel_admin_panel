@@ -5,14 +5,13 @@ export const search = (list, searchInfo, search) => {
   return list.filter((item) => {
     let t = false;
     fields.forEach((field) => {
-      if (field.type && field.type == "numberIncludes") {
+      if (field.type && field.type === "numberIncludes") {
         if (item[field.id] && item[field.id].includes(parseInt(search))) {
           t = true;
-          return;
         }
       } else {
         const f = field.id ? field.id.split(".") : "";
-        if (f.length == 2) {
+        if (f.length === 2) {
           if (
             item[f[0]][f[1]] &&
             item[f[0]][f[1]]
@@ -22,7 +21,6 @@ export const search = (list, searchInfo, search) => {
               .includes(search.trim().toLowerCase())
           ) {
             t = true;
-            return;
           }
         } else {
           if (
@@ -34,7 +32,6 @@ export const search = (list, searchInfo, search) => {
               .includes(search.trim().toLowerCase())
           ) {
             t = true;
-            return;
           }
         }
       }
@@ -47,8 +44,8 @@ export const sort = (users, sort) => {
   const value = sort.split(":")[0];
   const direction = sort.split(":")[1];
   return users.sort((o1, o2) => {
-    if (o1[value] > o2[value]) return direction == "asc" ? 1 : -1;
-    if (o1[value] < o2[value]) return direction == "asc" ? -1 : 1;
+    if (o1[value] > o2[value]) return direction === "asc" ? 1 : -1;
+    if (o1[value] < o2[value]) return direction === "asc" ? -1 : 1;
     return 0;
   });
 };

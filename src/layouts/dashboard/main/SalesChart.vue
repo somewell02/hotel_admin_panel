@@ -48,7 +48,7 @@ export default {
       this.bookings
         .filter(
           (booking) =>
-            msToDayMonthYear(booking.dateEnd.seconds * 1000) ==
+            msToDayMonthYear(booking.dateEnd.seconds * 1000) ===
             msToDayMonthYear(d)
         )
         .forEach((b) => {

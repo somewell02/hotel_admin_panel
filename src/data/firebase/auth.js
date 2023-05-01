@@ -1,4 +1,4 @@
-import { firebaseApp, auth } from "./firebase.js";
+import { auth, firebaseApp } from "./firebase.js";
 import "firebase/compat/auth";
 import store from "@/data/store/vuex";
 import router from "@/router/router.js";
@@ -15,7 +15,7 @@ export const getAuthUser = () => {
               data.role = role;
               store.commit("user/setUser", data);
             });
-            if (router.currentRoute.value.name == "authorization") {
+            if (router.currentRoute.value.name === "authorization") {
               router.push({ name: "main" });
             }
           } else {
@@ -26,18 +26,18 @@ export const getAuthUser = () => {
         .catch((error) => {
           console.log(error.message);
         });
-    } else if (router.currentRoute.value.name != "authorization") {
+    } else if (router.currentRoute.value.name !== "authorization") {
       router.push({ name: "authorization" });
     }
   });
 };
 
 export const getAuth = async (email, password) => {
-  const res = await firebaseApp
+  return await firebaseApp
     .auth()
     .signInWithEmailAndPassword(email, password)
     .then((data) => {
-      const access = isStaff(data.user.uid)
+      return isStaff(data.user.uid)
         .then((role) => {
           if (role.staff) {
             return "access";
@@ -48,12 +48,10 @@ export const getAuth = async (email, password) => {
         .catch((error) => {
           console.log(error.message);
         });
-      return access;
     })
     .catch((error) => {
       return error.code;
     });
-  return res;
 };
 
 export const logout = () => {

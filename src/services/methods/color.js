@@ -3,15 +3,16 @@ export const rgb2hsl = (HTMLcolor) => {
   let r = parseInt(HTMLcolor.substring(0, 2), 16) / 255;
   let g = parseInt(HTMLcolor.substring(2, 4), 16) / 255;
   let b = parseInt(HTMLcolor.substring(4, 6), 16) / 255;
-  var max = Math.max(r, g, b),
-    min = Math.min(r, g, b);
-  var h,
-    s,
-    l = (max + min) / 2;
-  if (max == min) {
+
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  let h, s;
+  let l = (max + min) / 2;
+
+  if (max === min) {
     h = s = 0;
   } else {
-    var d = max - min;
+    const d = max - min;
     s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
     switch (max) {
       case r:
@@ -31,10 +32,6 @@ export const rgb2hsl = (HTMLcolor) => {
 
 export const isDark = (HTMLcolor) => {
   if (!HTMLcolor) return false;
-  let e = rgb2hsl(HTMLcolor);
-  if ((e.h < 0.55 && e.l >= 0.5) || (e.h >= 0.55 && e.l >= 0.75)) {
-    return false;
-  } else {
-    return true;
-  }
+  const e = rgb2hsl(HTMLcolor);
+  return !((e.h < 0.55 && e.l >= 0.5) || (e.h >= 0.55 && e.l >= 0.75));
 };

@@ -45,8 +45,8 @@
           :class="{
             margin:
               (messages[index + 1] &&
-                (messages[index + 1].sendBy != message.sendBy ||
-                  msToDayMonthYearLong(messages[index + 1].sendAt) !=
+                (messages[index + 1].sendBy !== message.sendBy ||
+                  msToDayMonthYearLong(messages[index + 1].sendAt) !==
                     msToDayMonthYearLong(message.sendAt))) ||
               !messages[index + 1],
           }"
@@ -55,12 +55,12 @@
             class="time_title"
             v-if="
               !messages[index - 1] ||
-              msToDayMonthLong(messages[index - 1].sendAt) !=
+              msToDayMonthLong(messages[index - 1].sendAt) !==
                 msToDayMonthLong(message.sendAt)
             "
           >
             {{
-              msToYear(message.sendAt) == msToYear(Date.now())
+              msToYear(message.sendAt) === msToYear(Date.now())
                 ? msToDayMonthLong(message.sendAt)
                 : msToDayMonthYearLong(message.sendAt)
             }}
@@ -77,8 +77,8 @@
               <div
                 v-if="
                   (messages[index + 1] &&
-                    (messages[index + 1].sendBy != message.sendBy ||
-                      msToDayMonthYearLong(messages[index + 1].sendAt) !=
+                    (messages[index + 1].sendBy !== message.sendBy ||
+                      msToDayMonthYearLong(messages[index + 1].sendAt) !==
                         msToDayMonthYearLong(message.sendAt))) ||
                   !messages[index + 1]
                 "
@@ -105,8 +105,8 @@
                 v-if="
                   message.name &&
                   ((messages[index - 1] &&
-                    (messages[index - 1].sendBy != message.sendBy ||
-                      msToDayMonthYearLong(messages[index - 1].sendAt) !=
+                    (messages[index - 1].sendBy !== message.sendBy ||
+                      msToDayMonthYearLong(messages[index - 1].sendAt) !==
                         msToDayMonthYearLong(message.sendAt))) ||
                     !messages[index - 1])
                 "
@@ -125,7 +125,7 @@
     <div
       class="chat_form"
       v-if="
-        chat.status == 'processing' &&
+        chat.status === 'processing' &&
         chat.userIds.includes($store.state.user.user.id)
       "
     >

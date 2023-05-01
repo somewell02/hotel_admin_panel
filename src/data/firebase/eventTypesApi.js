@@ -1,21 +1,20 @@
-import { ref, onUnmounted } from "vue";
+import { onUnmounted, ref } from "vue";
 import { firestore } from "./firebase.js";
 
 const typesCollection = firestore.collection("eventTypes");
 
 export const getEventTypes = async () => {
   const res = await typesCollection.get();
-  const types = res.docs.map((doc) => ({
+  return res.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
   }));
-  return types;
 };
 
 export const subscribeEventTypes = async () => {
   const types = ref(null);
 
-  const close = typesCollection.onSnapshot((snapshot) => {
+  const close = await typesCollection.onSnapshot((snapshot) => {
     types.value = snapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),

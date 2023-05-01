@@ -1,4 +1,4 @@
-import { ref, onUnmounted } from "vue";
+import { onUnmounted, ref } from "vue";
 import { firestore } from "./firebase.js";
 import { addChat, deleteChat } from "./chatsApi";
 
@@ -45,20 +45,18 @@ export const subscribeUsers = () => {
 
 export const getUsers = async () => {
   const res = await usersCollection.get();
-  const users = res.docs.map((doc) => ({
+  return res.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
   }));
-  return users;
 };
 
 export const getUsersByRole = async (roleId) => {
   const res = await usersCollection.where("role", "==", roleId).get();
-  const users = res.docs.map((doc) => ({
+  return res.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
   }));
-  return users;
 };
 
 export const getUserById = async (id) => {
@@ -87,13 +85,11 @@ export const addUser = async (user) => {
 
 export const updateUser = async (id, user) => {
   const res = await usersCollection.doc(id).update(user);
-
-  if (res) return true;
-  else return false;
+  return !!res;
 };
 
-export const deleteUser = (id) => {
+export const deleteUser = async (id) => {
   const res = usersCollection.doc(id).delete();
-  deleteChat(id);
+  await deleteChat(id);
   if (res) return res;
 };

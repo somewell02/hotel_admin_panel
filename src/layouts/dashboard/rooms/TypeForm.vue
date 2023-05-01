@@ -66,7 +66,7 @@ export default {
       if (!this.type.id || !this.type.title) {
         this.$refs.alert.open(
           "error",
-          this.$t("roomType.alerts.requiredFileds")
+          this.$t("roomType.alerts.requiredFields")
         );
         return false;
       }

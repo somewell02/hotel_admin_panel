@@ -192,7 +192,7 @@ export default {
         !this.room.type.trim() ||
         isNaN(this.room.price)
       ) {
-        this.$refs.alert.open("error", this.$t("room.alerts.requiredFileds"));
+        this.$refs.alert.open("error", this.$t("room.alerts.requiredFields"));
         return false;
       }
       if (this.room.images.length < 1) {

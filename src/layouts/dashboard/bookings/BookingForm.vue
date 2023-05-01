@@ -152,7 +152,7 @@ export default {
       if (this.roomsList && this.booking.roomId) {
         let numbers = [];
         const data = this.roomsList.find(
-          (room) => room.id == this.booking.roomId
+          (room) => room.id === this.booking.roomId
         ).numbers;
         if (data) {
           data.forEach((number) => {
@@ -168,7 +168,7 @@ export default {
     bookingUser() {
       if (this.booking && this.usersList) {
         return [
-          this.modifiedUsersList.find((user) => user.id == this.booking.uid),
+          this.modifiedUsersList.find((user) => user.id === this.booking.uid),
         ];
       } else return null;
     },
@@ -183,7 +183,7 @@ export default {
         if (users && users.length > 0 && this.rolesList) {
           users.forEach((user) => {
             const userRole = this.rolesList.find(
-              (role) => role.id == user.role
+              (role) => role.id === user.role
             );
             if (userRole) {
               user.role = {
@@ -207,7 +207,7 @@ export default {
       if (rooms && rooms.length > 0 && this.typesList) {
         rooms.forEach((room) => {
           room.name = sliceWithEllipsis(room.name, 25);
-          const roomType = this.typesList.find((type) => type.id == room.type);
+          const roomType = this.typesList.find((type) => type.id === room.type);
           if (roomType) {
             room.typeId = roomType.id;
             room.type = {
@@ -267,7 +267,7 @@ export default {
       if (!this.booking.uid || !this.booking.roomId) {
         this.$refs.alert.open(
           "error",
-          this.$t("booking.alerts.requiredFileds")
+          this.$t("booking.alerts.requiredFields")
         );
         return false;
       }
@@ -279,16 +279,16 @@ export default {
         return false;
       }
       this.booking.roomName = this.roomsList.find(
-        (room) => room.id == this.booking.roomId
+        (room) => room.id === this.booking.roomId
       ).name;
       this.booking.roomType = this.roomsList.find(
-        (room) => room.id == this.booking.roomId
+        (room) => room.id === this.booking.roomId
       ).type;
       this.booking.dateStart = new Date(this.booking.dateStart);
       this.booking.dateEnd = new Date(this.booking.dateEnd);
       this.booking.totalPrice =
         Math.floor((this.booking.dateEnd - this.booking.dateStart) / 86400000) *
-        this.roomsList.find((room) => room.id == this.booking.roomId).price;
+        this.roomsList.find((room) => room.id === this.booking.roomId).price;
       this.updateBooking();
       return true;
     },

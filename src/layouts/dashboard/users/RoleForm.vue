@@ -77,12 +77,8 @@ export default {
   computed: {
     disabled() {
       return !this.isEdit
-        ? this.$store.getters["user/includesCreate"]
-          ? false
-          : true
-        : this.$store.getters["user/includesUpdate"]
-        ? false
-        : true;
+        ? !this.$store.getters["user/includesCreate"]
+        : !this.$store.getters["user/includesUpdate"];
     },
   },
 
@@ -93,7 +89,7 @@ export default {
 
     validate() {
       if (!this.role.id || !this.role.title) {
-        this.$refs.alert.open("error", this.$t("role.alerts.requiredFileds"));
+        this.$refs.alert.open("error", this.$t("role.alerts.requiredFields"));
         return false;
       }
       if (!this.isEdit && this.roles.includes(this.role.id.trim())) {

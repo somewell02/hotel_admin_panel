@@ -100,7 +100,7 @@ export default {
     usersList(newValue) {
       if (newValue) {
         if (this.$refs.preloader) this.$refs.preloader.hide();
-        if (newValue.length == 0) {
+        if (newValue.length === 0) {
           this.dataCount = this.$t("noRecords");
         }
       }
@@ -152,7 +152,7 @@ export default {
       this.rolesList.forEach((role) => {
         filterRoles.push({ id: role.id, title: role.title });
       });
-      this.filters.find((filter) => filter.id == "roleId").options =
+      this.filters.find((filter) => filter.id === "roleId").options =
         filterRoles;
     },
 
@@ -168,7 +168,7 @@ export default {
           // user.fullName = user.lastName ? user.lastName + " " : "";
           // user.fullName += user.firstName ? user.firstName + " " : "";
           // user.fullName += user.patronumic ?? "";
-          const userRole = this.rolesList.find((role) => role.id == user.role);
+          const userRole = this.rolesList.find((role) => role.id === user.role);
           if (userRole) {
             user.roleId = userRole.id;
             user.role = {

@@ -3,7 +3,7 @@
     <div class="gallery_list">
       <div class="gallery_img_wrap" v-for="img in items" :key="img">
         <img
-          :src="typeof img == 'string' ? img : getUrl(img)"
+          :src="typeof img === 'string' ? img : getUrl(img)"
           class="gallery_img"
           alt="gallery"
         />
@@ -46,7 +46,6 @@ export default {
     this.items.forEach((item) => {
       let img = new Image();
       img.src = item;
-      //console.log(item);
     });
   },
 
@@ -58,7 +57,6 @@ export default {
       if (files.length > 0) {
         for (let i = 0; i < files.length; i++) {
           if (allowed_extensions.includes(files[i].type)) {
-            //console.log(files[i]);
             this.items.push(files[i]);
             if (this.active) this.update();
           } //else this.uploadText = "Type error, select again";

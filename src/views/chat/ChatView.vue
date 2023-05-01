@@ -136,7 +136,7 @@ export default {
       const windowData = getGetParams();
       if (windowData["id"]) {
         this.currentChat = this.chats.find(
-          (chat) => chat.id == windowData["id"]
+          (chat) => chat.id === windowData["id"]
         );
       }
     },

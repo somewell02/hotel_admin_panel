@@ -68,12 +68,9 @@ export default {
 
   methods: {
     getLanguage() {
-      this.languages.forEach((language) => {
-        if (language.id === this.$i18n.locale) {
-          this.currentLanguage = language;
-          return;
-        }
-      });
+      this.currentLanguage = this.languages.find(
+        (language) => language.id === this.$i18n.locale
+      );
     },
     selectLanguage(language) {
       setLocale(language.id);

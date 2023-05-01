@@ -59,7 +59,7 @@ export default {
       if (!this.status.id || !this.status.title) {
         this.$refs.alert.open(
           "error",
-          this.$t("bookingStatus.alerts.requiredFileds")
+          this.$t("bookingStatus.alerts.requiredFields")
         );
         return false;
       }

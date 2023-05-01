@@ -18,7 +18,7 @@ export default {
   computed: {
     btnClass() {
       const colors = ["primary", "primary-light", "secondary"];
-      if (this.color == null || !colors.includes(this.color)) return "primary";
+      if (!this.color || !colors.includes(this.color)) return "primary";
       else return this.color;
     },
   },

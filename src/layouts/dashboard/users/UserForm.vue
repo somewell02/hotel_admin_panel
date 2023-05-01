@@ -99,7 +99,7 @@ export default {
   computed: {
     userRole() {
       if (this.roles) {
-        return this.roles.find((role) => role.id == this.user.role);
+        return this.roles.find((role) => role.id === this.user.role);
       } else return {};
     },
     disabled() {
@@ -143,7 +143,7 @@ export default {
         this.$refs.alert.open("error", this.$t("user.alerts.incorrectGmail"));
         return false;
       }
-      if (this.user.role != this.role && this.user.role == "admin") {
+      if (this.user.role !== this.role && this.user.role === "admin") {
         //this.$refs.alert.open("information", "Нужно подтверждение");
         //return false;
       }

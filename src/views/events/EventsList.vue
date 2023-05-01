@@ -97,7 +97,7 @@ export default {
     eventsList(newValue) {
       if (newValue) {
         this.$refs.preloader.hide();
-        if (newValue.length == 0) {
+        if (newValue.length === 0) {
           this.dataCount = this.$t("noRecords");
         }
       }
@@ -149,7 +149,7 @@ export default {
       this.typesList.forEach((type) => {
         filterTypes.push({ id: type.id, title: type.title ?? "" });
       });
-      this.filters.find((filter) => filter.id == "typeId").options =
+      this.filters.find((filter) => filter.id === "typeId").options =
         filterTypes;
     },
 
@@ -189,7 +189,7 @@ export default {
           event.dateEndTitle = msToDayMonthYear(event.dateEnd.seconds * 1000);
 
           const eventType = this.typesList.find(
-            (type) => type.id == event.type
+            (type) => type.id === event.type
           );
           if (eventType) {
             event.typeId = eventType.id;
