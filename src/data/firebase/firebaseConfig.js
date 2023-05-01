@@ -1,5 +1,5 @@
 export const config = {
-  apiKey: "AIzaSyCyHEi_KuLpXA8FDbWDxPvINXeUq2arJ_g",
+  apiKey: process.env.VUE_APP_API_KEY,
   authDomain: "hotelmobileapp-flutter.firebaseapp.com",
   projectId: "hotelmobileapp-flutter",
   storageBucket: "hotelmobileapp-flutter.appspot.com",
